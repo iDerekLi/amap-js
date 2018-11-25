@@ -1,5 +1,5 @@
 /*! 
- * AMapJS v0.1.0
+ * AMapJS v0.1.1
  *
  * Copyright (c) 2018 Derry Li
  * Released under the MIT License - https://github.com/derry-li/amap-js/LICENSE
@@ -69,7 +69,7 @@
             })(t);
         }
         var a, c, u, f = (a = "undefined" != typeof window ? window : void 0, c = a, u = {
-            version: "0.1.0",
+            version: "0.1.1",
             load: function(t) {
                 var o = [];
                 return t.forEach(function(t) {

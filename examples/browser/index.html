@@ -13,29 +13,29 @@
   </style>
 </head>
 <body>
-<div id='root'>
+<div id="root">
   <h1>AMapJS 沙盒测试</h1>
   <div id="map"></div>
 </div>
-<script type='text/javascript' src='../../dist/amap-js.min.js'></script>
-<script type='text/javascript'>
+<script type="text/javascript" src="../../dist/amap-js.min.js"></script>
+<script type="text/javascript">
   var AMapJSAPILoader = AMapJS.loaders.AMapJSAPILoader;
   var AMapUILoader = AMapJS.loaders.AMapUILoader;
   var aMapJSAPILoader = new AMapJSAPILoader({
-    key: "bc34dbd8308443e1550d1018a1747d7c"
+    key: "您申请的key值"
   });
 
   var aMapUILoader = new AMapUILoader({
     v: "1.0"
   });
 
-  var $AMapLoad = AMapJS.load([aMapJSAPILoader, aMapUILoader]);
-  $AMapLoad.then(function(res) {
+  var aMapLoad = AMapJS.load([aMapJSAPILoader, aMapUILoader]);
+  aMapLoad.then(function(res) {
     var AMap = res[0];
     var initAMapUI = res[1];
     var AMapUI = initAMapUI();
     new AMap.Map(document.getElementById("map"));
-    console.log(AMapJS, AMap, AMapUI);
+    console.log(aMapLoad, AMap, AMapUI);
   });
 </script>
 </body>

@@ -1,5 +1,5 @@
 /*!
- * AMapJS v0.1.0
+ * AMapJS v0.1.1
  *
  * Copyright (c) 2018 Derry Li
  * Released under the MIT License - https://github.com/derry-li/amap-js/LICENSE
@@ -43,7 +43,7 @@ let AMapJS = (function(global, factory) {
   };
 
   let AMapJS = {
-    version: "0.1.0",
+    version: "0.1.1",
     load: load,
     loaders: loaders
   };

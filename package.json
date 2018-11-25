@@ -1,6 +1,6 @@
 {
   "name": "amap-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AMap高德地图加载模块",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,13 @@
   },
   "keywords": [
     "amap",
-    "map"
+    "amapjs",
+    "mapjs",
+    "map-js",
+    "map",
+    "gis",
+    "vue",
+    "react"
   ],
   "author": "derry-li",
   "license": "MIT",
