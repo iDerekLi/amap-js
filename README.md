@@ -1,9 +1,9 @@
 # amap-js
 
-[![build status](https://img.shields.io/travis/derry-li/amap-js.svg?style=flat-square)](https://travis-ci.org/derry-li/amap-js)
+[![Build Status](https://travis-ci.org/iDerekLi/amap-js.svg?branch=master)](https://travis-ci.org/iDerekLi/amap-js)
 [![npm version](https://img.shields.io/npm/v/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
 [![npm downloads](https://img.shields.io/npm/dm/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
-[![npm license](https://img.shields.io/npm/l/amap-js.svg?style=flat-square)](https://github.com/derry-li/amap-js)
+[![npm license](https://img.shields.io/npm/l/amap-js.svg?style=flat-square)](https://github.com/iderekli/amap-js)
 
 > amap-js是AMap高德地图加载模块。帮助您加载高德sdk，这对于在组件化应用程序中非常有帮助。
 
