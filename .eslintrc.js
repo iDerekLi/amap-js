@@ -5,11 +5,17 @@ module.exports = {
     es6: true,
     node: true
   },
-  plugins: ["prettier"],
+  parser: "babel-eslint",
   parserOptions: {
     sourceType: "module"
   },
+  extends: [
+    "plugin:prettier/recommended"
+  ],
+  plugins: [
+    "prettier"
+  ],
   rules: {
-    // "prettier/prettier": "error"
+    "prettier/prettier": "error"
   }
 }

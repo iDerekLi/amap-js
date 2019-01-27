@@ -1,11 +1,11 @@
-# amap-js
+# AMapJS
 
 [![Build Status](https://travis-ci.org/iDerekLi/amap-js.svg?branch=master)](https://travis-ci.org/iDerekLi/amap-js)
 [![npm version](https://img.shields.io/npm/v/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
 [![npm downloads](https://img.shields.io/npm/dm/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
 [![npm license](https://img.shields.io/npm/l/amap-js.svg?style=flat-square)](https://github.com/iderekli/amap-js)
 
-> amap-js是AMap高德地图加载模块。帮助您加载高德sdk，这对于在组件化应用程序中非常有帮助。
+> AMapJS是AMap高德地图加载模块。帮助您加载高德sdk，这对于在组件化应用、异步编程中非常有帮助。
 
 ## 安装
 使用npm:
@@ -26,16 +26,27 @@ AMapJS **不支持** IE8 及以下版本，因为 AMapJS 使用了 IE8 无法模
 
 ## 示例
 
-
-### 单独使用:
-加载高德地图 JS API:
-```javascript
+### AMap JS API的加载:
+```JavaScript
 import AMapJS from "amap-js";
 
-// 创建AMap JS加载器
-let aMapJSAPILoader = new AMapJS.loaders.AMapJSAPILoader({
+// 创建AMapJSAPI Loader
+const aMapJSAPILoader = new AMapJS.AMapJSAPILoader();
+
+aMapJSAPILoader.load().then(AMap => {
+  // 其他逻辑
+});
+```
+或者
+```javascript
+// 创建AMapJSAPI Loader
+const aMapJSAPILoader = new AMapJS.AMapJSAPILoader({
   key: "您申请的key值",
-  v: "1.4.8"
+  v: "1.4.12", // 版本号
+  params: {}, // 其他参数
+  protocol: "https:", // 脚本加载协议
+  crossOrigin: "anonymous", // 脚本crossOrigin设置
+  keepScriptTag: false // 加载完成后是否保留脚本标签
 });
 
 aMapJSAPILoader.load().then(AMap => {
@@ -43,23 +54,59 @@ aMapJSAPILoader.load().then(AMap => {
 });
 ```
 
-使用AMap UI组件库:
-```javascript
+
+### AMap UI组件库的加载:
+```JavaScript
 import AMapJS from "amap-js";
-// 创建AMap JS加载器
-let aMapJSAPILoader = new AMapJS.loaders.AMapJSAPILoader({
-  key: "您申请的key值",
-  v: "1.4.8"
-});
 
-// 创建AMap UI组件库加载器
-let aMapUILoader = new AMapJS.loaders.AMapUILoader({
-  v: "1.0"
-});
+// 创建AMapJSAPI Loader
+const aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
 
-aMapJSAPILoader.load().then(aMap => {
+// 创建AMapUI Loader
+const aMapUILoader = new AMapJS.AMapUILoader();
+
+aMapJSAPILoader.load().then(AMap => {
   aMapUILoader.load().then(initAMapUI => {
-    const AMap = aMap;
+    const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
+    // 其他逻辑
+  });
+});
+```
+或者
+```javascript
+// ...
+
+// 创建AMapUI Loader
+const aMapUILoader = new AMapJS.AMapUILoader({
+  v: "1.0", // UI组件库版本号
+  protocol: "https:", // UI组件库 API脚本加载协议
+  crossOrigin: "anonymous",
+  AMapUIProtocol: "https:", // UI组件的脚本加载协议
+  keepScriptTag: false // 加载完成后是否保留脚本标签
+});
+
+aMapJSAPILoader.load().then(AMap => {
+  aMapUILoader.load().then(initAMapUI => {
+    const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
+    // 其他逻辑
+  });
+});
+```
+预加载
+```javascript
+// 创建AMapJSAPI Loader
+const aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
+
+// 创建AMapUI Loader
+const aMapUILoader = new AMapJS.AMapUILoader();
+
+// 预加载aMapJSAPI和aMapUI
+const aMapJSAPILoad = aMapJSAPILoader.load();
+const aMapUILoad = aMapUILoader.load();
+
+// 使用
+aMapJSAPILoad.then(AMap => {
+  aMapUILoad.then(initAMapUI => {
     const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
     // 其他逻辑
   });
@@ -67,109 +114,56 @@ aMapJSAPILoader.load().then(aMap => {
 ```
 
 
-### 使用AMapJS.load加载：
-```javascript
+
+### AMapJS.load加载Loader：
+```JavaScript
 import AMapJS from "amap-js";
-let { AMapJSAPILoader, AMapUILoader } = AMapJS.loaders;
 
 // 创建AMap JS加载器
-let aMapJSAPILoader = new AMapJSAPILoader({
-  key: "您申请的key值",
-  v: "1.4.8"
-});
+let aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
 
 // 创建AMap UI组件库加载器
-let aMapUILoader = new AMapUILoader({
-  v: "1.0"
-});
+let aMapUILoader = new AMapJS.AMapUILoader();
 
 // 使用AMapJS.load添加加载器
-let aMapLoad = AMapJS.load([aMapJSAPILoader, aMapUILoader]);
-aMapLoad.then(([aMap, initAMapUI]) => {
-  const AMap = aMap;
+AMapJS.load([aMapJSAPILoader, aMapUILoader]).then(([AMap, initAMapUI]) => {
   const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
    // 其他逻辑
 });
 ```
 
 
-### async/await写法：
-AMapJSAPILoader、AMapUILoader以及AMapJS.load。
-它们的返回值是一个Promise，这使我们可以很方便的使用ES7的语法**async/await**。
-```ecmascript 6
-// ...
-let AMap;
-let AMapUI;
-async function mounted() {
-  AMap = await aMapJSAPILoader.load();
-  let initAMapUI = await aMapJSAPILoader.load();
-  AMapUI = initAMapUI();
-  
-  // 其他逻辑
-}
-```
+
+## 手册
+
+### Loaders
+- AMapJSAPILoader   -   高德地图JSAPI加载器
+- AMapUILoader      -   高德地图UI加载器
+- Loader      -   加载器基类
+
+### Loader / load
+- load([loaders]) - 同时加载多个Loaders。
 
 
-### 在浏览器中使用
-```html
-<script type="text/javascript" src="https://unpkg.com/amap-js/dist/amap-js.min.js"></script>
-<script type="text/javascript">
-  var AMapJSAPILoader = AMapJS.loaders.AMapJSAPILoader;
-  var AMapUILoader = AMapJS.loaders.AMapUILoader;
-  var aMapJSAPILoader = new AMapJSAPILoader({
-    key: "您申请的key值"
-  });
+## AMapJS API
 
-  var aMapUILoader = new AMapUILoader({
-    v: "1.0"
-  });
-
-  var aMapLoad = AMapJS.load([aMapJSAPILoader, aMapUILoader]);
-  aMapLoad.then(function(res) {
-    var AMap = res[0];
-    var initAMapUI = res[1];
-    var AMapUI = initAMapUI();
-    
-    // 其他逻辑
-    // new AMap.Map(document.getElementById("map"));
-  });
-</script>
-```
-
-
-## AMApJS API
-
-| 属性 | 类型 | 说明 |
-| :------ | :------ | :------ |
-| loaders | Object | Loader加载器。 |
-
-
-
-| 方法 | 返回值 | 说明 |
-| :------ | :------ | :------ |
-| load([loaders]) | Promise | then()接收一个Array顺序接收每个loader.load()的数据 |
-
-
-
-## Loader API
-
-### AMapJSAPILoader
+#### AMapJSAPILoader
 高德地图JSAPI加载器。
 
 | 构造函数 | 说明 |
 | :------ | :------ |
-| AMapJS.loaders.AMapJSAPILoader(config:AMapJSAPILoaderConfig) | 构造一个高德地图JSAPI加载器，通过AMapJSAPILoaderConfig设置加载器属性。 |
+| AMapJS.AMapJSAPILoader(config:AMapJSAPILoaderConfig) | 构造一个高德地图JSAPI加载器，通过AMapJSAPILoaderConfig设置加载器属性。 |  
 
-
-
-| AMapJSAPILoaderConfig | 类型 | 说明 |
-| :------ | :------ | :------ |
-| key | String | 您申请的高德key值 |
-| v | String | 高德地图JS API版本号，默认"1.4.8" |
-| protocol | String | 加载脚本协议，默认https: |
-| callback | String | 回调函数名，默认onAMapLoaded |
-
-
+| AMapJSAPILoaderConfig | 说明 | 类型 | 默认值 |
+| :------ | :------ | :------ | :------ |
+| key | 您申请的高德key值，(实例化后该属性存在params中) | String | - |
+| v | 高德地图JS API版本号，(实例化后该属性存在params中) | String | 1.4.12 |
+| callback | 回调函数名，(实例化后该属性存在params中) | String | onAMapJS${随机数} |
+| params | 脚本加载参数 | Object | null |
+| protocol | 脚本加载协议 | String | https: |
+| crossOrigin | 脚本crossOrigin属性 | String | anonymous |
+| path | 资源地址 | String | webapi.amap.com/maps |
+| keepScriptTag | 加载完成后是否保留脚本标签 | Boolean | false |  
 
 | 方法 | 返回值 | 说明 |
 | :------ | :------ | :------ |
@@ -199,6 +193,10 @@ async function mounted() {
 | :------ | :------ | :------ |
 | load( ) | Promise | 加载高德地图UI组件库。then接收initAMapUI方法 |
 
+
+| 方法 | 返回值 | 说明 |
+| :------ | :------ | :------ |
+| load([loaders]) | Promise | then()接收一个Array顺序接收每个loader.load()的数据 |
 
 
 ## 许可

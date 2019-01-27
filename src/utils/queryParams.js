@@ -25,6 +25,6 @@ function queryParams(data, isPrefix = false) {
   }
 
   return _result.length ? prefix + _result.join("&") : "";
-};
+}
 
 export default queryParams;

@@ -1,119 +1,120 @@
-const path = require('path');
-const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const path = require("path");
+const webpack = require("webpack");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
-function createUglifyJsPlugin(isBeautify) {
-  var bannerComments = '';
-  return new UglifyJsPlugin({
-    uglifyOptions: {
-      compress: {
-        warnings: false,
-      },
-      output: {
-        // 是否不压缩
-        beautify: isBeautify,
-        // 不保留注释
-        comments: false
-      }
-    },
-    // 版权注释
-    extractComments: {
-      condition: function (astNode, comment) {
-        if (/^\**!|Derry Li/i.test(comment.value)) {
-          bannerComments = comment.value.substring(1);
-          return true;
-        }
-        return false;
-      },
-      filename(file) { // file源文件名称。如果return相同名称可以理解为不单独提取一份
-        return file;
-      },
-      banner(licenseFile) {
-        return bannerComments;
-      }
-    }
-    // extractComments: {
-    //   condition: true,
-    //   filename(file) { // file源文件名称。如果return相同名称可以理解为不单独提取一份
-    //     return file;
-    //   },
-    //   banner(licenseFile) {
-    //     var row = [
-    //       `AMapJS - AMap高德地图加载模块`,
-    //       "",
-    //       "Copyright (c) 2018 Derry Li",
-    //       "Released under the MIT License - https://github.com/derry-li/amap-js/LICENSE",
-    //       "",
-    //       "https://github.com/derry-li/amap-js",
-    //     ]
-    //     return `\n * ${row.join('\n * ')}\n`;
-    //   }
-    // }
-  });
-}
+const package = require("./package.json");
 
 function generateConfig(name) {
-  var uglify = name.indexOf('min') > -1;
-
-  var webpackConfig = {
-    mode: 'none',
-    entry: './index.js',
+  const webpackConfig = {
+    mode: "production",
+    entry: "./src/amap-js.js",
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: name + '.js',
-      library: 'AMapJS',
-      libraryTarget: 'umd',
-      libraryExport: 'default'
+      path: path.resolve(__dirname, "lib"),
+      filename: name + ".js",
+      library: "AMapJS",
+      libraryTarget: "umd",
+      umdNamedDefine: true
     },
-    externals: {},
+    resolve: {
+      extensions: [".js", ".json"],
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+        "@loaders": path.resolve(__dirname, "./src/loaders")
+      }
+    },
     module: {
       rules: [
         {
           test: /\.(js)$/,
           exclude: /(node_modules|bower_components)/,
-          loader: 'eslint-loader',
-          enforce: 'pre',
-          options: {
-            formatter: require('eslint-friendly-formatter'),
-            emitWarning: true
-          }
+          enforce: "pre",
+          use: [
+            {
+              loader: "eslint-loader",
+              options: {
+                formatter: require("eslint-friendly-formatter"),
+                emitWarning: true
+              }
+            }
+          ]
         },
         {
           test: /\.(js)$/,
           exclude: /(node_modules|bower_components)/,
-          use: 'babel-loader'
+          use: ["babel-loader"]
         }
       ]
     },
+    optimization: {
+      minimize: true,
+      minimizer: []
+    },
     plugins: [
-      new CleanWebpackPlugin(['dist']),
+      new CleanWebpackPlugin(["lib"]),
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        "process.env": {
+          NODE_ENV: JSON.stringify("production")
+        },
+        VERSION: JSON.stringify(package.version)
       }),
+      // 版权注释
+      new webpack.BannerPlugin({
+        banner: (function() {
+          const row = [
+            `AMapJS v${package.version}`,
+            "",
+            `Copyright (c) 2018 Derek Li`,
+            "Released under the MIT License - https://choosealicense.com/licenses/mit/",
+            "",
+            "https://github.com/iDerekLi/amap-js"
+          ];
+          return row.join("\n");
+        })(),
+        entryOnly: true
+      })
     ],
-    // devServer: {
-    //   contentBase: path.join(__dirname, "examples/browser"),
-    //   compress: false,
-    //   port: 9000,
-    //   hot: true
-    // }
+    externals: {}
   };
+  return webpackConfig;
+}
 
-  if (uglify) {
-    webpackConfig.plugins.push(
-        createUglifyJsPlugin(false)
-    );
-  } else {
-    webpackConfig.plugins.push(
-        createUglifyJsPlugin(true)
-    );
+module.exports = function(env = {}) {
+  function createTerserPlugin(isBeautify) {
+    return new TerserPlugin({
+      cache: true, // 是否开启缓存
+      parallel: 4, // 是否开启多线程, [true,false,number]
+      sourceMap: false, // 是否输出map
+      terserOptions: {
+        keep_fnames: env.dev ? true : false, // 是否保持原变量名
+        compress: {
+          warnings: false,
+          drop_console: false, // 删除所有的 `console` 语句，可以兼容ie浏览器
+          reduce_vars: false // 内嵌定义了但是只用到一次的变量
+        },
+        output: {
+          beautify: !isBeautify, // 是否不进行压缩
+          comments: env.dev ? true : /Copyright|Derek Li/ // 是否保留注释
+        }
+      }
+    });
   }
 
-  return webpackConfig;
+  if (env.dev) {
+    // 开发模式
+    return ["amap-js"].map(filename => {
+      const config = generateConfig(filename);
+      const uglify = filename.indexOf("min") > -1;
+      config.optimization.minimizer.push(createTerserPlugin(uglify));
+      return config;
+    });
+  } else {
+    // 产品模式
+    return ["amap-js", "amap-js.min"].map(filename => {
+      const config = generateConfig(filename);
+      const uglify = filename.indexOf("min") > -1;
+      config.optimization.minimizer.push(createTerserPlugin(uglify));
+      return config;
+    });
+  }
 };
-var config = ['amap-js', 'amap-js.min'].map(function (key) {
-  return generateConfig(key);
-});
-
-module.exports = config;
