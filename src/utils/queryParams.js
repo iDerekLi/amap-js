@@ -1,5 +1,5 @@
 /**
- * 对象转url参数方法
+ * 对象转url参数
  * @param data 格式化对象
  * @param isPrefix 前缀
  * @returns {string}

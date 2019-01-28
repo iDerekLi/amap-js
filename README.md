@@ -21,7 +21,7 @@ yarn add amap-js
 <script type="text/javascript" src="https://unpkg.com/amap-js/dist/amap-js.min.js"></script>
 ```
 ### 兼容性
-AMapJS **不支持** IE8 及以下版本，因为 AMapJS 使用了 IE8 无法模拟的 ECMAScript 5 特性。但它支持所有兼容 ECMAScript 5 的浏览器。
+AMapJS **不支持** IE8 以下版本。
 
 
 ## 示例
@@ -131,6 +131,15 @@ AMapJS.load([aMapJSAPILoader, aMapUILoader]).then(([AMap, initAMapUI]) => {
    // 其他逻辑
 });
 ```
+支持callback方式返回结果集:
+```javascript
+// ...
+AMapJS.load([aMapJSAPILoader, aMapUILoader], function(AMap, initAMapUI) { // then
+  const AMapUI = initAMapUI();
+  
+  // 其他逻辑
+});
+```
 
 
 
@@ -139,9 +148,9 @@ AMapJS.load([aMapJSAPILoader, aMapUILoader]).then(([AMap, initAMapUI]) => {
 ### Loaders
 - AMapJSAPILoader   -   高德地图JSAPI加载器
 - AMapUILoader      -   高德地图UI加载器
-- Loader      -   加载器基类
 
-### Loader / load
+### Loader \ load
+- Loader            -   加载器基类
 - load([loaders]) - 同时加载多个Loaders。
 
 
@@ -159,44 +168,71 @@ AMapJS.load([aMapJSAPILoader, aMapUILoader]).then(([AMap, initAMapUI]) => {
 | key | 您申请的高德key值，(实例化后该属性存在params中) | String | - |
 | v | 高德地图JS API版本号，(实例化后该属性存在params中) | String | 1.4.12 |
 | callback | 回调函数名，(实例化后该属性存在params中) | String | onAMapJS${随机数} |
-| params | 脚本加载参数 | Object | null |
-| protocol | 脚本加载协议 | String | https: |
+| params | 脚本请求参数 | Object | null |
+| protocol | 脚本请求协议 | ["https:"\ "http:"] | https: |
+| path | 资源路径 | String | webapi.amap.com/maps |
 | crossOrigin | 脚本crossOrigin属性 | String | anonymous |
-| path | 资源地址 | String | webapi.amap.com/maps |
 | keepScriptTag | 加载完成后是否保留脚本标签 | Boolean | false |  
 
-| 方法 | 返回值 | 说明 |
+| 方法 | 说明 | 返回值 |
 | :------ | :------ | :------ |
-| load( ) | Promise | 加载高德地图JSAPI。then接收AMap对象 |
+| load() | 加载高德地图JSAPI。then接收AMap对象 | Promise |
+| checkCorrectness() | 检查AMapJSAPI正确性 | Boolean |
+| getRequestURL() | 获取请求地址 | String |
+| setProtocol(protocol: protocol) | 设置请求协议 |  |
+| setPath(path: path) | 设置请求路径 |  |
+| setParams(params: params) | 设置请求参数 |  |
+| setKey(key: key) | 设置高德Key |  |
+| setV(v: v) | 设置高德JSAPI版本号 |  |
+| setCrossOrigin(crossOrigin: crossOrigin) | 设置CrossOrigin属性 |  |
 
 
 
 ### AMapUILoader
-高德地图UI组件库。
+高德地图UI组件库API加载器。
 
 | 构造函数 | 说明 |
 | :------ | :------ |
-| AMapJS.loaders.AMapUILoader(config:AMapUILoaderConfig) | 构造一个高德地图UI组件库加载器，通过AMapUILoaderConfig设置加载器属性。 |
+| AMapJS.loaders.AMapUILoader(config:AMapUILoaderConfig) | 构造一个高德地图UI组件库API加载器，通过AMapUILoaderConfig设置加载器属性。 |  
 
+| AMapUILoaderConfig | 说明 | 类型 | 默认值 |
+| :------ | :------ | :------ | :------ |
+| v | 高德UI组件库版本号 | String | 1.0 |
+| protocol | 脚本请求协议 | "https:"\ "http:"\ "" | https: |
+| path | 资源路径,异步版本main-async.js | String | webapi.amap.com/ui/{v}/main-async.js |
+| crossOrigin | 脚本crossOrigin属性 | String | anonymous |
+| AMapUIProtocol | UI组件请求协议，默认组件加载优先使用与应用页面相同的协议(https:下用https:，http:或者file:下用http:)，如果需要强制https协议（比如file:场景下） | https:\ http:\ undefined | undefined |
+| initAMapUI | window.initAMapUI钩子 | String | initAMapUI |
+| isAutoInitAMapUI | 是否加载完成自动调用initAMapUI初始化, (开启则返回AMapUI实例。关闭则返回initAMapUI函数，且需手动调用该方法并返回AMapUI实例。注意：当开启时请确保先加载AMap JSAPI) | Boolean | false |
+| keepScriptTag | 加载完成后是否保留脚本标签 | Boolean | false |
 
-
-| AMapUILoaderConfig | 类型 | 说明 |
+| 方法 | 说明 | 返回值 |
 | :------ | :------ | :------ |
-| v | String | 高德UI组件库版本号，默认"1.0" |
-| protocol | String | 加载组件库的脚本协议，默认https: |
-| AMapUIProtocol | String\undefined | [ "https:" \ "http:" ] 默认情况下，组件加载优先使用与应用页面相同的协议(https:下用https:，http:或者file:下用http:)，如果需要强制https协议（比如file:场景下） |
-| isAutoInitAMapUI | Boolean | 调用load()后，then接收的initAMapUI方法首次调用是否自动完成加载AMapUI实例的初始化创建, (开启后调用则直接返回AMapUI实例。关闭后调用则需先进行initAMapUI()初始化并返回AMapUI实例) |
+| load() | 加载高德地图UI组件库API。then接收initAMapUI方法(keepScriptTag: true接收AMapUI) | Promise |
+| checkCorrectness() | 检查AMapUI正确性 | Boolean |
+| getRequestURL() | 获取请求地址 | String |
+| setProtocol(protocol: protocol) | 设置请求协议 |  |
+| setPath(path: path) | 设置请求路径 |  |
+| setV(v: v) | 设置高德UI组件库版本号 |  |
+| setCrossOrigin(crossOrigin: crossOrigin) | 设置CrossOrigin属性 |  |
+| setAMapUIProtocol(protocol: AMapUIProtocol) | 设置UI组件请求协议 |  |
 
+### Loader
+加载器基类
 
+| 构造函数 | 说明 |
+| :------ | :------ |
+| AMapJS.Loader() | 构造一个加载器 |
 
-| 方法 | 返回值 | 说明 |
+| 方法 | 说明 | 返回值 |
 | :------ | :------ | :------ |
-| load( ) | Promise | 加载高德地图UI组件库。then接收initAMapUI方法 |
+| load() |  | undefined |
 
+### loader
 
-| 方法 | 返回值 | 说明 |
+| 方法 | 说明 | 返回值 |
 | :------ | :------ | :------ |
-| load([loaders]) | Promise | then()接收一个Array顺序接收每个loader.load()的数据 |
+| load(loaders: Loader< Array >, [cbThen, cbCatch, cbFinally]< Function >) | 加载Loader。callback结果集为(a, b, c...), Promise结果集为([a, b, c...])在不具备ES6环境中不支持直接解构 | Promise |
 
 
 ## 许可

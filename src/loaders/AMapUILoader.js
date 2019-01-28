@@ -2,7 +2,6 @@
  * AMapUI Loader
  */
 import Loader from "./Loader";
-import utils from "../utils/utils";
 
 // 默认参数
 const DEFAULT_UI_CONFIG = {
@@ -19,7 +18,7 @@ const DEFAULT_UI_CONFIG = {
 class AMapUILoader extends Loader {
   constructor(config) {
     super(config);
-    const _config = utils.assign({}, DEFAULT_UI_CONFIG, config);
+    const _config = Object.assign({}, DEFAULT_UI_CONFIG, config);
 
     this.v = _config.v;
     this.protocol = _config.protocol;
@@ -37,17 +36,6 @@ class AMapUILoader extends Loader {
   }
 
   /**
-   * UI组件加载协议
-   * @param AMapUIProtocol ["https:" | "http:"]
-   * @returns {AMapUILoader}
-   */
-  setAMapUIProtocol(AMapUIProtocol) {
-    const protocol = "https:" === AMapUIProtocol ? "https:" : "http:";
-    window.AMapUIProtocol = protocol;
-    return this;
-  }
-
-  /**
    * 加载资源
    * @returns {*}
    */
@@ -62,18 +50,32 @@ class AMapUILoader extends Loader {
     uiScript.async = true;
     uiScript.defer = true;
     uiScript.crossOrigin = this.crossOrigin;
-    uiScript.src = this.getResourcePath();
+    uiScript.src = this.getRequestURL();
     return new Promise((resolve, reject) => {
-      uiScript.onload = () => {
-        if (!this.keepScriptTag) this.removeScriptTag(uiScript);
-        const callback = () => window[this.initAMapUI]() || window.AMapUI;
-        resolve(this.isAutoInitAMapUI ? callback() : callback);
-      };
+      if (typeof uiScript.onload !== "undefined") {
+        uiScript.onload = () => {
+          if (!this.keepScriptTag) this.removeScriptTag(uiScript);
+          const callback = () => window[this.initAMapUI]() || window.AMapUI;
+          resolve(this.isAutoInitAMapUI ? callback() : callback);
+        };
+      } else {
+        uiScript.onreadystatechange = () => {
+          if (
+            uiScript.readyState == "loaded" ||
+            uiScript.readyState == "complete"
+          ) {
+            uiScript.onreadystatechange = null;
+            if (!this.keepScriptTag) this.removeScriptTag(uiScript);
+            const callback = () => window[this.initAMapUI]() || window.AMapUI;
+            resolve(this.isAutoInitAMapUI ? callback() : callback);
+          }
+        };
+      }
       uiScript.onerror = error => {
         if (!this.keepScriptTag) this.removeScriptTag(uiScript);
         reject(error);
       };
-      document.head.appendChild(uiScript);
+      document.getElementsByTagName("head")[0].appendChild(uiScript);
     });
   }
 
@@ -98,10 +100,7 @@ class AMapUILoader extends Loader {
     el.parentNode.removeChild(el);
   }
 
-  /**
-   * 获取资源地址字符串
-   */
-  toResourcePath() {
+  toRequestURL() {
     const protocol = this.protocol;
     const v = this.v;
     const path = this.path.replace("{v}", v);
@@ -109,8 +108,38 @@ class AMapUILoader extends Loader {
     return location;
   }
 
-  getResourcePath() {
-    return this.toResourcePath();
+  /**
+   * 获取请求地址
+   */
+  getRequestURL() {
+    return this.toRequestURL();
+  }
+
+  setProtocol(protocol) {
+    this.protocol = protocol;
+    return this;
+  }
+  setPath(path) {
+    this.path = path;
+    return this;
+  }
+  setV(v) {
+    this.v = v;
+    return this;
+  }
+  setCrossOrigin(crossOrigin) {
+    this.crossOrigin = crossOrigin;
+    return this;
+  }
+  /**
+   * UI组件加载协议
+   * @param AMapUIProtocol ["https:" | "http:"]
+   * @returns {AMapUILoader}
+   */
+  setAMapUIProtocol(AMapUIProtocol) {
+    const protocol = "https:" === AMapUIProtocol ? "https:" : "http:";
+    window.AMapUIProtocol = protocol;
+    return this;
   }
 }
 

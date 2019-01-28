@@ -3,12 +3,13 @@ const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const package = require("./package.json");
+const PACKAGE = require("./package.json");
+const polyfill = require("./polyfill.js");
 
 function generateConfig(name) {
   const webpackConfig = {
     mode: "production",
-    entry: "./src/amap-js.js",
+    entry: [...polyfill, "./src/amap-js.js"],
     output: {
       path: path.resolve(__dirname, "lib"),
       filename: name + ".js",
@@ -56,13 +57,13 @@ function generateConfig(name) {
         "process.env": {
           NODE_ENV: JSON.stringify("production")
         },
-        VERSION: JSON.stringify(package.version)
+        VERSION: JSON.stringify(PACKAGE.version)
       }),
       // 版权注释
       new webpack.BannerPlugin({
         banner: (function() {
           const row = [
-            `AMapJS v${package.version}`,
+            `AMapJS v${PACKAGE.version}`,
             "",
             `Copyright (c) 2018 Derek Li`,
             "Released under the MIT License - https://choosealicense.com/licenses/mit/",
@@ -86,6 +87,7 @@ module.exports = function(env = {}) {
       parallel: 4, // 是否开启多线程, [true,false,number]
       sourceMap: false, // 是否输出map
       terserOptions: {
+        ie8: true,
         keep_fnames: env.dev ? true : false, // 是否保持原变量名
         compress: {
           warnings: false,

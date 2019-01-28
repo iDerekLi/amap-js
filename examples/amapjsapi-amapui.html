@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>AMapJS amapjsapi and amapui</title>
-  <!-- 仿效一个完整的 ES2015+ 环境 -->
-  <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-rc.4/polyfill.js"></script>
   <style>
     h1 {
       padding: 10px;
@@ -41,9 +39,9 @@
     AMapUIProtocol: "http:"
   });
 
-  aMapLoader.load().then(AMap =>{
+  aMapLoader.load().then(function(AMap) {
     console.log(AMap);
-    aMapUILoader.load().then(initAMapUI => {
+    aMapUILoader.load().then(function(initAMapUI) {
       var AMapUI = initAMapUI();
       console.log(AMapUI);
 

@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>AMapJS load</title>
-  <!-- 仿效一个完整的 ES2015+ 环境 -->
-  <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-rc.4/polyfill.js"></script>
   <style>
     h1 {
       padding: 10px;
@@ -37,17 +35,28 @@
   });
   var aMapUILoader = new AMapJS.AMapUILoader({ v: "1.0" });
 
-  AMapJS.load([aMapJSAPILoader, aMapUILoader])
-    .then(function(res) {
-      var AMap = res[0];
-      var initAMapUI = res[1];
-      var AMapUI = initAMapUI();
+  // Promise回调
+  // AMapJS.load([aMapJSAPILoader, aMapUILoader])
+  //   .then(function(res) {
+  //     var AMap = res[0];
+  //     var initAMapUI = res[1];
+  //     var AMapUI = initAMapUI();
+  //
+  //     // 其他逻辑
+  //     console.log(AMap, AMapUI);
+  //     new AMap.Map(document.getElementById("map"));
+  //     log(AMap, AMapUI);
+  //   });
 
-      // 其他逻辑
-      console.log(AMap, AMapUI);
-      new AMap.Map(document.getElementById("map"));
-      log(AMap, AMapUI);
-    });
+  // callback回调
+  AMapJS.load([aMapJSAPILoader, aMapUILoader], function(AMap, initAMapUI) {
+    var AMapUI = initAMapUI();
+
+    // // 其他逻辑
+    console.log(AMap, AMapUI);
+    new AMap.Map(document.getElementById("map"));
+    log(AMap, AMapUI);
+  });
 
   function log(AMap, AMapUI) {
     var el = document.getElementById("info");

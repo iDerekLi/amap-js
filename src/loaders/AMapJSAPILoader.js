@@ -3,7 +3,6 @@
  */
 import Loader from "./Loader";
 import queryParams from "../utils/queryParams";
-import utils from "../utils/utils";
 
 const RANDOM = Math.ceil(Math.random() * Math.pow(10, 16));
 
@@ -22,7 +21,7 @@ const DEFAULT_JSAPI_CONFIG = {
 class AMapJSAPILoader extends Loader {
   constructor(config) {
     super(config);
-    const _config = utils.assign({}, DEFAULT_JSAPI_CONFIG, config);
+    const _config = Object.assign({}, DEFAULT_JSAPI_CONFIG, config);
 
     this.protocol = _config.protocol;
     this.path = _config.path;
@@ -48,22 +47,31 @@ class AMapJSAPILoader extends Loader {
     jsapi.async = true;
     jsapi.defer = true;
     jsapi.crossOrigin = this.crossOrigin;
-    jsapi.src = this.getResourcePath();
+    jsapi.src = this.getRequestURL();
     const callbackName = this.params.callback;
     return new Promise((resolve, reject) => {
       window[callbackName] = () => resolve(window.AMap);
-      jsapi.onload = () => {
-        if (!this.keepScriptTag) this.removeScriptTag(jsapi);
-      };
+      if (typeof jsapi.onload !== "undefined") {
+        jsapi.onload = () => {
+          if (!this.keepScriptTag) this.removeScriptTag(jsapi);
+        };
+      } else {
+        jsapi.onreadystatechange = () => {
+          if (jsapi.readyState == "loaded" || jsapi.readyState == "complete") {
+            jsapi.onreadystatechange = null;
+            if (!this.keepScriptTag) this.removeScriptTag(jsapi);
+          }
+        };
+      }
       jsapi.onerror = error => {
         if (!this.keepScriptTag) this.removeScriptTag(jsapi);
         reject(error);
       };
-      document.head.appendChild(jsapi);
+      document.getElementsByTagName("head")[0].appendChild(jsapi);
     });
   }
 
-  // 检查AMap正确性
+  // 检查AMapJSAPI正确性
   checkCorrectness() {
     if (!window.AMap) return false;
     const checkAPI = ["v", "Pixel", "LngLat", "Size", "Bounds", "Map"];
@@ -85,10 +93,7 @@ class AMapJSAPILoader extends Loader {
     el.parentNode.removeChild(el);
   }
 
-  /**
-   * 获取资源地址字符串
-   */
-  toResourcePath() {
+  toRequestURL() {
     const protocol = this.protocol;
     const path = this.path;
     const params = queryParams(this.params);
@@ -96,8 +101,11 @@ class AMapJSAPILoader extends Loader {
     return location;
   }
 
-  getResourcePath() {
-    return this.toResourcePath();
+  /**
+   * 获取请求地址
+   */
+  getRequestURL() {
+    return this.toRequestURL();
   }
 
   setProtocol(protocol) {
