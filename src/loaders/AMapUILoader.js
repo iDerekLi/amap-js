@@ -1,7 +1,7 @@
 /**
  * AMapUI Loader
  */
-import Loader from "./Loader";
+import Loader from "./Loader.js";
 
 // 默认参数
 const DEFAULT_UI_CONFIG = {

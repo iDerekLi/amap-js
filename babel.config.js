@@ -4,7 +4,8 @@ module.exports = {
       "@babel/preset-env",
       {
         modules: "commonjs",
-        loose: true
+        loose: true,
+        useBuiltIns: false // "usage"
       }
     ]
   ],

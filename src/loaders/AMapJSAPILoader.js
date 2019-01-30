@@ -1,8 +1,8 @@
 /**
  * AMapJSAPI Loader
  */
-import Loader from "./Loader";
-import queryParams from "../utils/queryParams";
+import Loader from "./Loader.js";
+import queryParams from "../utils/queryParams.js";
 
 const RANDOM = Math.ceil(Math.random() * Math.pow(10, 16));
 

@@ -3,19 +3,19 @@ const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const PACKAGE = require("./package.json");
-const polyfill = require("./polyfill.js");
+const pkg = require("./package.json");
 
 function generateConfig(name) {
   const webpackConfig = {
-    mode: "production",
-    entry: [...polyfill, "./src/amap-js.js"],
+    mode: "none", // "production",
+    entry: ["./src/amap-js.js"],
     output: {
-      path: path.resolve(__dirname, "lib"),
+      path: path.resolve(__dirname, "dist"),
       filename: name + ".js",
       library: "AMapJS",
       libraryTarget: "umd",
       umdNamedDefine: true
+      // globalObject: "this"
     },
     resolve: {
       extensions: [".js", ".json"],
@@ -52,18 +52,18 @@ function generateConfig(name) {
       minimizer: []
     },
     plugins: [
-      new CleanWebpackPlugin(["lib"]),
+      new CleanWebpackPlugin(["dist"]),
       new webpack.DefinePlugin({
         "process.env": {
-          NODE_ENV: JSON.stringify("production")
-        },
-        VERSION: JSON.stringify(PACKAGE.version)
+          NODE_ENV: JSON.stringify("production"),
+          VERSION: JSON.stringify(pkg.version)
+        }
       }),
       // 版权注释
       new webpack.BannerPlugin({
         banner: (function() {
           const row = [
-            `AMapJS v${PACKAGE.version}`,
+            `AMapJS v${pkg.version}`,
             "",
             `Copyright (c) 2018 Derek Li`,
             "Released under the MIT License - https://choosealicense.com/licenses/mit/",
@@ -85,10 +85,11 @@ module.exports = function(env = {}) {
     return new TerserPlugin({
       cache: true, // 是否开启缓存
       parallel: 4, // 是否开启多线程, [true,false,number]
-      sourceMap: false, // 是否输出map
+      // sourceMap: true, // 是否输出map
       terserOptions: {
-        ie8: true,
-        keep_fnames: env.dev ? true : false, // 是否保持原变量名
+        // ie8: true,
+        keep_fnames: true, // 是否保持原变量名
+        // keep_fnames: env.dev ? true : false, // 是否保持原变量名
         compress: {
           warnings: false,
           drop_console: false, // 删除所有的 `console` 语句，可以兼容ie浏览器
@@ -96,7 +97,8 @@ module.exports = function(env = {}) {
         },
         output: {
           beautify: !isBeautify, // 是否不进行压缩
-          comments: env.dev ? true : /Copyright|Derek Li/ // 是否保留注释
+          // comments: env.dev ? true : /Copyright|Derek Li/ // 是否保留注释
+          comments: true // 是否保留注释
         }
       }
     });
@@ -115,7 +117,7 @@ module.exports = function(env = {}) {
     return ["amap-js", "amap-js.min"].map(filename => {
       const config = generateConfig(filename);
       const uglify = filename.indexOf("min") > -1;
-      config.optimization.minimizer.push(createTerserPlugin(uglify));
+      // config.optimization.minimizer.push(createTerserPlugin(uglify));
       return config;
     });
   }
