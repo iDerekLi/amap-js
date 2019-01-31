@@ -21,7 +21,7 @@ yarn add amap-js
 <script type="text/javascript" src="https://unpkg.com/amap-js/dist/amap-js.min.js"></script>
 ```
 ### 兼容性
-AMapJS **不支持** IE8 以下版本。
+AMapJS **不支持** IE8 及以下版本。但它支持所有兼容 ECMAScript 5 的浏览器。
 
 
 ## 示例

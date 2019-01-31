@@ -3,11 +3,11 @@ module.exports = {
     [
       "@babel/preset-env",
       {
-        modules: "commonjs",
-        loose: true,
+        modules: false,
+        loose: true, // true
         useBuiltIns: false // "usage"
       }
     ]
   ],
-  plugins: []
+  plugins: ["@babel/plugin-external-helpers"]
 };
