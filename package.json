@@ -1,46 +1,57 @@
 {
   "name": "amap-js",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "AMap高德地图加载模块",
-  "main": "index.js",
+  "main": "dist/amap-js.js",
+  "module": "dist/amap-js.esm.js",
+  "files": [
+    "package.json",
+    "LICENSE",
+    "README.md",
+    "dist/amap-js.js",
+    "dist/amap-js.min.js",
+    "dist/amap-js.esm.js",
+    "src"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "dev": "rollup -w --config rollup.config.js",
+    "build": "rollup --config rollup.config.js"
   },
   "keywords": [
     "amap",
-    "amapjs",
-    "mapjs",
-    "map-js",
     "map",
-    "gis",
-    "vue",
-    "react"
+    "gis"
   ],
-  "author": "derry-li",
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "^7.1.6",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/preset-env": "^7.1.6",
-    "babel-loader": "^8.0.4",
-    "babel-plugin-add-module-exports": "^1.0.0",
-    "clean-webpack-plugin": "^1.0.0",
-    "eslint": "^5.9.0",
-    "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^2.1.1",
-    "eslint-plugin-prettier": "^3.0.0",
-    "uglifyjs-webpack-plugin": "^2.0.1",
-    "webpack": "^4.26.0",
-    "webpack-cli": "^3.1.2"
-  },
-  "homepage": "https://github.com/derry-li/amap-js#readme",
+  "author": "Derek Li",
+  "homepage": "https://github.com/iDerekLi/amap-js#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/derry-li/amap-js.git"
+    "url": "git+https://github.com/iDerekLi/amap-js.git"
   },
   "bugs": {
-    "url": "https://github.com/derry-li/amap-js/issues"
+    "url": "https://github.com/iDerekLi/amap-js/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-external-helpers": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "eslint": "^5.12.1",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^1.16.2",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-eslint": "^5.0.0",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-terser": "^4.0.3",
+    "rollup-watch": "^4.3.1"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5"
   }
 }

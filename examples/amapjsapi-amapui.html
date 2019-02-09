@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>AMapJS amapjsapi and amapui</title>
+  <style>
+    h1 {
+      padding: 10px;
+      text-align: center;
+      background: #91b98f;
+    }
+    #map {
+      float: left;
+      width: 800px;
+      height: 500px;
+      border: 1px solid #000;
+    }
+    #info {
+      float: left;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+<div id="root">
+  <h1>AMapJS 使用示例</h1>
+  <div id="map"></div>
+  <div id="info"></div>
+</div>
+<script type="text/javascript" src="../dist/amap-js.js"></script>
+<script type="text/javascript">
+  console.log(AMapJS)
+  var aMapLoader = new AMapJS.AMapJSAPILoader({
+    key: "您申请的key值",
+    v: "1.4.12"
+  });
+  var aMapUILoader = new AMapJS.AMapUILoader({
+    v: "1.0",
+    protocol: "https:",
+    AMapUIProtocol: "http:"
+  });
+
+  aMapLoader.load().then(function(AMap) {
+    console.log(AMap);
+    aMapUILoader.load().then(function(initAMapUI) {
+      var AMapUI = initAMapUI();
+      console.log(AMapUI);
+
+      // 其他逻辑
+      new AMap.Map(document.getElementById("map"));
+      log(AMap, AMapUI);
+    })
+  })
+
+
+  function log(AMap, AMapUI) {
+    var el = document.getElementById("info");
+    el.innerHTML = [
+      "<h2>AMap JSAPI</h2>",
+      "<ul>",
+      "<li>version: " + AMap.v + "</li>",
+      "</ul>",
+      "<h2>AMapUI</h2>",
+      "<ul>",
+      "<li>version: " + AMapUI.libConf.mainVersion + "</li>",
+      "</ul>"
+    ].join("")
+  }
+</script>
+</body>
+</html>
