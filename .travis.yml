@@ -1,14 +1,13 @@
 language: node_js
-# nodejs版本
+
 node_js:
-    - '10'
+    - "10"
 sudo: false
-#指定分支，只有指定的分支提交时才会运行脚本
+
 branches:
   only:
     - master
 
-# Travis-CI Caching
 cache:
   yarn: true
   directories:
@@ -19,7 +18,6 @@ install:
 
 script:
   - yarn build
-# E: Build LifeCycle
 
 
 

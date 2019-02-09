@@ -4,11 +4,18 @@
   "description": "AMap高德地图加载模块",
   "main": "dist/amap-js.js",
   "module": "dist/amap-js.esm.js",
+  "files": [
+    "package.json",
+    "LICENSE",
+    "README.md",
+    "dist/amap-js.js",
+    "dist/amap-js.min.js",
+    "dist/amap-js.esm.js",
+    "src"
+  ],
   "scripts": {
     "dev": "rollup -w --config rollup.config.js",
-    "build": "rollup --config rollup.config.js",
-    "webpack.build": "webpack --env.build --config webpack.config.js",
-    "webpack.dev": "webpack --env.dev --progress --colors --watch --config webpack.config.js"
+    "build": "rollup --config rollup.config.js"
   },
   "keywords": [
     "amap",
@@ -39,6 +46,7 @@
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-eslint": "^5.0.0",
+    "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-terser": "^4.0.3",
     "rollup-watch": "^4.3.1"

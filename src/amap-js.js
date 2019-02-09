@@ -6,7 +6,7 @@ import load from "./loaders/load.js";
 import AMapJSAPILoader from "./loaders/AMapJSAPILoader.js";
 import AMapUILoader from "./loaders/AMapUILoader.js";
 
-const version = "1.0.0";
+import { version } from "../package.json";
 
 // API
 const AMapJS = {
