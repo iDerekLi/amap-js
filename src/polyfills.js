@@ -1,7 +1,7 @@
 // array
 import "core-js/modules/es6.array.for-each.js";
 import "core-js/modules/es6.array.is-array.js";
-import "core-js/modules/es7.array.includes.js";
+// import "core-js/modules/es7.array.includes.js";
 
 // object
 import "core-js/modules/es6.object.define-properties.js";

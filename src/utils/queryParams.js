@@ -1,16 +1,23 @@
 /**
  * 对象转url参数
  * @param data 格式化对象
- * @param isPrefix 前缀
+ * @param prefix 前缀 ["?" | "&" | "" | true | false]
  * @returns {string}
  */
-function queryParams(data, isPrefix = false) {
-  let prefix = isPrefix ? "?" : "";
+function includes(search, array) {
+  for (let i in array) {
+    if (search === array[i]) return true;
+  }
+  return false;
+}
+
+function queryParams(data, prefix = "") {
+  prefix = typeof prefix === "boolean" ? "?" : prefix;
   let _result = [];
   for (let key in data) {
     let value = data[key];
     // 去掉为空的参数
-    if (["", undefined, null].includes(value)) {
+    if (includes(value, ["", undefined, null])) {
       continue;
     }
     if (value.constructor === Array) {

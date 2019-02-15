@@ -2,6 +2,7 @@
  * AMapUI Loader
  */
 import Loader from "./Loader.js";
+import httpJsonp from "http-jsonp";
 
 // 默认参数
 const DEFAULT_UI_CONFIG = {
@@ -40,43 +41,42 @@ class AMapUILoader extends Loader {
    * @returns {*}
    */
   load() {
-    if (this.checkCorrectness()) {
-      const callback = () => window.AMapUI;
-      return Promise.resolve(this.isAutoInitAMapUI ? callback() : callback);
-    }
-    const uiScript = document.createElement("script");
-    uiScript.charset = "utf-8";
-    uiScript.type = "text/javascript";
-    uiScript.async = true;
-    uiScript.defer = true;
-    uiScript.crossOrigin = this.crossOrigin;
-    uiScript.src = this.getRequestURL();
-    return new Promise((resolve, reject) => {
-      if (typeof uiScript.onload !== "undefined") {
-        uiScript.onload = () => {
-          if (!this.keepScriptTag) this.removeScriptTag(uiScript);
-          const callback = () => window[this.initAMapUI]() || window.AMapUI;
-          resolve(this.isAutoInitAMapUI ? callback() : callback);
+    if (this.__loadPromise) return this.__loadPromise;
+    this.__loadPromise = new Promise((resolve, reject) => {
+      const load = () => {
+        this.__loadPromise = null;
+        const initAMap = () => {
+          if (this.checkCorrectness()) return window.AMapUI;
+          window[this.initAMapUI]();
+          return window.AMapUI;
         };
-      } else {
-        uiScript.onreadystatechange = () => {
-          if (
-            uiScript.readyState == "loaded" ||
-            uiScript.readyState == "complete"
-          ) {
-            uiScript.onreadystatechange = null;
-            if (!this.keepScriptTag) this.removeScriptTag(uiScript);
-            const callback = () => window[this.initAMapUI]() || window.AMapUI;
-            resolve(this.isAutoInitAMapUI ? callback() : callback);
-          }
-        };
-      }
-      uiScript.onerror = error => {
-        if (!this.keepScriptTag) this.removeScriptTag(uiScript);
-        reject(error);
+        resolve(this.isAutoInitAMapUI ? initAMap() : initAMap);
       };
-      document.getElementsByTagName("head")[0].appendChild(uiScript);
+
+      if (this.checkCorrectness()) return load();
+
+      const protocol = this.protocol;
+      const v = this.v;
+      let path = this.path.replace("{v}", v);
+      path = path.replace("{v}", v).slice(0, 2) === "//" ? path : "//" + path;
+      const url = protocol + path;
+      httpJsonp({
+        url: url,
+        params: this.params,
+        callbackProp: false,
+        scriptAttr: {
+          async: true,
+          crossOrigin: this.crossOrigin
+        },
+        keepScriptTag: this.keepScriptTag,
+        load,
+        error: e => {
+          this.__loadPromise = null;
+          reject(e);
+        }
+      });
     });
+    return this.__loadPromise;
   }
 
   // 检查AMapUI正确性
@@ -98,21 +98,6 @@ class AMapUILoader extends Loader {
    */
   removeScriptTag(el) {
     el.parentNode.removeChild(el);
-  }
-
-  toRequestURL() {
-    const protocol = this.protocol;
-    const v = this.v;
-    const path = this.path.replace("{v}", v);
-    const location = `${protocol}//${path}`;
-    return location;
-  }
-
-  /**
-   * 获取请求地址
-   */
-  getRequestURL() {
-    return this.toRequestURL();
   }
 
   setProtocol(protocol) {

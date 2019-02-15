@@ -1,7 +1,7 @@
 {
   "name": "amap-js",
-  "version": "1.0.0",
-  "description": "AMap高德地图加载模块",
+  "version": "1.1.0",
+  "description": "AMap高德地图加载模块。",
   "main": "dist/amap-js.js",
   "module": "dist/amap-js.esm.js",
   "files": [
@@ -52,6 +52,7 @@
     "rollup-watch": "^4.3.1"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.2.5"
+    "@babel/polyfill": "^7.2.5",
+    "http-jsonp": "^1.1.0"
   }
 }

@@ -5,7 +5,12 @@
 [![npm downloads](https://img.shields.io/npm/dm/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
 [![npm license](https://img.shields.io/npm/l/amap-js.svg?style=flat-square)](https://github.com/iderekli/amap-js)
 
-> AMapJS是AMap高德地图加载模块。帮助您加载高德sdk，这对于在组件化应用、异步编程中非常有帮助。
+AMapJS是AMap高德地图加载模块。帮助您加载高德地图相关sdk，在模块化应用、异步编程中使用sdk更加灵活便捷。
+
+## 特性
+- 异步加载sdk。
+- 支持Promise返回sdk。
+- 预加载。
 
 ## 安装
 使用npm:
@@ -27,36 +32,45 @@ AMapJS **不支持** IE8 及以下版本。但它支持所有兼容 ECMAScript 5
 ## 示例
 
 ### AMap JS API的加载:
-```JavaScript
+
+```javascript
 import AMapJS from "amap-js";
 
 // 创建AMapJSAPI Loader
-const aMapJSAPILoader = new AMapJS.AMapJSAPILoader();
+const aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
 
-aMapJSAPILoader.load().then(AMap => {
+// 加载loader并执行then回调。
+aMapJSAPILoader.load().then(function(AMap) {
   // 其他逻辑
 });
 ```
+
 或者
+
 ```javascript
 // 创建AMapJSAPI Loader
 const aMapJSAPILoader = new AMapJS.AMapJSAPILoader({
   key: "您申请的key值",
   v: "1.4.12", // 版本号
-  params: {}, // 其他参数
-  protocol: "https:", // 脚本加载协议
-  crossOrigin: "anonymous", // 脚本crossOrigin设置
-  keepScriptTag: false // 加载完成后是否保留脚本标签
+  params: {}, // 请求参数
+  protocol: "https:" // 请求协议
 });
 
-aMapJSAPILoader.load().then(AMap => {
-  // 其他逻辑
-});
+aMapJSAPILoader.load()
+  .then(function(AMap) {
+    // 请求成功
+  })
+  .catch(function(e) {
+    // 请求失败
+  })
+  .finally(function() {
+    // 总是执行
+  });
 ```
 
-
 ### AMap UI组件库的加载:
-```JavaScript
+
+```javascript
 import AMapJS from "amap-js";
 
 // 创建AMapJSAPI Loader
@@ -65,34 +79,62 @@ const aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" }
 // 创建AMapUI Loader
 const aMapUILoader = new AMapJS.AMapUILoader();
 
-aMapJSAPILoader.load().then(AMap => {
-  aMapUILoader.load().then(initAMapUI => {
-    const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
+aMapJSAPILoader.load().then(function(AMap) {
+  aMapUILoader.load().then(function(initAMapUI) {
+    const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI。
     // 其他逻辑
   });
 });
 ```
-或者
-```javascript
-// ...
 
+或者
+
+```javascript
 // 创建AMapUI Loader
 const aMapUILoader = new AMapJS.AMapUILoader({
   v: "1.0", // UI组件库版本号
   protocol: "https:", // UI组件库 API脚本加载协议
-  crossOrigin: "anonymous",
-  AMapUIProtocol: "https:", // UI组件的脚本加载协议
-  keepScriptTag: false // 加载完成后是否保留脚本标签
+  AMapUIProtocol: "https:" // UI组件的脚本加载协议
 });
 
-aMapJSAPILoader.load().then(AMap => {
-  aMapUILoader.load().then(initAMapUI => {
+aMapJSAPILoader.load().then(function(AMap) {
+  aMapUILoader.load().then(function(initAMapUI) {
     const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
     // 其他逻辑
   });
 });
 ```
-预加载
+
+### AMapJS.load加载Loader：
+
+```javascript
+import AMapJS from "amap-js";
+
+// 创建AMap JS加载器
+let aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
+
+// 创建AMap UI组件库加载器
+let aMapUILoader = new AMapJS.AMapUILoader();
+
+// 使用AMapJS.load添加加载器
+AMapJS.load([aMapJSAPILoader, aMapUILoader]).then(function([AMap, initAMapUI]) {
+  const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
+   // 其他逻辑
+});
+```
+
+支持callback方式返回结果集:
+```javascript
+// ...
+AMapJS.load([aMapJSAPILoader, aMapUILoader], function(AMap, initAMapUI) { // then
+  const AMapUI = initAMapUI();
+  
+  // 其他逻辑
+});
+```
+
+### 预加载
+
 ```javascript
 // 创建AMapJSAPI Loader
 const aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
@@ -105,39 +147,11 @@ const aMapJSAPILoad = aMapJSAPILoader.load();
 const aMapUILoad = aMapUILoader.load();
 
 // 使用
-aMapJSAPILoad.then(AMap => {
-  aMapUILoad.then(initAMapUI => {
+aMapJSAPILoad.then(function(AMap) {
+  aMapUILoad.then(function(initAMapUI) {
     const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
     // 其他逻辑
   });
-});
-```
-
-
-
-### AMapJS.load加载Loader：
-```JavaScript
-import AMapJS from "amap-js";
-
-// 创建AMap JS加载器
-let aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
-
-// 创建AMap UI组件库加载器
-let aMapUILoader = new AMapJS.AMapUILoader();
-
-// 使用AMapJS.load添加加载器
-AMapJS.load([aMapJSAPILoader, aMapUILoader]).then(([AMap, initAMapUI]) => {
-  const AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
-   // 其他逻辑
-});
-```
-支持callback方式返回结果集:
-```javascript
-// ...
-AMapJS.load([aMapJSAPILoader, aMapUILoader], function(AMap, initAMapUI) { // then
-  const AMapUI = initAMapUI();
-  
-  // 其他逻辑
 });
 ```
 
