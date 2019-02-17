@@ -1,23 +1,24 @@
-/**
- * AMapJSAPI Loader
- */
 import Loader from "./Loader.js";
-import queryParams from "../utils/queryParams.js";
+import httpJsonp from "http-jsonp";
 
-const RANDOM = Math.ceil(Math.random() * Math.pow(10, 16));
-
-// 默认参数
+/**
+ * Deafult Configs
+ */
 const DEFAULT_JSAPI_CONFIG = {
-  protocol: "https:", // 脚本加载协议
+  protocol: "https:", // 资源请求协议
   path: "webapi.amap.com/maps", // 资源地址
   key: "", // 您申请的key值 (实例化后该属性存在params中)
   v: "1.4.12", // 版本号 (实例化后该属性存在params中)
-  callback: `onAMapJS${RANDOM}`, // 回调函数名 (实例化后该属性存在params中)
   params: null,
-  crossOrigin: "anonymous",
-  keepScriptTag: false // 加载完成后是否保留脚本标签
+  callbackProp: "callback", // callback接口键值
+  callbackName: "", // 回调函数名 (实例化后该属性存在params中)
+  crossOrigin: "anonymous", // 请求crossOrigin属性
+  keepScriptTag: false // 加载完成后是否保留请求标记
 };
 
+/**
+ * AMapJSAPILoader
+ */
 class AMapJSAPILoader extends Loader {
   constructor(config) {
     super(config);
@@ -28,52 +29,59 @@ class AMapJSAPILoader extends Loader {
     this.params = {
       key: _config.key,
       v: _config.v,
-      callback: _config.callback,
       ..._config.params
     };
+    this.callbackProp = _config.callbackProp;
+    this.callbackName = _config.callbackName;
     this.crossOrigin = _config.crossOrigin;
     this.keepScriptTag = _config.keepScriptTag;
   }
 
   /**
    * 加载资源
-   * @returns {Promise<any>}
+   * @returns {Promise|null}
    */
   load() {
-    if (this.checkCorrectness()) return Promise.resolve(window.AMap);
-    const jsapi = document.createElement("script");
-    jsapi.charset = "utf-8";
-    jsapi.type = "text/javascript";
-    jsapi.async = true;
-    jsapi.defer = true;
-    jsapi.crossOrigin = this.crossOrigin;
-    jsapi.src = this.getRequestURL();
-    const callbackName = this.params.callback;
-    return new Promise((resolve, reject) => {
-      window[callbackName] = () => resolve(window.AMap);
-      if (typeof jsapi.onload !== "undefined") {
-        jsapi.onload = () => {
-          if (!this.keepScriptTag) this.removeScriptTag(jsapi);
-        };
-      } else {
-        jsapi.onreadystatechange = () => {
-          if (jsapi.readyState == "loaded" || jsapi.readyState == "complete") {
-            jsapi.onreadystatechange = null;
-            if (!this.keepScriptTag) this.removeScriptTag(jsapi);
-          }
-        };
-      }
-      jsapi.onerror = error => {
-        if (!this.keepScriptTag) this.removeScriptTag(jsapi);
-        reject(error);
+    if (this.__loadPromise) return this.__loadPromise;
+    this.__loadPromise = new Promise((resolve, reject) => {
+      const callback = () => {
+        this.__loadPromise = null;
+        resolve(window.AMap);
       };
-      document.getElementsByTagName("head")[0].appendChild(jsapi);
+
+      if (this.checkCorrectness()) {
+        return callback();
+      }
+
+      const protocol = this.protocol;
+      const path =
+        this.path.slice(0, 2) === "//" ? this.path : "//" + this.path;
+      const url = protocol + path;
+      httpJsonp({
+        url: url,
+        params: this.params,
+        callbackProp: this.callbackProp,
+        callbackName: this.callbackName,
+        scriptAttr: {
+          async: true,
+          crossOrigin: this.crossOrigin
+        },
+        keepScriptTag: this.keepScriptTag,
+        callback,
+        error: e => {
+          this.__loadPromise = null;
+          reject(e);
+        }
+      });
     });
+    return this.__loadPromise;
   }
 
-  // 检查AMapJSAPI正确性
+  /**
+   * 检查AMapJSAPI正确性
+   */
   checkCorrectness() {
-    if (!window.AMap) return false;
+    if (!window.AMap && typeof window.AMap !== "object") return false;
     const checkAPI = ["v", "Pixel", "LngLat", "Size", "Bounds", "Map"];
     for (const key of checkAPI) {
       if (!(key in window.AMap)) return false;
@@ -82,55 +90,45 @@ class AMapJSAPILoader extends Loader {
     return this.versionCompare(window.AMap.v, this.params.v);
   }
 
+  /**
+   * 版本对比
+   */
   versionCompare(left, right) {
     return left === right;
-  }
-
-  /**
-   * 删除脚本标签
-   */
-  removeScriptTag(el) {
-    el.parentNode.removeChild(el);
-  }
-
-  toRequestURL() {
-    const protocol = this.protocol;
-    const path = this.path;
-    const params = queryParams(this.params);
-    const location = `${protocol}//${path}?${params}`;
-    return location;
-  }
-
-  /**
-   * 获取请求地址
-   */
-  getRequestURL() {
-    return this.toRequestURL();
   }
 
   setProtocol(protocol) {
     this.protocol = protocol;
     return this;
   }
+
   setPath(path) {
     this.path = path;
     return this;
   }
-  setParams(params) {
-    this.params = params;
-  }
+
   setKey(key) {
     this.params && (this.params.key = key);
     return this;
   }
+
   setV(v) {
     this.params && (this.params.v = v);
     return this;
   }
+
+  setParams(params) {
+    this.params = params;
+    return this;
+  }
+
   setCrossOrigin(crossOrigin) {
     this.crossOrigin = crossOrigin;
     return this;
   }
 }
 
+/**
+ * Export
+ */
 export default AMapJSAPILoader;

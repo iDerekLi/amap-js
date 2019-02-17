@@ -1,7 +1,7 @@
 // import rollup from "rollup";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
-import json from 'rollup-plugin-json';
+import json from "rollup-plugin-json";
 import babel from "rollup-plugin-babel";
 import { eslint } from "rollup-plugin-eslint";
 import { terser } from "rollup-plugin-terser";
@@ -12,7 +12,7 @@ const banner = (function() {
   const row = [
     `AMapJS v${pkg.version}`,
     "",
-    "Copyright (c) 2018 Derek Li",
+    "Copyright (c) 2018-present Derek Li",
     "Released under the MIT License - https://choosealicense.com/licenses/mit/",
     "",
     "https://github.com/iDerekLi/amap-js"
@@ -59,7 +59,7 @@ function TerserPlugin(minimizer) {
     },
     output: {
       beautify: !minimizer, // 是否不进行压缩
-      comments: minimizer ? /Copyright|Derek Li/ : true // 是否保留注释
+      comments: minimizer ? /AMapJS v/ : true // 是否保留注释
     }
   });
 }
