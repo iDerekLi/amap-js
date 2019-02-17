@@ -5,13 +5,13 @@
   "main": "dist/amap-js.js",
   "module": "dist/amap-js.esm.js",
   "files": [
-    "package.json",
-    "LICENSE",
-    "README.md",
     "dist/amap-js.js",
     "dist/amap-js.min.js",
     "dist/amap-js.esm.js",
-    "src"
+    "src",
+    "LICENSE",
+    "README.md",
+    "package.json"
   ],
   "scripts": {
     "dev": "rollup -w --config rollup.config.js",
