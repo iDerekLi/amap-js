@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>AMapJS amapjsapi and amapui</title>
+  <title>AMapJS amapjsapi</title>
   <link rel="stylesheet" href="./assets/style.css">
   <script src="./assets/log.js"></script>
 </head>
@@ -18,25 +18,13 @@
     key: "您申请的key值",
     v: "1.4.12"
   });
-  var aMapUILoader = new AMapJS.AMapUILoader({
-    v: "1.0",
-    protocol: "https:",
-    AMapUIProtocol: "http:"
-  });
 
   aMapLoader.load().then(function(AMap) {
     console.log(AMap);
-    aMapUILoader.load().then(function(initAMapUI) {
-      var AMapUI = initAMapUI();
-      console.log(AMapUI);
+    // 其他逻辑
+    new AMap.Map(document.getElementById("map"));
 
-      // 其他逻辑
-      new AMap.Map(document.getElementById("map"));
-      document.getElementById("info").innerHTML = [
-        "<pre>" + log.AMapLog(AMap) + "</pre>",
-        "<pre>" + log.AMapUILog(AMapUI) + "</pre>"
-      ].join("");
-    });
+    document.getElementById("info").innerHTML = "<pre>" + log.AMapLog(AMap) + "</pre>";
   });
 </script>
 </body>

@@ -1,6 +1,8 @@
 import "./polyfills.js";
 
-// loaders
+/**
+ * Loaders
+ */
 import Loader from "./loaders/Loader.js";
 import load from "./loaders/load.js";
 import AMapJSAPILoader from "./loaders/AMapJSAPILoader.js";
@@ -8,7 +10,9 @@ import AMapUILoader from "./loaders/AMapUILoader.js";
 
 import { version } from "../package.json";
 
-// API
+/**
+ * API
+ */
 const AMapJS = {
   version,
   Loader,
@@ -17,6 +21,9 @@ const AMapJS = {
   AMapUILoader
 };
 
+/**
+ * Export
+ */
 export default AMapJS;
 export { version };
 export { Loader };

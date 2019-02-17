@@ -1,22 +1,24 @@
-/**
- * AMapJSAPI Loader
- */
 import Loader from "./Loader.js";
 import httpJsonp from "http-jsonp";
 
-// 默认参数
+/**
+ * Deafult Configs
+ */
 const DEFAULT_JSAPI_CONFIG = {
-  protocol: "https:", // 脚本加载协议
+  protocol: "https:", // 资源请求协议
   path: "webapi.amap.com/maps", // 资源地址
   key: "", // 您申请的key值 (实例化后该属性存在params中)
   v: "1.4.12", // 版本号 (实例化后该属性存在params中)
   params: null,
-  callbackProp: "callback",
+  callbackProp: "callback", // callback接口键值
   callbackName: "", // 回调函数名 (实例化后该属性存在params中)
-  crossOrigin: "anonymous",
-  keepScriptTag: false // 加载完成后是否保留脚本标签
+  crossOrigin: "anonymous", // 请求crossOrigin属性
+  keepScriptTag: false // 加载完成后是否保留请求标记
 };
 
+/**
+ * AMapJSAPILoader
+ */
 class AMapJSAPILoader extends Loader {
   constructor(config) {
     super(config);
@@ -37,7 +39,7 @@ class AMapJSAPILoader extends Loader {
 
   /**
    * 加载资源
-   * @returns {Promise<any>}
+   * @returns {Promise|null}
    */
   load() {
     if (this.__loadPromise) return this.__loadPromise;
@@ -75,7 +77,9 @@ class AMapJSAPILoader extends Loader {
     return this.__loadPromise;
   }
 
-  // 检查AMapJSAPI正确性
+  /**
+   * 检查AMapJSAPI正确性
+   */
   checkCorrectness() {
     if (!window.AMap && typeof window.AMap !== "object") return false;
     const checkAPI = ["v", "Pixel", "LngLat", "Size", "Bounds", "Map"];
@@ -88,9 +92,6 @@ class AMapJSAPILoader extends Loader {
 
   /**
    * 版本对比
-   * @param left
-   * @param right
-   * @returns {boolean}
    */
   versionCompare(left, right) {
     return left === right;
@@ -100,26 +101,34 @@ class AMapJSAPILoader extends Loader {
     this.protocol = protocol;
     return this;
   }
+
   setPath(path) {
     this.path = path;
     return this;
   }
-  setParams(params) {
-    this.params = params;
-    return this;
-  }
+
   setKey(key) {
     this.params && (this.params.key = key);
     return this;
   }
+
   setV(v) {
     this.params && (this.params.v = v);
     return this;
   }
+
+  setParams(params) {
+    this.params = params;
+    return this;
+  }
+
   setCrossOrigin(crossOrigin) {
     this.crossOrigin = crossOrigin;
     return this;
   }
 }
 
+/**
+ * Export
+ */
 export default AMapJSAPILoader;

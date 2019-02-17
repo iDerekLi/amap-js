@@ -1,21 +1,23 @@
-/**
- * AMapUI Loader
- */
 import Loader from "./Loader.js";
 import httpJsonp from "http-jsonp";
 
-// 默认参数
+/**
+ * Deafult Configs
+ */
 const DEFAULT_UI_CONFIG = {
+  protocol: "https:", // 请求UI组件库资源协议
+  path: "webapi.amap.com/ui/{v}/main-async.js", // 资源地址，异步版本main-async.js
   v: "1.0", // UI组件库版本号
-  protocol: "https:", // 加载UI组件库的协议
-  path: "webapi.amap.com/ui/{v}/main-async.js", // 异步版本main-async.js
-  crossOrigin: "anonymous",
-  AMapUIProtocol: undefined, // [ "https:" | "http:" ] 默认情况下，组件加载优先使用与应用页面相同的协议(https:下用https:，http:或者file:下用http:)，如果需要强制https协议（比如file:场景下）
-  initAMapUI: "initAMapUI", // window["initAMapUI"] 钩子
-  isAutoInitAMapUI: false, // 是否加载完成自动调用initAMapUI初始化, (开启则返回AMapUI实例。关闭则返回initAMapUI函数，且需手动调用该方法并返回AMapUI实例。注意：当开启时请确保先加载AMap JSAPI)
-  keepScriptTag: false // 加载完成后是否保留脚本标签
+  initAMapUI: "initAMapUI", // 初始化AMapUI钩子（默认initAMapUI = window.initAMapUI）
+  isAutoInitAMapUI: false, // 是否加载完成自动调用initAMapUI初始化, (开启则返回AMapUI实例。关闭则返回initAMapUI函数，且需手动调用该方法并返回AMapUI实例。注意：当开启时请确保优先加载AMap JSAPI)
+  AMapUIProtocol: undefined, // 请求UI组件协议，默认组件加载优先使用与应用页面相同的协议(https:下用https:，http:或者file:下用http:)，如果需要强制https协议（比如file:场景下）
+  crossOrigin: "anonymous", // 请求crossOrigin属性
+  keepScriptTag: false // 加载完成后是否保留请求标记
 };
 
+/**
+ * AMapUILoader
+ */
 class AMapUILoader extends Loader {
   constructor(config) {
     super(config);
@@ -24,10 +26,10 @@ class AMapUILoader extends Loader {
     this.v = _config.v;
     this.protocol = _config.protocol;
     this.path = _config.path;
-    this.crossOrigin = _config.crossOrigin;
     this.AMapUIProtocol = _config.AMapUIProtocol;
     this.initAMapUI = _config.initAMapUI;
     this.isAutoInitAMapUI = _config.isAutoInitAMapUI;
+    this.crossOrigin = _config.crossOrigin;
     this.keepScriptTag = _config.keepScriptTag;
 
     // 设置强制加载协议
@@ -38,7 +40,7 @@ class AMapUILoader extends Loader {
 
   /**
    * 加载资源
-   * @returns {*}
+   * @returns {Promise|null}
    */
   load() {
     if (this.__loadPromise) return this.__loadPromise;
@@ -79,7 +81,9 @@ class AMapUILoader extends Loader {
     return this.__loadPromise;
   }
 
-  // 检查AMapUI正确性
+  /**
+   * 检查AMapUI正确性
+   */
   checkCorrectness() {
     if (!window.AMapUI) return false;
     const checkAPI = ["libConf", "uiMods", "docProtocol", "version"];
@@ -93,29 +97,21 @@ class AMapUILoader extends Loader {
     return left === right;
   }
 
-  /**
-   * 删除脚本标签
-   */
-  removeScriptTag(el) {
-    el.parentNode.removeChild(el);
-  }
-
   setProtocol(protocol) {
     this.protocol = protocol;
     return this;
   }
+
   setPath(path) {
     this.path = path;
     return this;
   }
+
   setV(v) {
     this.v = v;
     return this;
   }
-  setCrossOrigin(crossOrigin) {
-    this.crossOrigin = crossOrigin;
-    return this;
-  }
+
   /**
    * UI组件加载协议
    * @param AMapUIProtocol ["https:" | "http:"]
@@ -126,6 +122,14 @@ class AMapUILoader extends Loader {
     window.AMapUIProtocol = protocol;
     return this;
   }
+
+  setCrossOrigin(crossOrigin) {
+    this.crossOrigin = crossOrigin;
+    return this;
+  }
 }
 
+/**
+ * Export
+ */
 export default AMapUILoader;

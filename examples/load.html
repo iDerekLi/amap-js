@@ -3,27 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>AMapJS load</title>
-  <style>
-    h1 {
-      padding: 10px;
-      text-align: center;
-      background: #91b98f;
-    }
-    #map {
-      float: left;
-      width: 800px;
-      height: 500px;
-      border: 1px solid #000;
-    }
-    #info {
-      float: left;
-      padding: 10px 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="./assets/style.css">
+  <script src="./assets/log.js"></script>
 </head>
 <body>
-<div id="root">
-  <h1>AMapJS 使用示例</h1>
+<h1 id="header">AMapJS 使用示例</h1>
+<div id="main">
   <div id="map"></div>
   <div id="info"></div>
 </div>
@@ -35,42 +20,38 @@
   });
   var aMapUILoader = new AMapJS.AMapUILoader({ v: "1.0" });
 
-  // Promise回调
-  // AMapJS.load([aMapJSAPILoader, aMapUILoader])
-  //   .then(function(res) {
-  //     var AMap = res[0];
-  //     var initAMapUI = res[1];
-  //     var AMapUI = initAMapUI();
+  /**
+   * Promise回调
+   */
+  AMapJS.load([aMapJSAPILoader, aMapUILoader])
+    .then(function(res) {
+      var AMap = res[0];
+      var initAMapUI = res[1];
+      var AMapUI = initAMapUI();
+      console.log(AMap, AMapUI);
+
+      // 其他逻辑
+      new AMap.Map(document.getElementById("map"));
+      document.getElementById("info").innerHTML = [
+        "<pre>" + log.AMapLog(AMap) + "</pre>",
+        "<pre>" + log.AMapUILog(AMapUI) + "</pre>"
+      ].join("");
+    });
+
+  /**
+   * callback回调
+   */
+  // AMapJS.load([aMapJSAPILoader, aMapUILoader], function(AMap, initAMapUI) {
+  //   var AMapUI = initAMapUI();
+  //   console.log(AMap, AMapUI);
   //
-  //     // 其他逻辑
-  //     console.log(AMap, AMapUI);
-  //     new AMap.Map(document.getElementById("map"));
-  //     log(AMap, AMapUI);
-  //   });
-
-  // callback回调
-  AMapJS.load([aMapJSAPILoader, aMapUILoader], function(AMap, initAMapUI) {
-    var AMapUI = initAMapUI();
-
-    // // 其他逻辑
-    console.log(AMap, AMapUI);
-    new AMap.Map(document.getElementById("map"));
-    log(AMap, AMapUI);
-  });
-
-  function log(AMap, AMapUI) {
-    var el = document.getElementById("info");
-    el.innerHTML = [
-      "<h2>AMap JSAPI</h2>",
-      "<ul>",
-      "<li>version: " + AMap.v + "</li>",
-      "</ul>",
-      "<h2>AMapUI</h2>",
-      "<ul>",
-      "<li>version: " + AMapUI.libConf.mainVersion + "</li>",
-      "</ul>"
-    ].join("")
-  }
+  //   // 其他逻辑
+  //   new AMap.Map(document.getElementById("map"));
+  //   document.getElementById("info").innerHTML = [
+  //     "<pre>" + log.AMapLog(AMap) + "</pre>",
+  //     "<pre>" + log.AMapUILog(AMapUI) + "</pre>"
+  //   ].join("");
+  // });
 </script>
 </body>
 </html>
