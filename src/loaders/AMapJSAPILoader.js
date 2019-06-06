@@ -8,11 +8,11 @@ const DEFAULT_JSAPI_CONFIG = {
   protocol: "https:", // 资源请求协议
   path: "webapi.amap.com/maps", // 资源地址
   key: "", // 您申请的key值 (实例化后该属性存在params中)
-  v: "1.4.12", // 版本号 (实例化后该属性存在params中)
+  v: "1.4.14", // 版本号 (实例化后该属性存在params中)
   params: null,
   callbackProp: "callback", // callback接口键值
   callbackName: "", // 回调函数名 (实例化后该属性存在params中)
-  crossOrigin: "anonymous", // 请求crossOrigin属性
+  crossOrigin: null, // "anonymous" 请求crossOrigin属性
   keepScriptTag: false // 加载完成后是否保留请求标记
 };
 
@@ -57,6 +57,7 @@ class AMapJSAPILoader extends Loader {
       const path =
         this.path.slice(0, 2) === "//" ? this.path : "//" + this.path;
       const url = protocol + path;
+
       httpJsonp({
         url: url,
         params: this.params,
