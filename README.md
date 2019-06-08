@@ -171,7 +171,7 @@ load.then(function([AMap, initAMapUI]) {
 });
 ```
 
-### store 寄存器
+### store寄存器
 
 store可以存放一些自由数据。（例如当使用模块化构建时往往需要使用AMap，AMapUI，map实例等对象引用; 此时store的作用就得到了发挥。）
 
