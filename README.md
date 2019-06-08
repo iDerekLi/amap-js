@@ -336,13 +336,12 @@ console.log(AMapUI);
 AMapJS.use(MyPlugin);
 
 // 也可以传入一个可选的选项对象
-Vue.use(MyPlugin, { someOption: true })
+AMapJS.use(MyPlugin, { someOption: true })
 
 /* 开发一个插件 */
-class MyPlugin {}
 MyPlugin.install = function(AMapJS, options) {
-  // 添加全局方法或属性
-  AMapJS.myGlobalMethod = function () {
+  // 添加方法或属性
+  AMapJS.myMethod = function () {
     // 逻辑...
   }
 }
