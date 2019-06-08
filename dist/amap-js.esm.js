@@ -1,5 +1,5 @@
 /*!
- * AMapJS v1.2.0
+ * AMapJS v1.2.1
  * 
  * Copyright (c) 2018-present Derek Li
  * Released under the MIT License - https://choosealicense.com/licenses/mit/
@@ -840,7 +840,7 @@ O(O.S + O.F * !an, Qe, {
 e.Promise;
 
 // object
-var dn = "1.2.0", vn = function Loader() {};
+var dn = "1.2.1", vn = function Loader() {};
 
 function _extends() {
     return (_extends = Object.assign || function(t) {
