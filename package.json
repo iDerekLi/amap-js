@@ -1,6 +1,6 @@
 {
   "name": "amap-js",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "AMap高德地图加载模块",
   "main": "dist/amap-js.js",
   "module": "dist/amap-js.esm.js",

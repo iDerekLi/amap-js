@@ -1,32 +1,26 @@
 import "./polyfills.js";
+import { version } from "../package";
+import Loader from "./loaders/Loader";
+import AMapJSAPILoader from "./loaders/AMapJSAPILoader";
+import AMapUILoader from "./loaders/AMapUILoader";
+import load from "./loaders/load";
+import store from "./store";
 
-/**
- * Loaders
- */
-import Loader from "./loaders/Loader.js";
-import load from "./loaders/load.js";
-import AMapJSAPILoader from "./loaders/AMapJSAPILoader.js";
-import AMapUILoader from "./loaders/AMapUILoader.js";
+function use(plugin, options) {
+  plugin.install(AMapJS, options);
+}
 
-import { version } from "../package.json";
-
-/**
- * API
- */
 const AMapJS = {
-  version,
-  Loader,
-  load,
-  AMapJSAPILoader,
-  AMapUILoader
+  version: version,
+  Loader: Loader,
+  AMapJSAPILoader: AMapJSAPILoader,
+  AMapUILoader: AMapUILoader,
+  load: load,
+  use: use,
+  store: store
 };
 
 /**
  * Export
  */
 export default AMapJS;
-export { version };
-export { Loader };
-export { load };
-export { AMapJSAPILoader };
-export { AMapUILoader };
