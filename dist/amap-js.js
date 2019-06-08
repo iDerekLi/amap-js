@@ -1,5 +1,5 @@
 /*!
- * AMapJS v1.1.1
+ * AMapJS v1.2.0
  * 
  * Copyright (c) 2018-present Derek Li
  * Released under the MIT License - https://choosealicense.com/licenses/mit/
@@ -7,61 +7,61 @@
  * https://github.com/iDerekLi/amap-js
  */
 !function(t, e) {
-    "object" == typeof exports && "undefined" != typeof module ? e(exports) : "function" == typeof define && define.amd ? define([ "exports" ], e) : e((t = t || self).AMapJS = {});
-}(this, function(t) {
+    "object" == typeof exports && "undefined" != typeof module ? module.exports = e() : "function" == typeof define && define.amd ? define(e) : (t = t || self).AMapJS = e();
+}(this, function() {
     "use strict";
     function createCommonjsModule(t, e) {
         return t(e = {
             exports: {}
         }, e.exports), e.exports;
     }
-    var e = createCommonjsModule(function(t) {
+    var t = createCommonjsModule(function(t) {
         // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
         var e = t.exports = "undefined" != typeof window && window.Math == Math ? window : "undefined" != typeof self && self.Math == Math ? self : Function("return this")();
         "number" == typeof __g && (__g = e);
  // eslint-disable-line no-undef
-        }), n = createCommonjsModule(function(t) {
+        }), e = createCommonjsModule(function(t) {
         var e = t.exports = {
             version: "2.6.9"
         };
         "number" == typeof __e && (__e = e);
  // eslint-disable-line no-undef
-        }), r = (n.version, function(t) {
+        }), n = (e.version, function(t) {
         return "object" == typeof t ? null !== t : "function" == typeof t;
-    }), o = function(t) {
-        if (!r(t)) throw TypeError(t + " is not an object!");
+    }), r = function(t) {
+        if (!n(t)) throw TypeError(t + " is not an object!");
         return t;
-    }, i = function(t) {
+    }, o = function(t) {
         try {
             return !!t();
         } catch (mn) {
             return !0;
         }
-    }, a = !i(function() {
+    }, i = !o(function() {
         return 7 != Object.defineProperty({}, "a", {
             get: function() {
                 return 7;
             }
         }).a;
-    }), c = e.document, u = r(c) && r(c.createElement), s = function(t) {
-        return u ? c.createElement(t) : {};
-    }, f = !a && !i(function() {
+    }), a = t.document, c = n(a) && n(a.createElement), s = function(t) {
+        return c ? a.createElement(t) : {};
+    }, u = !i && !o(function() {
         return 7 != Object.defineProperty(s("div"), "a", {
             get: function() {
                 return 7;
             }
         }).a;
-    }), l = function(t, e) {
-        if (!r(t)) return t;
-        var n, o;
-        if (e && "function" == typeof (n = t.toString) && !r(o = n.call(t))) return o;
-        if ("function" == typeof (n = t.valueOf) && !r(o = n.call(t))) return o;
-        if (!e && "function" == typeof (n = t.toString) && !r(o = n.call(t))) return o;
+    }), f = function(t, e) {
+        if (!n(t)) return t;
+        var r, o;
+        if (e && "function" == typeof (r = t.toString) && !n(o = r.call(t))) return o;
+        if ("function" == typeof (r = t.valueOf) && !n(o = r.call(t))) return o;
+        if (!e && "function" == typeof (r = t.toString) && !n(o = r.call(t))) return o;
         throw TypeError("Can't convert object to primitive value");
-    }, p = Object.defineProperty, d = {
-        f: a ? Object.defineProperty : function defineProperty(t, e, n) {
-            if (o(t), e = l(e, !0), o(n), f) try {
-                return p(t, e, n);
+    }, l = Object.defineProperty, p = {
+        f: i ? Object.defineProperty : function defineProperty(t, e, n) {
+            if (r(t), e = f(e, !0), r(n), u) try {
+                return l(t, e, n);
             } catch (mn) {/* empty */}
             if ("get" in n || "set" in n) throw TypeError("Accessors not supported!");
             return "value" in n && (t[e] = n.value), t;
@@ -73,39 +73,39 @@
             writable: !(4 & t),
             value: e
         };
-    }, v = a ? function(t, e, n) {
-        return d.f(t, e, h(1, n));
+    }, d = i ? function(t, e, n) {
+        return p.f(t, e, h(1, n));
     } : function(t, e, n) {
         return t[e] = n, t;
-    }, m = {}.hasOwnProperty, y = function(t, e) {
-        return m.call(t, e);
-    }, g = 0, _ = Math.random(), b = function(t) {
-        return "Symbol(".concat(t === undefined ? "" : t, ")_", (++g + _).toString(36));
-    }, w = createCommonjsModule(function(t) {
-        var r = "__core-js_shared__", o = e[r] || (e[r] = {});
-        (t.exports = function(t, e) {
+    }, v = {}.hasOwnProperty, m = function(t, e) {
+        return v.call(t, e);
+    }, y = 0, g = Math.random(), _ = function(t) {
+        return "Symbol(".concat(t === undefined ? "" : t, ")_", (++y + g).toString(36));
+    }, b = createCommonjsModule(function(n) {
+        var r = "__core-js_shared__", o = t[r] || (t[r] = {});
+        (n.exports = function(t, e) {
             return o[t] || (o[t] = e !== undefined ? e : {});
         })("versions", []).push({
-            version: n.version,
+            version: e.version,
             mode: "global",
             copyright: "© 2019 Denis Pushkarev (zloirock.ru)"
         });
-    }), A = w("native-function-to-string", Function.toString), P = createCommonjsModule(function(t) {
-        var r = b("src"), o = "toString", i = ("" + A).split(o);
-        n.inspectSource = function(t) {
-            return A.call(t);
-        }, (t.exports = function(t, n, o, a) {
+    }), w = b("native-function-to-string", Function.toString), A = createCommonjsModule(function(n) {
+        var r = _("src"), o = "toString", i = ("" + w).split(o);
+        e.inspectSource = function(t) {
+            return w.call(t);
+        }, (n.exports = function(e, n, o, a) {
             var c = "function" == typeof o;
-            c && (y(o, "name") || v(o, "name", n)), t[n] !== o && (c && (y(o, r) || v(o, r, t[n] ? "" + t[n] : i.join(String(n)))), 
-            t === e ? t[n] = o : a ? t[n] ? t[n] = o : v(t, n, o) : (delete t[n], v(t, n, o)));
+            c && (m(o, "name") || d(o, "name", n)), e[n] !== o && (c && (m(o, r) || d(o, r, e[n] ? "" + e[n] : i.join(String(n)))), 
+            e === t ? e[n] = o : a ? e[n] ? e[n] = o : d(e, n, o) : (delete e[n], d(e, n, o)));
         })(Function.prototype, o, function toString() {
-            return "function" == typeof this && this[r] || A.call(this);
+            return "function" == typeof this && this[r] || w.call(this);
         });
-    }), M = function(t) {
+    }), P = function(t) {
         if ("function" != typeof t) throw TypeError(t + " is not a function!");
         return t;
     }, S = function(t, e, n) {
-        if (M(t), e === undefined) return t;
+        if (P(t), e === undefined) return t;
         switch (n) {
           case 1:
             return function(n) {
@@ -125,49 +125,49 @@
         return function() {
             return t.apply(e, arguments);
         };
-    }, j = "prototype", O = function(t, r, o) {
-        var i, a, c, u, s = t & O.F, f = t & O.G, l = t & O.S, p = t & O.P, d = t & O.B, h = f ? e : l ? e[r] || (e[r] = {}) : (e[r] || {})[j], m = f ? n : n[r] || (n[r] = {}), y = m[j] || (m[j] = {});
+    }, M = "prototype", j = function(n, r, o) {
+        var i, a, c, s, u = n & j.F, f = n & j.G, l = n & j.S, p = n & j.P, h = n & j.B, v = f ? t : l ? t[r] || (t[r] = {}) : (t[r] || {})[M], m = f ? e : e[r] || (e[r] = {}), y = m[M] || (m[M] = {});
         for (i in f && (o = r), o) 
         // contains in native
         // export native or passed
-        c = ((a = !s && h && h[i] !== undefined) ? h : o)[i], 
+        c = ((a = !u && v && v[i] !== undefined) ? v : o)[i], 
         // bind timers to global for call from export context
-        u = d && a ? S(c, e) : p && "function" == typeof c ? S(Function.call, c) : c, 
+        s = h && a ? S(c, t) : p && "function" == typeof c ? S(Function.call, c) : c, 
         // extend global
-        h && P(h, i, c, t & O.U), 
+        v && A(v, i, c, n & j.U), 
         // export
-        m[i] != c && v(m, i, u), p && y[i] != c && (y[i] = c);
+        m[i] != c && d(m, i, s), p && y[i] != c && (y[i] = c);
     };
-    e.core = n, 
+    t.core = e, 
     // type bitmap
-    O.F = 1, // forced
-    O.G = 2, // global
-    O.S = 4, // static
-    O.P = 8, // proto
-    O.B = 16, // bind
-    O.W = 32, // wrap
-    O.U = 64, // safe
-    O.R = 128;
+    j.F = 1, // forced
+    j.G = 2, // global
+    j.S = 4, // static
+    j.P = 8, // proto
+    j.B = 16, // bind
+    j.W = 32, // wrap
+    j.U = 64, // safe
+    j.R = 128;
     // real proto method for `library`
-    var k = O, I = {}.toString, L = function(t) {
-        return I.call(t).slice(8, -1);
+    var O = j, k = {}.toString, I = function(t) {
+        return k.call(t).slice(8, -1);
     }, T = Object("z").propertyIsEnumerable(0) ? Object : function(t) {
-        return "String" == L(t) ? t.split("") : Object(t);
+        return "String" == I(t) ? t.split("") : Object(t);
     }, C = function(t) {
         if (t == undefined) throw TypeError("Can't call method on  " + t);
         return t;
-    }, x = function(t) {
+    }, L = function(t) {
         return T(C(t));
-    }, E = Math.ceil, U = Math.floor, N = function(t) {
-        return isNaN(t = +t) ? 0 : (t > 0 ? U : E)(t);
-    }, F = Math.min, R = function(t) {
-        return t > 0 ? F(N(t), 9007199254740991) : 0;
+    }, E = Math.ceil, x = Math.floor, U = function(t) {
+        return isNaN(t = +t) ? 0 : (t > 0 ? x : E)(t);
+    }, N = Math.min, F = function(t) {
+        return t > 0 ? N(U(t), 9007199254740991) : 0;
  // pow(2, 53) - 1 == 9007199254740991
-        }, J = Math.max, V = Math.min, B = function(t, e) {
-        return (t = N(t)) < 0 ? J(t + e, 0) : V(t, e);
-    }, D = function(t) {
+        }, R = Math.max, V = Math.min, J = function(t, e) {
+        return (t = U(t)) < 0 ? R(t + e, 0) : V(t, e);
+    }, B = function(t) {
         return function(e, n, r) {
-            var o, i = x(e), a = R(i.length), c = B(r, a);
+            var o, i = L(e), a = F(i.length), c = J(r, a);
             // Array#includes uses SameValueZero equality algorithm
             // eslint-disable-next-line no-self-compare
             if (t && n != n) {
@@ -178,94 +178,94 @@
                         } else for (;a > c; c++) if ((t || c in i) && i[c] === n) return t || c || 0;
             return !t && -1;
         };
-    }, G = w("keys"), q = function(t) {
-        return G[t] || (G[t] = b(t));
-    }, z = D(!1), H = q("IE_PROTO"), K = function(t, e) {
-        var n, r = x(t), o = 0, i = [];
-        for (n in r) n != H && y(r, n) && i.push(n);
+    }, D = b("keys"), G = function(t) {
+        return D[t] || (D[t] = _(t));
+    }, q = B(!1), z = G("IE_PROTO"), H = function(t, e) {
+        var n, r = L(t), o = 0, i = [];
+        for (n in r) n != z && m(r, n) && i.push(n);
         // Don't enum bug & hidden keys
-                for (;e.length > o; ) y(r, n = e[o++]) && (~z(i, n) || i.push(n));
+                for (;e.length > o; ) m(r, n = e[o++]) && (~q(i, n) || i.push(n));
         return i;
-    }, W = "constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(","), $ = Object.keys || function keys(t) {
-        return K(t, W);
-    }, Q = a ? Object.defineProperties : function defineProperties(t, e) {
-        o(t);
-        for (var n, r = $(e), i = r.length, a = 0; i > a; ) d.f(t, n = r[a++], e[n]);
+    }, K = "constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(","), W = Object.keys || function keys(t) {
+        return H(t, K);
+    }, $ = i ? Object.defineProperties : function defineProperties(t, e) {
+        r(t);
+        for (var n, o = W(e), i = o.length, a = 0; i > a; ) p.f(t, n = o[a++], e[n]);
         return t;
     };
     // 19.1.2.3 / 15.2.3.7 Object.defineProperties(O, Properties)
-    k(k.S + k.F * !a, "Object", {
-        defineProperties: Q
+    O(O.S + O.F * !i, "Object", {
+        defineProperties: $
     }), 
     // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-    k(k.S + k.F * !a, "Object", {
-        defineProperty: d.f
+    O(O.S + O.F * !i, "Object", {
+        defineProperty: p.f
     });
-    var X = e.document, Y = X && X.documentElement, Z = q("IE_PROTO"), tt = function() {/* empty */}, et = "prototype", nt = function() {
+    var Q = t.document, X = Q && Q.documentElement, Y = G("IE_PROTO"), Z = function() {/* empty */}, tt = "prototype", et = function() {
         // Thrash, waste and sodomy: IE GC bug
-        var t, e = s("iframe"), n = W.length, r = "<", o = ">";
-        for (e.style.display = "none", Y.appendChild(e), e.src = "javascript:", (// eslint-disable-line no-script-url
+        var t, e = s("iframe"), n = K.length, r = "<", o = ">";
+        for (e.style.display = "none", X.appendChild(e), e.src = "javascript:", (// eslint-disable-line no-script-url
         // createDict = iframe.contentWindow.Object;
         // html.removeChild(iframe);
         t = e.contentWindow.document).open(), t.write(r + "script" + o + "document.F=Object" + r + "/script" + o), 
-        t.close(), nt = t.F; n--; ) delete nt[et][W[n]];
-        return nt();
-    }, rt = Object.create || function create(t, e) {
+        t.close(), et = t.F; n--; ) delete et[tt][K[n]];
+        return et();
+    }, nt = Object.create || function create(t, e) {
         var n;
-        return null !== t ? (tt[et] = o(t), n = new tt(), tt[et] = null, 
+        return null !== t ? (Z[tt] = r(t), n = new Z(), Z[tt] = null, 
         // add "__proto__" for Object.getPrototypeOf polyfill
-        n[Z] = t) : n = nt(), e === undefined ? n : Q(n, e);
+        n[Y] = t) : n = et(), e === undefined ? n : $(n, e);
     };
     // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-    k(k.S, "Object", {
-        create: rt
+    O(O.S, "Object", {
+        create: nt
     });
-    var ot = {
+    var rt = {
         f: Object.getOwnPropertySymbols
-    }, it = {
+    }, ot = {
         f: {}.propertyIsEnumerable
-    }, at = function(t) {
+    }, it = function(t) {
         return Object(C(t));
-    }, ct = Object.assign, ut = !ct || i(function() {
+    }, at = Object.assign, ct = !at || o(function() {
         var t = {}, e = {}, n = Symbol(), r = "abcdefghijklmnopqrst";
         return t[n] = 7, r.split("").forEach(function(t) {
             e[t] = t;
-        }), 7 != ct({}, t)[n] || Object.keys(ct({}, e)).join("") != r;
+        }), 7 != at({}, t)[n] || Object.keys(at({}, e)).join("") != r;
     }) ? function assign(t, e) {
         for (// eslint-disable-line no-unused-vars
-        var n = at(t), r = arguments.length, o = 1, i = ot.f, c = it.f; r > o; ) for (var u, s = T(arguments[o++]), f = i ? $(s).concat(i(s)) : $(s), l = f.length, p = 0; l > p; ) u = f[p++], 
-        a && !c.call(s, u) || (n[u] = s[u]);
+        var n = it(t), r = arguments.length, o = 1, a = rt.f, c = ot.f; r > o; ) for (var s, u = T(arguments[o++]), f = a ? W(u).concat(a(u)) : W(u), l = f.length, p = 0; l > p; ) s = f[p++], 
+        i && !c.call(u, s) || (n[s] = u[s]);
         return n;
-    } : ct;
+    } : at;
     // 19.1.3.1 Object.assign(target, source)
-    k(k.S + k.F, "Object", {
-        assign: ut
+    O(O.S + O.F, "Object", {
+        assign: ct
     });
     // 7.2.2 IsArray(argument)
     var st = Array.isArray || function isArray(t) {
-        return "Array" == L(t);
-    }, ft = createCommonjsModule(function(t) {
-        var n = w("wks"), r = e.Symbol, o = "function" == typeof r;
-        (t.exports = function(t) {
-            return n[t] || (n[t] = o && r[t] || (o ? r : b)("Symbol." + t));
+        return "Array" == I(t);
+    }, ut = createCommonjsModule(function(e) {
+        var n = b("wks"), r = t.Symbol, o = "function" == typeof r;
+        (e.exports = function(t) {
+            return n[t] || (n[t] = o && r[t] || (o ? r : _)("Symbol." + t));
         }).store = n;
-    }), lt = ft("species"), pt = function(t) {
+    }), ft = ut("species"), lt = function(t) {
         var e;
         return st(t) && (
         // cross-realm fallback
         "function" != typeof (e = t.constructor) || e !== Array && !st(e.prototype) || (e = undefined), 
-        r(e) && null === (e = e[lt]) && (e = undefined)), e === undefined ? Array : e;
-    }, dt = function(t, e) {
-        return new (pt(t))(e);
+        n(e) && null === (e = e[ft]) && (e = undefined)), e === undefined ? Array : e;
+    }, pt = function(t, e) {
+        return new (lt(t))(e);
     }, ht = function(t, e) {
-        return !!t && i(function() {
+        return !!t && o(function() {
             // eslint-disable-next-line no-useless-call
             e ? t.call(null, function() {/* empty */}, 1) : t.call(null);
         });
-    }, vt = function(t, e) {
-        var n = 1 == t, r = 2 == t, o = 3 == t, i = 4 == t, a = 6 == t, c = 5 == t || a, u = e || dt;
-        return function(e, s, f) {
-            for (var l, p, d = at(e), h = T(d), v = S(s, f, 3), m = R(h.length), y = 0, g = n ? u(e, m) : r ? u(e, 0) : undefined; m > y; y++) if ((c || y in h) && (p = v(l = h[y], y, d), 
+    }, dt = function(t, e) {
+        var n = 1 == t, r = 2 == t, o = 3 == t, i = 4 == t, a = 6 == t, c = 5 == t || a, s = e || pt;
+        return function(e, u, f) {
+            for (var l, p, h = it(e), d = T(h), v = S(u, f, 3), m = F(d.length), y = 0, g = n ? s(e, m) : r ? s(e, 0) : undefined; m > y; y++) if ((c || y in d) && (p = v(l = d[y], y, h), 
             t)) if (n) g[y] = p; // map
              else if (p) switch (t) {
               case 3:
@@ -287,68 +287,68 @@
  // every
                         return a ? -1 : o || i ? i : g;
         };
-    }(0), mt = ht([].forEach, !0);
-    k(k.P + k.F * !mt, "Array", {
+    }(0), vt = ht([].forEach, !0);
+    O(O.P + O.F * !vt, "Array", {
         // 22.1.3.10 / 15.4.4.18 Array.prototype.forEach(callbackfn [, thisArg])
         forEach: function forEach(t /* , thisArg */) {
-            return vt(this, t, arguments[1]);
+            return dt(this, t, arguments[1]);
         }
     }), 
     // 22.1.2.2 / 15.4.3.2 Array.isArray(arg)
-    k(k.S, "Array", {
+    O(O.S, "Array", {
         isArray: st
     });
     // getting tag from 19.1.3.6 Object.prototype.toString()
-    var yt = ft("toStringTag"), gt = "Arguments" == L(function() {
+    var mt = ut("toStringTag"), yt = "Arguments" == I(function() {
         return arguments;
-    }()), _t = function(t, e) {
+    }()), gt = function(t, e) {
         try {
             return t[e];
         } catch (mn) {/* empty */}
-    }, bt = function(t) {
+    }, _t = function(t) {
         var e, n, r;
-        return t === undefined ? "Undefined" : null === t ? "Null" : "string" == typeof (n = _t(e = Object(t), yt)) ? n : gt ? L(e) : "Object" == (r = L(e)) && "function" == typeof e.callee ? "Arguments" : r;
-    }, wt = {};
+        return t === undefined ? "Undefined" : null === t ? "Null" : "string" == typeof (n = gt(e = Object(t), mt)) ? n : yt ? I(e) : "Object" == (r = I(e)) && "function" == typeof e.callee ? "Arguments" : r;
+    }, bt = {};
     // ES3 wrong here
-        wt[ft("toStringTag")] = "z", wt + "" != "[object z]" && P(Object.prototype, "toString", function toString() {
-        return "[object " + bt(this) + "]";
+        bt[ut("toStringTag")] = "z", bt + "" != "[object z]" && A(Object.prototype, "toString", function toString() {
+        return "[object " + _t(this) + "]";
     }, !0);
     // true  -> String#at
     // false -> String#codePointAt
-    var At = function(t) {
+    var wt = function(t) {
         return function(e, n) {
-            var r, o, i = String(C(e)), a = N(n), c = i.length;
+            var r, o, i = String(C(e)), a = U(n), c = i.length;
             return a < 0 || a >= c ? t ? "" : undefined : (r = i.charCodeAt(a)) < 55296 || r > 56319 || a + 1 === c || (o = i.charCodeAt(a + 1)) < 56320 || o > 57343 ? t ? i.charAt(a) : r : t ? i.slice(a, a + 2) : o - 56320 + (r - 55296 << 10) + 65536;
         };
-    }, Pt = {}, Mt = d.f, St = ft("toStringTag"), jt = function(t, e, n) {
-        t && !y(t = n ? t : t.prototype, St) && Mt(t, St, {
+    }, At = {}, Pt = p.f, St = ut("toStringTag"), Mt = function(t, e, n) {
+        t && !m(t = n ? t : t.prototype, St) && Pt(t, St, {
             configurable: !0,
             value: e
         });
-    }, Ot = {};
+    }, jt = {};
     // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-    v(Ot, ft("iterator"), function() {
+    d(jt, ut("iterator"), function() {
         return this;
     });
-    var kt = function(t, e, n) {
-        t.prototype = rt(Ot, {
+    var Ot = function(t, e, n) {
+        t.prototype = nt(jt, {
             next: h(1, n)
-        }), jt(t, e + " Iterator");
-    }, It = q("IE_PROTO"), Lt = Object.prototype, Tt = Object.getPrototypeOf || function(t) {
-        return t = at(t), y(t, It) ? t[It] : "function" == typeof t.constructor && t instanceof t.constructor ? t.constructor.prototype : t instanceof Object ? Lt : null;
-    }, Ct = ft("iterator"), xt = !([].keys && "next" in [].keys()), Et = "@@iterator", Ut = "keys", Nt = "values", Ft = function() {
+        }), Mt(t, e + " Iterator");
+    }, kt = G("IE_PROTO"), It = Object.prototype, Tt = Object.getPrototypeOf || function(t) {
+        return t = it(t), m(t, kt) ? t[kt] : "function" == typeof t.constructor && t instanceof t.constructor ? t.constructor.prototype : t instanceof Object ? It : null;
+    }, Ct = ut("iterator"), Lt = !([].keys && "next" in [].keys()), Et = "@@iterator", xt = "keys", Ut = "values", Nt = function() {
         return this;
-    }, Rt = function(t, e, n, r, o, i, a) {
-        kt(n, e, r);
-        var c, u, s, f = function(t) {
-            if (!xt && t in h) return h[t];
+    }, Ft = function(t, e, n, r, o, i, a) {
+        Ot(n, e, r);
+        var c, s, u, f = function(t) {
+            if (!Lt && t in v) return v[t];
             switch (t) {
-              case Ut:
+              case xt:
                 return function keys() {
                     return new n(this, t);
                 };
 
-              case Nt:
+              case Ut:
                 return function values() {
                     return new n(this, t);
                 };
@@ -356,31 +356,31 @@
             return function entries() {
                 return new n(this, t);
             };
-        }, l = e + " Iterator", p = o == Nt, d = !1, h = t.prototype, m = h[Ct] || h[Et] || o && h[o], y = m || f(o), g = o ? p ? f("entries") : y : undefined, _ = "Array" == e && h.entries || m;
+        }, l = e + " Iterator", p = o == Ut, h = !1, v = t.prototype, m = v[Ct] || v[Et] || o && v[o], y = m || f(o), g = o ? p ? f("entries") : y : undefined, _ = "Array" == e && v.entries || m;
         if (
         // Fix native
-        _ && (s = Tt(_.call(new t()))) !== Object.prototype && s.next && (
+        _ && (u = Tt(_.call(new t()))) !== Object.prototype && u.next && (
         // Set @@toStringTag to native iterators
-        jt(s, l, !0), 
+        Mt(u, l, !0), 
         // fix for some old engines
-        "function" != typeof s[Ct] && v(s, Ct, Ft)), 
+        "function" != typeof u[Ct] && d(u, Ct, Nt)), 
         // fix Array#{values, @@iterator}.name in V8 / FF
-        p && m && m.name !== Nt && (d = !0, y = function values() {
+        p && m && m.name !== Ut && (h = !0, y = function values() {
             return m.call(this);
         }), 
         // Define iterator
-        (xt || d || !h[Ct]) && v(h, Ct, y), 
+        (Lt || h || !v[Ct]) && d(v, Ct, y), 
         // Plug for library
-        Pt[e] = y, Pt[l] = Ft, o) if (c = {
-            values: p ? y : f(Nt),
-            keys: i ? y : f(Ut),
+        At[e] = y, At[l] = Nt, o) if (c = {
+            values: p ? y : f(Ut),
+            keys: i ? y : f(xt),
             entries: g
-        }, a) for (u in c) u in h || P(h, u, c[u]); else k(k.P + k.F * (xt || d), e, c);
+        }, a) for (s in c) s in v || A(v, s, c[s]); else O(O.P + O.F * (Lt || h), e, c);
         return c;
-    }, Jt = At(!0);
+    }, Rt = wt(!0);
     // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
         // 21.1.3.27 String.prototype[@@iterator]()
-    Rt(String, "String", function(t) {
+    Ft(String, "String", function(t) {
         this._t = String(t), // target
         this._i = 0;
     }, function() {
@@ -388,32 +388,32 @@
         return n >= e.length ? {
             value: undefined,
             done: !0
-        } : (t = Jt(e, n), this._i += t.length, {
+        } : (t = Rt(e, n), this._i += t.length, {
             value: t,
             done: !1
         });
     });
     // 22.1.3.31 Array.prototype[@@unscopables]
-    var Vt = ft("unscopables"), Bt = Array.prototype;
-    Bt[Vt] == undefined && v(Bt, Vt, {});
-    var Dt = function(t) {
-        Bt[Vt][t] = !0;
-    }, Gt = function(t, e) {
+    var Vt = ut("unscopables"), Jt = Array.prototype;
+    Jt[Vt] == undefined && d(Jt, Vt, {});
+    var Bt = function(t) {
+        Jt[Vt][t] = !0;
+    }, Dt = function(t, e) {
         return {
             value: e,
             done: !!t
         };
-    }, qt = Rt(Array, "Array", function(t, e) {
-        this._t = x(t), // target
+    }, Gt = Ft(Array, "Array", function(t, e) {
+        this._t = L(t), // target
         this._i = 0, // next index
         this._k = e;
     }, function() {
         var t = this._t, e = this._k, n = this._i++;
-        return !t || n >= t.length ? (this._t = undefined, Gt(1)) : Gt(0, "keys" == e ? n : "values" == e ? t[n] : [ n, t[n] ]);
+        return !t || n >= t.length ? (this._t = undefined, Dt(1)) : Dt(0, "keys" == e ? n : "values" == e ? t[n] : [ n, t[n] ]);
     }, "values");
     // argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
-    Pt.Arguments = Pt.Array, Dt("keys"), Dt("values"), Dt("entries");
-    for (var zt = ft("iterator"), Ht = ft("toStringTag"), Kt = Pt.Array, Wt = {
+    At.Arguments = At.Array, Bt("keys"), Bt("values"), Bt("entries");
+    for (var qt = ut("iterator"), zt = ut("toStringTag"), Ht = At.Array, Kt = {
         CSSRuleList: !0,
         // TODO: Not spec compliant, should be false.
         CSSStyleDeclaration: !1,
@@ -448,41 +448,41 @@
         TextTrackCueList: !1,
         TextTrackList: !1,
         TouchList: !1
-    }, $t = $(Wt), Qt = 0; Qt < $t.length; Qt++) {
-        var Xt, Yt = $t[Qt], Zt = Wt[Yt], te = e[Yt], ee = te && te.prototype;
-        if (ee && (ee[zt] || v(ee, zt, Kt), ee[Ht] || v(ee, Ht, Yt), Pt[Yt] = Kt, Zt)) for (Xt in qt) ee[Xt] || P(ee, Xt, qt[Xt], !0);
+    }, Wt = W(Kt), $t = 0; $t < Wt.length; $t++) {
+        var Qt, Xt = Wt[$t], Yt = Kt[Xt], Zt = t[Xt], te = Zt && Zt.prototype;
+        if (te && (te[qt] || d(te, qt, Ht), te[zt] || d(te, zt, Xt), At[Xt] = Ht, Yt)) for (Qt in Gt) te[Qt] || A(te, Qt, Gt[Qt], !0);
     }
-    var ne, re, oe, ie = function(t, e, n, r) {
+    var ee, ne, re, oe = function(t, e, n, r) {
         if (!(t instanceof e) || r !== undefined && r in t) throw TypeError(n + ": incorrect invocation!");
         return t;
-    }, ae = function(t, e, n, r) {
+    }, ie = function(t, e, n, o) {
         try {
-            return r ? e(o(n)[0], n[1]) : e(n);
+            return o ? e(r(n)[0], n[1]) : e(n);
             // 7.4.6 IteratorClose(iterator, completion)
                 } catch (mn) {
             var i = t["return"];
-            throw i !== undefined && o(i.call(t)), mn;
+            throw i !== undefined && r(i.call(t)), mn;
         }
-    }, ce = ft("iterator"), ue = Array.prototype, se = function(t) {
-        return t !== undefined && (Pt.Array === t || ue[ce] === t);
-    }, fe = ft("iterator"), le = n.getIteratorMethod = function(t) {
-        if (t != undefined) return t[fe] || t["@@iterator"] || Pt[bt(t)];
-    }, pe = createCommonjsModule(function(t) {
-        var e = {}, n = {}, r = t.exports = function(t, r, i, a, c) {
-            var u, s, f, l, p = c ? function() {
+    }, ae = ut("iterator"), ce = Array.prototype, se = function(t) {
+        return t !== undefined && (At.Array === t || ce[ae] === t);
+    }, ue = ut("iterator"), fe = e.getIteratorMethod = function(t) {
+        if (t != undefined) return t[ue] || t["@@iterator"] || At[_t(t)];
+    }, le = createCommonjsModule(function(t) {
+        var e = {}, n = {}, o = t.exports = function(t, o, i, a, c) {
+            var s, u, f, l, p = c ? function() {
                 return t;
-            } : le(t), d = S(i, a, r ? 2 : 1), h = 0;
+            } : fe(t), h = S(i, a, o ? 2 : 1), d = 0;
             if ("function" != typeof p) throw TypeError(t + " is not iterable!");
             // fast case for arrays with default iterator
                         if (se(p)) {
-                for (u = R(t.length); u > h; h++) if ((l = r ? d(o(s = t[h])[0], s[1]) : d(t[h])) === e || l === n) return l;
-            } else for (f = p.call(t); !(s = f.next()).done; ) if ((l = ae(f, d, s.value, r)) === e || l === n) return l;
+                for (s = F(t.length); s > d; d++) if ((l = o ? h(r(u = t[d])[0], u[1]) : h(t[d])) === e || l === n) return l;
+            } else for (f = p.call(t); !(u = f.next()).done; ) if ((l = ie(f, h, u.value, o)) === e || l === n) return l;
         };
-        r.BREAK = e, r.RETURN = n;
-    }), de = ft("species"), he = function(t, e) {
-        var n, r = o(t).constructor;
-        return r === undefined || (n = o(r)[de]) == undefined ? e : M(n);
-    }, ve = function(t, e, n) {
+        o.BREAK = e, o.RETURN = n;
+    }), pe = ut("species"), he = function(t, e) {
+        var n, o = r(t).constructor;
+        return o === undefined || (n = r(o)[pe]) == undefined ? e : P(n);
+    }, de = function(t, e, n) {
         var r = n === undefined;
         switch (e.length) {
           case 0:
@@ -501,86 +501,86 @@
             return r ? t(e[0], e[1], e[2], e[3]) : t.call(n, e[0], e[1], e[2], e[3]);
         }
         return t.apply(n, e);
-    }, me = e.process, ye = e.setImmediate, ge = e.clearImmediate, _e = e.MessageChannel, be = e.Dispatch, we = 0, Ae = {}, Pe = "onreadystatechange", Me = function() {
+    }, ve = t.process, me = t.setImmediate, ye = t.clearImmediate, ge = t.MessageChannel, _e = t.Dispatch, be = 0, we = {}, Ae = "onreadystatechange", Pe = function() {
         var t = +this;
         // eslint-disable-next-line no-prototype-builtins
-                if (Ae.hasOwnProperty(t)) {
-            var e = Ae[t];
-            delete Ae[t], e();
+                if (we.hasOwnProperty(t)) {
+            var e = we[t];
+            delete we[t], e();
         }
     }, Se = function(t) {
-        Me.call(t.data);
+        Pe.call(t.data);
     };
     // call something on iterator step with safe closing on error
         // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
-    ye && ge || (ye = function setImmediate(t) {
+    me && ye || (me = function setImmediate(t) {
         for (var e = [], n = 1; arguments.length > n; ) e.push(arguments[n++]);
-        return Ae[++we] = function() {
+        return we[++be] = function() {
             // eslint-disable-next-line no-new-func
-            ve("function" == typeof t ? t : Function(t), e);
-        }, ne(we), we;
-    }, ge = function clearImmediate(t) {
-        delete Ae[t];
+            de("function" == typeof t ? t : Function(t), e);
+        }, ee(be), be;
+    }, ye = function clearImmediate(t) {
+        delete we[t];
     }, 
     // Node.js 0.8-
-    "process" == L(me) ? ne = function(t) {
-        me.nextTick(S(Me, t, 1));
-    } : be && be.now ? ne = function(t) {
-        be.now(S(Me, t, 1));
-    } : _e ? (oe = (re = new _e()).port2, re.port1.onmessage = Se, ne = S(oe.postMessage, oe, 1)) : e.addEventListener && "function" == typeof postMessage && !e.importScripts ? (ne = function(t) {
-        e.postMessage(t + "", "*");
-    }, e.addEventListener("message", Se, !1)) : ne = Pe in s("script") ? function(t) {
-        Y.appendChild(s("script"))[Pe] = function() {
-            Y.removeChild(this), Me.call(t);
+    "process" == I(ve) ? ee = function(t) {
+        ve.nextTick(S(Pe, t, 1));
+    } : _e && _e.now ? ee = function(t) {
+        _e.now(S(Pe, t, 1));
+    } : ge ? (re = (ne = new ge()).port2, ne.port1.onmessage = Se, ee = S(re.postMessage, re, 1)) : t.addEventListener && "function" == typeof postMessage && !t.importScripts ? (ee = function(e) {
+        t.postMessage(e + "", "*");
+    }, t.addEventListener("message", Se, !1)) : ee = Ae in s("script") ? function(t) {
+        X.appendChild(s("script"))[Ae] = function() {
+            X.removeChild(this), Pe.call(t);
         };
     } : function(t) {
-        setTimeout(S(Me, t, 1), 0);
+        setTimeout(S(Pe, t, 1), 0);
     });
-    var je = {
-        set: ye,
-        clear: ge
-    }, Oe = je.set, ke = e.MutationObserver || e.WebKitMutationObserver, Ie = e.process, Le = e.Promise, Te = "process" == L(Ie), Ce = function() {
-        var t, n, r, o = function() {
-            var e, o;
-            for (Te && (e = Ie.domain) && e.exit(); t; ) {
-                o = t.fn, t = t.next;
+    var Me = {
+        set: me,
+        clear: ye
+    }, je = Me.set, Oe = t.MutationObserver || t.WebKitMutationObserver, ke = t.process, Ie = t.Promise, Te = "process" == I(ke), Ce = function() {
+        var e, n, r, o = function() {
+            var t, o;
+            for (Te && (t = ke.domain) && t.exit(); e; ) {
+                o = e.fn, e = e.next;
                 try {
                     o();
                 } catch (mn) {
-                    throw t ? r() : n = undefined, mn;
+                    throw e ? r() : n = undefined, mn;
                 }
             }
-            n = undefined, e && e.enter();
+            n = undefined, t && t.enter();
         };
         // Node.js
         if (Te) r = function() {
-            Ie.nextTick(o);
+            ke.nextTick(o);
         };
         // browsers with MutationObserver, except iOS Safari - https://github.com/zloirock/core-js/issues/339
-         else if (!ke || e.navigator && e.navigator.standalone) if (Le && Le.resolve) {
+         else if (!Oe || t.navigator && t.navigator.standalone) if (Ie && Ie.resolve) {
             // Promise.resolve without an argument throws an error in LG WebOS 2
-            var i = Le.resolve(undefined);
+            var i = Ie.resolve(undefined);
             r = function() {
                 i.then(o);
             };
         } else r = function() {
             // strange IE + webpack dev server bug - use .call(global)
-            Oe.call(e, o);
+            je.call(t, o);
         }; else {
             var a = !0, c = document.createTextNode("");
-            new ke(o).observe(c, {
+            new Oe(o).observe(c, {
                 characterData: !0
             }), // eslint-disable-line no-new
             r = function() {
                 c.data = a = !a;
             };
         }
-        return function(e) {
+        return function(t) {
             var o = {
-                fn: e,
+                fn: t,
                 next: undefined
             };
-            n && (n.next = o), t || (t = o, r()), n = o;
+            n && (n.next = o), e || (e = o, r()), n = o;
         };
     };
     // 25.4.1.5 NewPromiseCapability(C)
@@ -589,9 +589,9 @@
         this.promise = new t(function(t, r) {
             if (e !== undefined || n !== undefined) throw TypeError("Bad Promise constructor");
             e = t, n = r;
-        }), this.resolve = M(e), this.reject = M(n);
+        }), this.resolve = P(e), this.reject = P(n);
     }
-    var xe = {
+    var Le = {
         f: function(t) {
             return new PromiseCapability(t);
         }
@@ -607,100 +607,100 @@
                 v: mn
             };
         }
-    }, Ue = e.navigator, Ne = Ue && Ue.userAgent || "", Fe = function(t, e) {
-        if (o(t), r(e) && e.constructor === t) return e;
-        var n = xe.f(t);
-        return (0, n.resolve)(e), n.promise;
-    }, Re = function(t, e, n) {
-        for (var r in e) P(t, r, e[r], n);
+    }, xe = t.navigator, Ue = xe && xe.userAgent || "", Ne = function(t, e) {
+        if (r(t), n(e) && e.constructor === t) return e;
+        var o = Le.f(t);
+        return (0, o.resolve)(e), o.promise;
+    }, Fe = function(t, e, n) {
+        for (var r in e) A(t, r, e[r], n);
         return t;
-    }, Je = ft("species"), Ve = function(t) {
-        var n = e[t];
-        a && n && !n[Je] && d.f(n, Je, {
+    }, Re = ut("species"), Ve = function(e) {
+        var n = t[e];
+        i && n && !n[Re] && p.f(n, Re, {
             configurable: !0,
             get: function() {
                 return this;
             }
         });
-    }, Be = ft("iterator"), De = !1;
+    }, Je = ut("iterator"), Be = !1;
     try {
-        var Ge = [ 7 ][Be]();
-        Ge["return"] = function() {
-            De = !0;
+        var De = [ 7 ][Je]();
+        De["return"] = function() {
+            Be = !0;
         }, 
         // eslint-disable-next-line no-throw-literal
-        Array.from(Ge, function() {
+        Array.from(De, function() {
             throw 2;
         });
     } catch (mn) {/* empty */}
-    var qe, ze, He, Ke, We = function(t, e) {
-        if (!e && !De) return !1;
+    var Ge, qe, ze, He, Ke = function(t, e) {
+        if (!e && !Be) return !1;
         var n = !1;
         try {
-            var r = [ 7 ], o = r[Be]();
+            var r = [ 7 ], o = r[Je]();
             o.next = function() {
                 return {
                     done: n = !0
                 };
-            }, r[Be] = function() {
+            }, r[Je] = function() {
                 return o;
             }, t(r);
         } catch (mn) {/* empty */}
         return n;
-    }, $e = je.set, Qe = Ce(), Xe = "Promise", Ye = e.TypeError, Ze = e.process, tn = Ze && Ze.versions, en = tn && tn.v8 || "", nn = e[Xe], rn = "process" == bt(Ze), on = function() {/* empty */}, an = ze = xe.f, cn = !!function() {
+    }, We = Me.set, $e = Ce(), Qe = "Promise", Xe = t.TypeError, Ye = t.process, Ze = Ye && Ye.versions, tn = Ze && Ze.v8 || "", en = t[Qe], nn = "process" == _t(Ye), rn = function() {/* empty */}, on = qe = Le.f, an = !!function() {
         try {
             // correct subclassing with @@species support
-            var t = nn.resolve(1), e = (t.constructor = {})[ft("species")] = function(t) {
-                t(on, on);
+            var t = en.resolve(1), e = (t.constructor = {})[ut("species")] = function(t) {
+                t(rn, rn);
             };
             // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-            return (rn || "function" == typeof PromiseRejectionEvent) && t.then(on) instanceof e && 0 !== en.indexOf("6.6") && -1 === Ne.indexOf("Chrome/66");
+            return (nn || "function" == typeof PromiseRejectionEvent) && t.then(rn) instanceof e && 0 !== tn.indexOf("6.6") && -1 === Ue.indexOf("Chrome/66");
         } catch (mn) {/* empty */}
-    }(), un = function(t) {
+    }(), cn = function(t) {
         var e;
-        return !(!r(t) || "function" != typeof (e = t.then)) && e;
+        return !(!n(t) || "function" != typeof (e = t.then)) && e;
     }, sn = function(t, e) {
         if (!t._n) {
             t._n = !0;
             var n = t._c;
-            Qe(function() {
+            $e(function() {
                 for (var r = t._v, o = 1 == t._s, i = 0, a = function(e) {
-                    var n, i, a, c = o ? e.ok : e.fail, u = e.resolve, s = e.reject, f = e.domain;
+                    var n, i, a, c = o ? e.ok : e.fail, s = e.resolve, u = e.reject, f = e.domain;
                     try {
-                        c ? (o || (2 == t._h && pn(t), t._h = 1), !0 === c ? n = r : (f && f.enter(), n = c(r), 
+                        c ? (o || (2 == t._h && ln(t), t._h = 1), !0 === c ? n = r : (f && f.enter(), n = c(r), 
                         // may throw
-                        f && (f.exit(), a = !0)), n === e.promise ? s(Ye("Promise-chain cycle")) : (i = un(n)) ? i.call(n, u, s) : u(n)) : s(r);
+                        f && (f.exit(), a = !0)), n === e.promise ? u(Xe("Promise-chain cycle")) : (i = cn(n)) ? i.call(n, s, u) : s(n)) : u(r);
                     } catch (mn) {
-                        f && !a && f.exit(), s(mn);
+                        f && !a && f.exit(), u(mn);
                     }
                 }; n.length > i; ) a(n[i++]);
  // variable length - can't use forEach
-                                t._c = [], t._n = !1, e && !t._h && fn(t);
+                                t._c = [], t._n = !1, e && !t._h && un(t);
             });
         }
-    }, fn = function(t) {
-        $e.call(e, function() {
-            var n, r, o, i = t._v, a = ln(t);
+    }, un = function(e) {
+        We.call(t, function() {
+            var n, r, o, i = e._v, a = fn(e);
             if (a && (n = Ee(function() {
-                rn ? Ze.emit("unhandledRejection", i, t) : (r = e.onunhandledrejection) ? r({
-                    promise: t,
+                nn ? Ye.emit("unhandledRejection", i, e) : (r = t.onunhandledrejection) ? r({
+                    promise: e,
                     reason: i
-                }) : (o = e.console) && o.error && o.error("Unhandled promise rejection", i);
+                }) : (o = t.console) && o.error && o.error("Unhandled promise rejection", i);
             }), 
             // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
-            t._h = rn || ln(t) ? 2 : 1), t._a = undefined, a && n.e) throw n.v;
+            e._h = nn || fn(e) ? 2 : 1), e._a = undefined, a && n.e) throw n.v;
         });
-    }, ln = function(t) {
+    }, fn = function(t) {
         return 1 !== t._h && 0 === (t._a || t._c).length;
-    }, pn = function(t) {
-        $e.call(e, function() {
+    }, ln = function(e) {
+        We.call(t, function() {
             var n;
-            rn ? Ze.emit("rejectionHandled", t) : (n = e.onrejectionhandled) && n({
-                promise: t,
-                reason: t._v
+            nn ? Ye.emit("rejectionHandled", e) : (n = t.onrejectionhandled) && n({
+                promise: e,
+                reason: e._v
             });
         });
-    }, dn = function(t) {
+    }, pn = function(t) {
         var e = this;
         e._d || (e._d = !0, // unwrap
         (e = e._w || e)._v = t, e._s = 2, e._a || (e._a = e._c.slice()), sn(e, !0));
@@ -710,21 +710,21 @@
             n._d = !0, n = n._w || n;
             // unwrap
             try {
-                if (n === t) throw Ye("Promise can't be resolved itself");
-                (e = un(t)) ? Qe(function() {
+                if (n === t) throw Xe("Promise can't be resolved itself");
+                (e = cn(t)) ? $e(function() {
                     var r = {
                         _w: n,
                         _d: !1
                     };
  // wrap
                                         try {
-                        e.call(t, S(hn, r, 1), S(dn, r, 1));
+                        e.call(t, S(hn, r, 1), S(pn, r, 1));
                     } catch (mn) {
-                        dn.call(r, mn);
+                        pn.call(r, mn);
                     }
                 }) : (n._v = t, n._s = 1, sn(n, !1));
             } catch (mn) {
-                dn.call({
+                pn.call({
                     _w: n,
                     _d: !1
                 }, mn);
@@ -733,18 +733,18 @@
         }
     };
     // constructor polyfill
-    cn || (
+    an || (
     // 25.4.3.1 Promise(executor)
-    nn = function Promise(t) {
-        ie(this, nn, Xe, "_h"), M(t), qe.call(this);
+    en = function Promise(t) {
+        oe(this, en, Qe, "_h"), P(t), Ge.call(this);
         try {
-            t(S(hn, this, 1), S(dn, this, 1));
+            t(S(hn, this, 1), S(pn, this, 1));
         } catch (e) {
-            dn.call(this, e);
+            pn.call(this, e);
         }
     }, (
     // eslint-disable-next-line no-unused-vars
-    qe = function Promise(t) {
+    Ge = function Promise(t) {
         this._c = [], // <- awaiting reactions
         this._a = undefined, // <- checked in isUnhandled reactions
         this._s = 0, // <- state
@@ -752,49 +752,49 @@
         this._v = undefined, // <- value
         this._h = 0, // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
         this._n = !1;
-    }).prototype = Re(nn.prototype, {
+    }).prototype = Fe(en.prototype, {
         // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
         then: function then(t, e) {
-            var n = an(he(this, nn));
+            var n = on(he(this, en));
             return n.ok = "function" != typeof t || t, n.fail = "function" == typeof e && e, 
-            n.domain = rn ? Ze.domain : undefined, this._c.push(n), this._a && this._a.push(n), 
+            n.domain = nn ? Ye.domain : undefined, this._c.push(n), this._a && this._a.push(n), 
             this._s && sn(this, !1), n.promise;
         },
         // 25.4.5.1 Promise.prototype.catch(onRejected)
         "catch": function(t) {
             return this.then(undefined, t);
         }
-    }), He = function() {
-        var t = new qe();
-        this.promise = t, this.resolve = S(hn, t, 1), this.reject = S(dn, t, 1);
-    }, xe.f = an = function(t) {
-        return t === nn || t === Ke ? new He(t) : ze(t);
-    }), k(k.G + k.W + k.F * !cn, {
-        Promise: nn
-    }), jt(nn, Xe), Ve(Xe), Ke = n[Xe], 
+    }), ze = function() {
+        var t = new Ge();
+        this.promise = t, this.resolve = S(hn, t, 1), this.reject = S(pn, t, 1);
+    }, Le.f = on = function(t) {
+        return t === en || t === He ? new ze(t) : qe(t);
+    }), O(O.G + O.W + O.F * !an, {
+        Promise: en
+    }), Mt(en, Qe), Ve(Qe), He = e[Qe], 
     // statics
-    k(k.S + k.F * !cn, Xe, {
+    O(O.S + O.F * !an, Qe, {
         // 25.4.4.5 Promise.reject(r)
         reject: function reject(t) {
-            var e = an(this);
+            var e = on(this);
             return (0, e.reject)(t), e.promise;
         }
-    }), k(k.S + k.F * !cn, Xe, {
+    }), O(O.S + O.F * !an, Qe, {
         // 25.4.4.6 Promise.resolve(x)
         resolve: function resolve(t) {
-            return Fe(this, t);
+            return Ne(this, t);
         }
-    }), k(k.S + k.F * !(cn && We(function(t) {
-        nn.all(t)["catch"](on);
-    })), Xe, {
+    }), O(O.S + O.F * !(an && Ke(function(t) {
+        en.all(t)["catch"](rn);
+    })), Qe, {
         // 25.4.4.1 Promise.all(iterable)
         all: function all(t) {
-            var e = this, n = an(e), r = n.resolve, o = n.reject, i = Ee(function() {
+            var e = this, n = on(e), r = n.resolve, o = n.reject, i = Ee(function() {
                 var n = [], i = 0, a = 1;
-                pe(t, !1, function(t) {
-                    var c = i++, u = !1;
+                le(t, !1, function(t) {
+                    var c = i++, s = !1;
                     n.push(undefined), a++, e.resolve(t).then(function(t) {
-                        u || (u = !0, n[c] = t, --a || r(n));
+                        s || (s = !0, n[c] = t, --a || r(n));
                     }, o);
                 }), --a || r(n);
             });
@@ -802,53 +802,17 @@
         },
         // 25.4.4.4 Promise.race(iterable)
         race: function race(t) {
-            var e = this, n = an(e), r = n.reject, o = Ee(function() {
-                pe(t, !1, function(t) {
+            var e = this, n = on(e), r = n.reject, o = Ee(function() {
+                le(t, !1, function(t) {
                     e.resolve(t).then(n.resolve, r);
                 });
             });
             return o.e && r(o.v), n.promise;
         }
     });
-    n.Promise;
+    e.Promise;
     // object
-    /**
-	 * Loader 基类
-	 */    var vn = function Loader() {};
-    /**
-	 * 加载loader
-	 * @param loaders
-	 * @param callbackThen 可选参数 通过回调方式返回，结果集为(a, b, c...)
-	 * @param callbackCatch 可选参数
-	 * @param callbackFinally 可选参数
-	 * @returns {Promise<any[]>} 结果集为([a, b, c...])
-	 */
-    function load(t, e, n, r) {
-        var o = [];
-        (Array.isArray(t) ? t : [ t ]).forEach(function(t) {
-            if (!(t instanceof vn)) throw new TypeError(t + " is not an instance of Loader");
-            if ("function" != typeof t.load) throw new TypeError(t.load + " is not a function");
-            var e = t.load();
-            o.push(e);
-        });
-        var i = Promise.all(o), a = {
-            then: e,
-            "catch": n,
-            "finally": r
-        }, c = {
-            then: function then(t) {
-                a.then.apply(a, t);
-            },
-            "catch": function _catch(t) {
-                a["catch"](t);
-            },
-            "finally": function _finally() {
-                a["finally"]();
-            }
-        }, u = i;
-        for (var s in a) "function" == typeof a[s] && (u = u[s](c[s]));
-        return i;
-    }
+        var dn = "1.2.0", vn = function Loader() {};
     function _extends() {
         return (_extends = Object.assign || function(t) {
             for (var e = 1; e < arguments.length; e++) {
@@ -1025,17 +989,17 @@
             load: o.load,
             error: o.error,
             complete: o.complete
-        }, e), a = o.params, c = "", u = "", s = o.callbackNamespase, f = o.callbackProp;
+        }, e), a = o.params, c = "", s = "", u = o.callbackNamespase, f = o.callbackProp;
         function cleanup() {
-            o.keepScriptTag || n.parentNode && n.parentNode.removeChild(n), u && _n(s, u, noop), 
+            o.keepScriptTag || n.parentNode && n.parentNode.removeChild(n), s && _n(u, s, noop), 
             bn(n, noop), wn(n, noop), r && clearTimeout(r);
         }
         function cancel() {
-            c = "cancel", _n(s, u) && cleanup();
+            c = "cancel", _n(u, s) && cleanup();
         }
         f && "" !== a[f] && (
         // create callback
-        u = a[f] ? a[f] : o.callbackName || "jp" + gn++, a[f] = s ? s + "." + u : u);
+        s = a[f] ? a[f] : o.callbackName || "jp" + gn++, a[f] = u ? u + "." + s : s);
         var l = o.timeout;
         l && (r = setTimeout(function() {
             c = "error", cleanup(), i.error && i.error(new Error("Request Timeout")), i.complete && i.complete();
@@ -1044,9 +1008,9 @@
         var p = o.baseURL + o.url;
         p = (p += queryParams(a, ~p.indexOf("?") ? "&" : "?")).replace("?&", "?"), // create script
         n = document.createElement("script");
-        var d = o.scriptAttr;
-        for (var h in delete d.text, delete d.src, d) n[h] = d[h];
-        u ? _n(s, u, function(t) {
+        var h = o.scriptAttr;
+        for (var d in delete h.text, delete h.src, h) n[d] = h[d];
+        s ? _n(u, s, function(t) {
             cleanup(), "error" !== c && (c = "callback", i.callback && i.callback(t), i.complete && i.complete());
         }) : bn(n, function() {
             cleanup(), "error" !== c && (c = "load", i.load && i.load(), i.complete && i.complete());
@@ -1076,7 +1040,7 @@
         // callback接口键值
         callbackName: "",
         // 回调函数名 (实例化后该属性存在params中)
-        crossOrigin: null,
+        crossOrigin: "anonymous",
         // "anonymous" 请求crossOrigin属性
         keepScriptTag: !1
     }, Pn = 
@@ -1147,7 +1111,7 @@
         }, e.setCrossOrigin = function setCrossOrigin(t) {
             return this.crossOrigin = t, this;
         }, AMapJSAPILoader;
-    }(vn), Mn = {
+    }(vn), Sn = {
         protocol: "https:",
         // 请求UI组件库资源协议
         path: "webapi.amap.com/ui/{v}/main-async.js",
@@ -1163,13 +1127,13 @@
         crossOrigin: "anonymous",
         // 请求crossOrigin属性
         keepScriptTag: !1
-    }, Sn = 
+    }, Mn = 
     /* */
     function(t) {
         function AMapUILoader(e) {
             var n;
             n = t.call(this, e) || this;
-            var r = Object.assign({}, Mn, e);
+            var r = Object.assign({}, Sn, e);
             return n.v = r.v, n.protocol = r.protocol, n.path = r.path, n.AMapUIProtocol = r.AMapUIProtocol, 
             n.initAMapUI = r.initAMapUI, n.isAutoInitAMapUI = r.isAutoInitAMapUI, n.crossOrigin = r.crossOrigin, 
             n.keepScriptTag = r.keepScriptTag, // 设置强制加载协议
@@ -1235,17 +1199,74 @@
         }, e.setCrossOrigin = function setCrossOrigin(t) {
             return this.crossOrigin = t, this;
         }, AMapUILoader;
-    }(vn), jn = "1.1.1", On = {
-        version: jn,
-        Loader: vn,
-        load: load,
-        AMapJSAPILoader: Pn,
-        AMapUILoader: Sn
-    };
+    }(vn);
     /**
 	 * AMapJSAPILoader
-	 */    t.AMapJSAPILoader = Pn, t.AMapUILoader = Sn, t.Loader = vn, t["default"] = On, 
-    t.load = load, t.version = jn, Object.defineProperty(t, "__esModule", {
-        value: !0
-    });
+	 */    
+    /**
+	 * 加载loader
+	 * @param loaders
+	 * @param callbackThen 可选参数 通过回调方式返回，结果集为(a, b, c...)
+	 * @param callbackCatch 可选参数
+	 * @param callbackFinally 可选参数
+	 * @returns {Promise<any[]>} 结果集为([a, b, c...])
+	 */
+    function load(t, e, n, r) {
+        var o = [];
+        (Array.isArray(t) ? t : [ t ]).forEach(function(t) {
+            if (!(t instanceof vn)) throw new TypeError(t + " is not an instance of Loader");
+            if ("function" != typeof t.load) throw new TypeError(t.load + " is not a function");
+            var e = t.load();
+            o.push(e);
+        });
+        var i = Promise.all(o), a = {
+            then: e,
+            "catch": n,
+            "finally": r
+        }, c = {
+            then: function then(t) {
+                a.then.apply(a, t);
+            },
+            "catch": function _catch(t) {
+                a["catch"](t);
+            },
+            "finally": function _finally() {
+                a["finally"]();
+            }
+        }, s = i;
+        for (var u in a) "function" == typeof a[u] && (s = s[u](c[u]));
+        return i;
+    }
+    var jn = new (
+    /* */
+    function() {
+        function Store() {
+            this.length = 0, this.__state = {};
+        }
+        var t = Store.prototype;
+        return t.set = function set(t, e) {
+            t in this.__state ? this.__state[t] = e : (this.__state[t] = e, this.length++);
+        }, t.remove = function remove(t) {
+            t in this.__state && (delete this.__state[t], this.length--);
+        }, t.get = function get(t) {
+            return this.__state[t];
+        }, t.getAll = function getAll() {
+            return this.__state;
+        }, t.clear = function clear() {
+            for (var t in this.__state) this.remove(t);
+        }, Store;
+    }())();
+    function use(t, e) {
+        t.install(On, e);
+    }
+    var On = {
+        version: dn,
+        Loader: vn,
+        AMapJSAPILoader: Pn,
+        AMapUILoader: Mn,
+        load: load,
+        use: use,
+        store: jn
+    };
+    return On;
 });

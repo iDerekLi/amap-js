@@ -37,7 +37,7 @@ yarn add amap-js
 使用cdn:
 
 ```html
-<script type="text/javascript" src="https://unpkg.com/amap-js/dist/amap-js.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/amap-js"></script>
 ```
 
 ## 示例
@@ -48,25 +48,14 @@ yarn add amap-js
 import AMapJS from "amap-js";
 
 // 创建AMapJSAPI Loader
-var aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
-
-// 加载loader并执行then回调。
-aMapJSAPILoader.load().then(function(AMap) {
-  // 其他逻辑
-});
-```
-
-或者:
-
-```javascript
-// 创建AMapJSAPI Loader
 var aMapJSAPILoader = new AMapJS.AMapJSAPILoader({
   key: "您申请的key值",
-  v: "1.4.12", // 版本号
+  v: "1.4.14", // 版本号
   params: {}, // 请求参数
   protocol: "https:" // 请求协议
 });
 
+// 调用load方法加载loader并调用执行回调。
 aMapJSAPILoader.load()
   .then(function(AMap) {
     // 请求成功
@@ -79,28 +68,13 @@ aMapJSAPILoader.load()
   });
 ```
 
+### API 全局
+
 ### AMap UI组件库的加载:
 
 ```javascript
 import AMapJS from "amap-js";
 
-// 创建AMapJSAPI Loader
-var aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
-
-// 创建AMapUI Loader
-var aMapUILoader = new AMapJS.AMapUILoader();
-
-aMapJSAPILoader.load().then(function(AMap) {
-  aMapUILoader.load().then(function(initAMapUI) {
-    var AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI。
-    // 其他逻辑
-  });
-});
-```
-
-或者:
-
-```javascript
 // 创建AMapJSAPI Loader
 var aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
 
@@ -174,15 +148,9 @@ AMapJS.load([aMapJSAPILoader, aMapUILoader], function(AMap, initAMapUI) { // the
 ### 预加载
 
 ```javascript
-// 创建AMapJSAPI Loader
-var aMapJSAPILoader = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" });
-
-// 创建AMapUI Loader
-var aMapUILoader = new AMapJS.AMapUILoader();
-
 // 预加载aMapJSAPI和aMapUI
-var aMapJSAPILoad = aMapJSAPILoader.load();
-var aMapUILoad = aMapUILoader.load();
+var aMapJSAPILoad = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" }).load();
+var aMapUILoad = new AMapJS.AMapUILoader().load();
 
 // 使用
 aMapJSAPILoad.then(function(AMap) {
@@ -201,6 +169,53 @@ load.then(function([AMap, initAMapUI]) {
   var AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
   // 其他逻辑
 });
+```
+
+### store 寄存器
+
+store可以存放一些自由数据。（例如当使用模块化构建时往往需要使用AMap，AMapUI，map实例等对象引用; 此时store的作用就得到了发挥。）
+
+例如，假设一下我们有`main.js` `alpha.js` 和 `beta.js`，`main.js` 作为页面入口，`alpha.js` 和 `beta.js` 都需要AMap API实例。
+如果`alpha.js` 和 `beta.js` 都各自引用一般显然是不必要都。所以我们当API进行 load() 加载成功后先存放在store中，之后进行其他操作。
+
+**main.js**
+```javascript
+import AMapJS from "amap-js";
+
+// 预加载aMapJSAPI和aMapUI
+var aMapJSAPILoad = new AMapJS.AMapJSAPILoader({ key: "您申请的key值" }).load();
+var aMapUILoad = new AMapJS.AMapUILoader().load();
+
+// 使用
+aMapJSAPILoad.then(function(AMap) {
+  aMapUILoad.then(function(initAMapUI) {
+    var AMapUI = initAMapUI(); // 这里调用initAMapUI初始化并返回AMapUI
+    AMapJS.store.set("AMap", AMap);
+    AMapJS.store.set("AMapUI", AMapUI);
+
+    // 其他逻辑
+    // init();
+  });
+});
+```
+
+**alpha.js**
+```javascript
+import AMapJS from "amap-js";
+const AMap = AMapJS.store.get("AMap");
+
+// 其他逻辑
+console.log(AMap);
+```
+
+**beta.js**
+```javascript
+import AMapJS from "amap-js";
+const { AMap, AMapUI } = AMapJS.store.getAll();
+
+// 其他逻辑
+console.log(AMap);
+console.log(AMapUI);
 ```
 
 ## 手册
@@ -230,7 +245,7 @@ load.then(function([AMap, initAMapUI]) {
 | protocol | 请求资源协议 | "https:"\ "http:"\ "" | https: |
 | path | 资源地址 | String | webapi.amap.com/maps |
 | key | 您申请的高德key值，(实例化后该属性存在`params`中) | String | - |
-| v | 高德地图JS API版本号，(实例化后该属性存在`params`中) | String | 1.4.12 |
+| v | 高德地图JS API版本号，(实例化后该属性存在`params`中) | String | 1.4.14 |
 | params | 请求资源参数 | Object | null |
 | callbackProp | 指定params中的属性作为callback接口属性 | String | callback |
 | callbackName | callback接口的名称，如果`callbackProp`指定一个存在的值则该属性无效。(实例化后该值存在params中) | String | 随机生成 |
@@ -294,6 +309,44 @@ load.then(function([AMap, initAMapUI]) {
 | :------ | :------ | :------ |
 | load(loaders: Loader< Array >, [cbThen, cbCatch, cbFinally]< Function >) | 加载Loader。callback结果集为(a, b, c...), Promise结果集为([a, b, c...])在不具备ES6环境中不支持直接解构 | Promise |
 
+### store
+存储器
+
+| 方法 | 说明 | 返回值 |
+| :------ | :------ | :------ |
+| set(name, value) | 根据名称在存储中设置或更新值 | - |
+| remove(name) | 根据名称在存储对象中移除值 | - |
+| get(name) | 从存储中获取一个数据项 | value |
+| getAll() | 返回所有存储 | { ... } |
+| clear() | 清除所有存储 | - |
+
+### use
+
+参数  
+{Object | Function} plugin
+
+用法  
+安装一个插件。如果插件是一个对象，必须提供 install 方法。
+如果插件是一个函数，它会被作为 install 方法。install 方法调用时，会将 AMapJS 作为参数传入。
+
+示例：  
+```javascript
+/* 使用 */
+// 调用 `MyPlugin.install(AMapJS)`
+AMapJS.use(MyPlugin);
+
+// 也可以传入一个可选的选项对象
+Vue.use(MyPlugin, { someOption: true })
+
+/* 开发一个插件 */
+class MyPlugin {}
+MyPlugin.install = function(AMapJS, options) {
+  // 添加全局方法或属性
+  AMapJS.myGlobalMethod = function () {
+    // 逻辑...
+  }
+}
+```
 
 ## 许可
 MIT

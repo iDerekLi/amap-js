@@ -12,7 +12,7 @@ const DEFAULT_JSAPI_CONFIG = {
   params: null,
   callbackProp: "callback", // callback接口键值
   callbackName: "", // 回调函数名 (实例化后该属性存在params中)
-  crossOrigin: null, // "anonymous" 请求crossOrigin属性
+  crossOrigin: "anonymous", // "anonymous" 请求crossOrigin属性
   keepScriptTag: false // 加载完成后是否保留请求标记
 };
 
