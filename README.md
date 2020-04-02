@@ -12,7 +12,7 @@ AMapJS 是AMap高德地图API加载器。可帮助开发者加载高德地图相
 - 支持指定 API 版本。
 - 支持插件模块加载。
 - 支持Promise。
-- 支持按需加载。
+- 支持按需引入。
 - 允许多次执行加载操作，网络资源不会重复请求。
 
 ## 浏览器支持
@@ -151,12 +151,16 @@ import { AMapLoader } from 'amap-js';
 
 ### Loaders
 
-- AMapLoader        - 高德地图JSAPI加载器
-- AMapUILoader      - 高德地图UI组件库加载器
+- AMapLoader - 高德地图JSAPI加载器
+- AMapUILoader - 高德地图UI组件库加载器
+
+### Outher
+
+- load - 加载Loader
 
 ## API
 
-#### AMapLoader
+### AMapLoader
 
 高德地图JSAPI加载器。
 
