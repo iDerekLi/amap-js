@@ -1,6 +1,6 @@
 {
   "name": "amap-js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "AMap高德地图加载器",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -19,7 +19,7 @@
     "dev": "webpack-dev-server --config build/webpack.dev.js",
     "build": "node build/build-lib.js",
     "release": "sh build/release.sh",
-    "lint": "eslint --ext .js,.vue --ignore-path .eslintignore . --fix"
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
   },
   "keywords": [
     "amap",
@@ -68,9 +68,7 @@
     "webpack-merge": "^4.2.2",
     "webpackbar": "^4.0.0"
   },
-  "dependencies": {
-    "@amap/amap-jsapi-loader": "^0.0.1"
-  },
+  "dependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
