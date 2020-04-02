@@ -19,22 +19,27 @@
   const AMapLoader = new AMapJS.AMapLoader({
     key: '您申请的key值',
     version: '1.4.15',
-    plugins: []
+    plugins: ['AMap.ToolBar']
   });
 
   const AMapUILoader = new AMapJS.AMapUILoader({
     version: '1.0'
   });
 
-  AMapJS.load([AMapLoader, AMapUILoader])
-    .then(([_AMapLoader, _AMapUILoader]) => {
-      _AMapUILoader.initAMapUI();
+  AMapLoader.load().then(() => {
+    AMapUILoader.load().then(loader => {
+      loader.initAMapUI();
       // 其他逻辑
       new AMap.Map(document.getElementById('map'));
-    }).catch(e => {
+      console.log(AMap, AMapUI);
+    })
+    .catch(e => {
       console.log(e);
     });
-
+  })
+  .catch(e => {
+    console.log(e);
+  });
   console.log(AMapLoader);
   console.log(AMapUILoader);
 </script>
