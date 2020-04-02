@@ -189,7 +189,7 @@ import { AMapLoader } from 'amap-js';
  
 | AMapUILoaderOptions | 说明 | 类型 | 默认值 |
 | :------ | :------ | :------ | :------ |
-| v | UI组件库版本号 | String | 1.0 |
+| version | UI组件库版本号 | String | 1.0 |
 
 | 方法 | 说明 | 返回值 |
 | :------ | :------ | :------ |
