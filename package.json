@@ -1,24 +1,31 @@
 {
   "name": "amap-js",
-  "version": "1.2.1",
-  "description": "AMap高德地图加载模块",
-  "main": "dist/amap-js.js",
-  "module": "dist/amap-js.esm.js",
+  "version": "2.0.0",
+  "description": "AMap高德地图加载器",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "typings": "types/index.d.ts",
   "files": [
-    "dist/amap-js.js",
-    "dist/amap-js.min.js",
-    "dist/amap-js.esm.js",
+    "es",
+    "lib",
     "src",
+    "types",
     "LICENSE",
     "README.md",
     "package.json"
   ],
   "scripts": {
-    "dev": "rollup -w --config rollup.config.js",
-    "build": "rollup --config rollup.config.js"
+    "bootstrap": "yarn || npm i",
+    "dev": "webpack-dev-server --config build/webpack.dev.js",
+    "build": "node build/build-lib.js",
+    "release": "sh build/release.sh",
+    "lint": "eslint --ext .js,.vue --ignore-path .eslintignore . --fix"
   },
   "keywords": [
     "amap",
+    "jsapi",
+    "sdk",
+    "loader",
     "map",
     "gis"
   ],
@@ -33,26 +40,45 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-external-helpers": "^7.2.0",
-    "@babel/preset-env": "^7.3.1",
-    "babel-eslint": "^10.0.1",
-    "babel-preset-es2015-rollup": "^3.0.0",
-    "eslint": "^5.12.1",
-    "eslint-config-prettier": "^4.0.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "prettier": "^1.16.2",
-    "rollup": "^1.1.2",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-eslint": "^5.0.0",
-    "rollup-plugin-json": "^3.1.0",
-    "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-terser": "^4.0.3",
-    "rollup-watch": "^4.3.1"
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/plugin-transform-object-assign": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/runtime-corejs2": "^7.9.2",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "css-loader": "^3.4.2",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "fs-extra": "^9.0.0",
+    "html-webpack-plugin": "^4.0.4",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.1.1",
+    "prettier": "^2.0.2",
+    "shelljs": "^0.8.3",
+    "signale": "^1.4.0",
+    "style-loader": "^1.1.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2",
+    "webpackbar": "^4.0.0"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.2.5",
-    "http-jsonp": "^1.1.1"
+    "@amap/amap-jsapi-loader": "^0.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint"
+    ]
   }
 }
