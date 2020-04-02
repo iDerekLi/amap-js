@@ -201,7 +201,7 @@ import { AMapLoader } from 'amap-js';
 
 | 方法 | 说明 | 返回值 |
 | :------ | :------ | :------ |
-| load(loaders: Loader< Array >) | 加载Loader，在不具备ES6环境中不支持直接解构 | Promise |
+| load(loaders: Loader<Array>) | 加载Loader，在不具备ES6环境中不支持直接解构 | Promise |
 
 ## 许可
 
