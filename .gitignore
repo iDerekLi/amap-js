@@ -15,3 +15,7 @@ yarn.lock
 *.njsproj
 *.sln
 *.sw*
+
+# Build directories
+es
+lib
