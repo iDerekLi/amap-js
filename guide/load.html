@@ -7,7 +7,7 @@
     <meta name="generator" content="VuePress 1.4.1">
     
     <meta name="description" content="AMapJS 高德地图加载器">
-    <link rel="preload" href="/amap-js/assets/css/0.styles.02c07bcb.css" as="style"><link rel="preload" href="/amap-js/assets/js/app.5342dac5.js" as="script"><link rel="preload" href="/amap-js/assets/js/2.59a60fc9.js" as="script"><link rel="preload" href="/amap-js/assets/js/11.72a50b18.js" as="script"><link rel="preload" href="/amap-js/assets/js/3.0286d6f0.js" as="script"><link rel="prefetch" href="/amap-js/assets/js/10.fbaa3a54.js"><link rel="prefetch" href="/amap-js/assets/js/12.18e73fdd.js"><link rel="prefetch" href="/amap-js/assets/js/13.8b4c4acc.js"><link rel="prefetch" href="/amap-js/assets/js/4.5896ca4a.js"><link rel="prefetch" href="/amap-js/assets/js/5.feb599a5.js"><link rel="prefetch" href="/amap-js/assets/js/6.045e1ba2.js"><link rel="prefetch" href="/amap-js/assets/js/7.88e0a60c.js"><link rel="prefetch" href="/amap-js/assets/js/8.31079fdd.js"><link rel="prefetch" href="/amap-js/assets/js/9.4fba8f09.js">
+    <link rel="preload" href="/amap-js/assets/css/0.styles.02c07bcb.css" as="style"><link rel="preload" href="/amap-js/assets/js/app.97507eaf.js" as="script"><link rel="preload" href="/amap-js/assets/js/2.59a60fc9.js" as="script"><link rel="preload" href="/amap-js/assets/js/11.3acc3b4c.js" as="script"><link rel="preload" href="/amap-js/assets/js/3.0a63718d.js" as="script"><link rel="prefetch" href="/amap-js/assets/js/10.61692568.js"><link rel="prefetch" href="/amap-js/assets/js/12.18e73fdd.js"><link rel="prefetch" href="/amap-js/assets/js/13.8b4c4acc.js"><link rel="prefetch" href="/amap-js/assets/js/4.5896ca4a.js"><link rel="prefetch" href="/amap-js/assets/js/5.feb599a5.js"><link rel="prefetch" href="/amap-js/assets/js/6.045e1ba2.js"><link rel="prefetch" href="/amap-js/assets/js/7.35dddf20.js"><link rel="prefetch" href="/amap-js/assets/js/8.f28807fa.js"><link rel="prefetch" href="/amap-js/assets/js/9.9aa0415f.js">
     <link rel="stylesheet" href="/amap-js/assets/css/0.styles.02c07bcb.css">
   </head>
   <body>
@@ -36,7 +36,30 @@ AMapJS<span class="token punctuation">.</span><span class="token function">load<
     <span class="token comment">// 其他逻辑</span>
   <span class="token punctuation">}</span><span class="token punctuation">)</span>
    <span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">e</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre></div><p>示例</p> <div class="demo-block"><!----> <div class="meta"><div class="description"><div><p>AMapJS.load 同时加载多个 loader。</p></div>  </div> <div class="highlight"><div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>map<span class="token punctuation">&quot;</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">=&quot;</span><span class="token attr-value"><span class="token property">height</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span></span><span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><p>示例</p> <div class="demo-block"><div class="source"><div><div id="map" style="height:300px;"></div> <script>!(function() { 
+// 创建AMapJSAPI Loader
+const amapLoader = window.$AMapLoader
+// 创建AMapUI Loader
+const amapuiLoader = window.$AMapUILoader
+
+async function entry() {
+  await AMapJS.load([amapLoader, amapuiLoader]);
+
+  // 其他逻辑
+  amapuiLoader.initAMapUI(); // 初始化AMapUI
+  const [ SimpleMarker ] = await amapuiLoader.loadUI(['overlay/SimpleMarker']);
+  const map = new AMap.Map('map', { zoom: 4 });
+  //创建SimpleMarker实例
+  new SimpleMarker({
+      map: map,
+      position: map.getCenter(),
+      iconLabel: 'Hi',
+      iconTheme: 'default',
+      iconStyle: 'red',
+  });
+}
+entry();
+ })();</script></div></div> <div class="meta"><div class="description"><div><p>AMapJS.load 同时加载多个 loader。</p></div>  </div> <div class="highlight"><div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>map<span class="token punctuation">&quot;</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">=&quot;</span><span class="token attr-value"><span class="token property">height</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span></span><span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
 <span class="token comment">// 创建AMapJSAPI Loader</span>
 <span class="token keyword">const</span> amapLoader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AMapJS<span class="token punctuation">.</span>AMapLoader</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
@@ -70,6 +93,6 @@ AMapJS<span class="token punctuation">.</span><span class="token function">load<
       <a href="/amap-js/guide/amap-ui-loader.html" class="prev">
         AMapUILoader
       </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
-    <script src="/amap-js/assets/js/app.5342dac5.js" defer></script><script src="/amap-js/assets/js/2.59a60fc9.js" defer></script><script src="/amap-js/assets/js/11.72a50b18.js" defer></script><script src="/amap-js/assets/js/3.0286d6f0.js" defer></script>
+    <script src="/amap-js/assets/js/app.97507eaf.js" defer></script><script src="/amap-js/assets/js/2.59a60fc9.js" defer></script><script src="/amap-js/assets/js/11.3acc3b4c.js" defer></script><script src="/amap-js/assets/js/3.0a63718d.js" defer></script>
   </body>
 </html>
