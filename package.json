@@ -20,6 +20,7 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "release": "sh build/release.sh",
+    "deploy": "sh build/deploy.sh",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
   },
   "keywords": [

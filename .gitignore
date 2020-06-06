@@ -19,3 +19,4 @@ yarn.lock
 # Build directories
 es
 lib
+docs/.vuepress/dist
