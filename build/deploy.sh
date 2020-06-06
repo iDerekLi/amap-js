@@ -21,5 +21,6 @@ git commit -m "deploy"
 git push origin gh-pages
 cd ../..
 
+rm -rf temp_web
 echo "DONE, Bye~"
 exit 0
