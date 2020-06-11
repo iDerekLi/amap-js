@@ -84,6 +84,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('./plugins/ga'),
     [
       'vuepress-plugin-container',
       {
