@@ -46,15 +46,15 @@ import AMapJS from 'amap-js';
 // 创建AMapJSAPI Loader
 const loader = new AMapJS.AMapLoader({
   key: '您申请的高德Key值',
-  version: '1.4.15', // 版本号， 默认1.4.15
+  version: '1.4.15',
   plugins: [],
 });
 
 // 调用 load 方法完成加载并调用执行回调。
 loader.load()
-  .then(loader => {
+  .then(({ AMap }) => {
     // 请求成功
-    console.log(loader.AMap);
+    console.log(AMap);
   })
   .catch(e => {
     // 请求失败
