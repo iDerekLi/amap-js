@@ -55,7 +55,7 @@ module.exports = {
             },
             'amap-loader',
             'amap-ui-loader',
-            // 'loca-loader',
+            'loca-loader',
             {
               title: 'Others',
               collapsable: false,

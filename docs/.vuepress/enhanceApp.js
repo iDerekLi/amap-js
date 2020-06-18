@@ -10,5 +10,6 @@ export default ({Vue, options, router, siteData, isServer}) => {
     window.AMapJS = AMapJS;
     window.$AMapLoader = render(pre.AMapLoader.replace(pre.AMapKey, source.AMapKey));
     window.$AMapUILoader = render(pre.AMapUILoader);
+    window.$LocaLoader = render(pre.LocaLoader.replace(pre.AMapKey, source.AMapKey));
   }
 }
