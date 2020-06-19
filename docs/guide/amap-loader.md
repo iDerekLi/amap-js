@@ -1,6 +1,6 @@
 # AMapLoader
 
-AMap JS API 加载器。
+AMap JSAPI 加载器。
 
 ## 基础用法
 
@@ -101,13 +101,16 @@ entry();
 | 参数 | 说明 | 类型 | 默认值 |
 | :------ | :------ | :------ | :------ |
 | key | 您申请的高德key值 | String | - |
-| version | 高德地图 JSAPI 版本号 | String | 1.4.15 |
+| version | 高德地图 JSAPI 版本号 | String | [1.4.15](https://lbs.amap.com/api/javascript-api/changelog) |
 | plugins | 加载 JSAPI 提供的众多的插件 | Array | [] |  
 
 ### Methods
 
 | 方法名 | 说明 | 参数 | 返回值 |
 | :------ | :------ | :------ | :------ |
-| load | 加载高德地图JSAPI | - | Promise |
-| loadPlugin | 加载 JSAPI 提供的众多的插件，使用前确保 JSAPI 加载完成 | plugins | Promise |
+| load | 加载高德地图JSAPI | - | Promise(loader: <[AMapLoader](#constructor)>) |
+| loadPlugin | 加载 JSAPI 提供的众多的插件，使用前确保 JSAPI 加载完成 | plugins | Promise(loader: <[AMapLoader](#constructor)>) |
 
+## 更新日志
+
+[AMap 历史版本](https://lbs.amap.com/api/javascript-api/changelog)

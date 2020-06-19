@@ -80,7 +80,7 @@ entry();
 
 | 方法名     | 说明                                                   | 参数    | 返回值  |
 | :--------- | :--------------------------------------------------- | :------ | :------ |
-| load       | 加载Loca JSAPI                                     | -       | Promise(<[LocaLoader](#Constructor)>) |
+| load       | 加载Loca JSAPI                                     | -       | Promise(loader: <[LocaLoader](#constructor)>) |
 
 ## 更新日志
 
