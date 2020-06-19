@@ -23,7 +23,7 @@ let count = 0;
 class AMapLoader extends Loader {
   constructor(options) {
     if (!window || !document) {
-      throw Error('ScriptLoader can only be used in Browser.');
+      throw Error('AMapLoader can only be used in Browser.');
     }
     super(options);
     const { key, version, plugins } = { ...DefaultOptions, ...options };

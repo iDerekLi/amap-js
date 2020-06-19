@@ -82,12 +82,16 @@ const loader = AMapUILoader.loadModule(['lib/$', 'ui/overlay/SimpleMarker'])
 
 | 参数 | 说明 | 类型 | 默认值 |
 | :------ | :------ | :------ | :------ |
-| version | UI组件库版本号 | String | 1.0 | 
+| version | UI组件库版本号 | String | [1.0](https://lbs.amap.com/api/amap-ui/changelog) | 
 
 ### Methods
 
 | 方法名 | 说明 | 参数 | 返回值 |
 | :------ | :------ | :------ | :------ |
-| load | 加载高德地图UI组件库 | - | Promise |
-| loadUI | (推荐)加载 UI组件库 提供的特定UI模块，使用前确保 UI组件库 加载完成 | Array | Promise |
-| loadModule | 加载 UI组件库 提供的众多的模块，使用前确保 UI组件库 加载完成 | Array | Promise |
+| load | 加载高德地图UI组件库 | - | Promise(loader: <[AMapUILoader](#constructor)>) |
+| loadUI | (推荐)加载 UI组件库 提供的特定UI模块，使用前确保 UI组件库 加载完成 | Array | Promise(unames: []) |
+| loadModule | 加载 UI组件库 提供的众多的模块，使用前确保 UI组件库 加载完成 | Array | Promise(unames: []) |
+
+## 更新日志
+
+[AMapUI 历史版本](https://lbs.amap.com/api/amap-ui/changelog)

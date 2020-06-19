@@ -1,6 +1,7 @@
 const AMapKey = '您申请的Key值';
 const AMapVersion = '1.4.15';
 const LocaVersion = '1.3.2';
+const SubwayVersion = '1.0';
 
 const AMapLoader = `
 new AMapJS.AMapLoader({
@@ -21,6 +22,13 @@ new AMapJS.LocaLoader({
 });
 `.trim();
 
+const SubwayLoader = `
+new AMapJS.SubwayLoader({
+  key: '${AMapKey}',
+  version: '${SubwayVersion}'
+});
+`.trim();
+
 module.exports = {
   pre: {
     AMapVersion,
@@ -28,6 +36,7 @@ module.exports = {
     AMapLoader,
     AMapUILoader,
     LocaLoader,
+    SubwayLoader,
   },
   source: {
     AMapVersion,
@@ -35,5 +44,6 @@ module.exports = {
     AMapLoader: 'window.$AMapLoader',
     AMapUILoader: 'window.$AMapUILoader',
     LocaLoader: 'window.$LocaLoader',
+    SubwayLoader: 'window.$SubwayLoader',
   },
 };
