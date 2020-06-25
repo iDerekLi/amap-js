@@ -45,5 +45,5 @@ declare var SubwayLoader: SubwayLoaderConstructor;
  * load
  */
 declare var load: {
-  (loaders: Array<any>): Promise<any>;
+  <T>(loaders: Promise<any>): Promise<T>;
 };

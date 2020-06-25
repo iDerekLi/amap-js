@@ -1,40 +1,56 @@
-const STATUS = {
-  created: 'created',
-  loading: 'loading',
-  loaded: 'loaded',
-  failed: 'failed',
-};
+import Loader from './loader';
+import LoaderUtil from './loader-util';
 
-const _promise = Symbol('promise');
+const SymbolLoad = Symbol('Symbol.load');
 
 /**
  * ScriptLoader 加载器
  */
-class ScriptLoader {
+class ScriptLoader extends Loader {
   constructor(url) {
-    if (!window || !document) {
-      throw Error('ScriptLoader can only be used in Browser.');
-    }
-    this.url = url;
-    this.status = STATUS.created;
-    this[_promise] = null;
+    super({ url });
+    this.url = this.options.url;
+    this.readyState = this.CREATED;
+    this[SymbolLoad] = null;
+  }
+
+  getDefaultOpts() {
+    return {
+      url: '',
+    };
   }
 
   load() {
-    if (this[_promise]) return this[_promise];
-    this.status = STATUS.loading;
-    this[_promise] = new Promise((resolve, reject) => {
+    if (this[SymbolLoad]) return this[SymbolLoad];
+    this.readyState = this.LOADING;
+    this[SymbolLoad] = new Promise((resolve, reject) => {
+      if (!window || !document) {
+        reject(new Error(`${this.constructor.name} can only be used in Browser.`));
+        return;
+      }
+
       const script = document.createElement('script');
 
-      script.onload = () => {
-        this.status = STATUS.loaded;
+      const onScriptLoad = () => {
+        script.removeEventListener('load', onScriptLoad, false);
+        script.removeEventListener('error', onScriptError, false);
+
+        this.readyState = this.LOADED;
         resolve(this);
       };
-      script.onerror = () => {
-        this[_promise] = null;
-        this.status = STATUS.failed;
-        reject(new Error('Failed to load tile'));
+
+      const onScriptError = event => {
+        script.removeEventListener('load', onScriptLoad, false);
+        script.removeEventListener('error', onScriptError, false);
+
+        this[SymbolLoad] = null;
+        this.readyState = this.FAILED;
+        reject(event);
       };
+
+      script.addEventListener('load', onScriptLoad, false);
+      script.addEventListener('error', onScriptError, false);
+
       script.src = this.url;
 
       const target =
@@ -45,8 +61,18 @@ class ScriptLoader {
       if (script.parentNode) script.parentNode.removeChild(script);
     });
 
-    return this[_promise];
+    return this[SymbolLoad];
   }
 }
+
+/**
+ * 添加ReadyState
+ */
+LoaderUtil.registerReadyState(ScriptLoader, {
+  CREATED: 'created',
+  LOADING: 'loading',
+  LOADED: 'loaded',
+  FAILED: 'failed',
+});
 
 export default ScriptLoader;

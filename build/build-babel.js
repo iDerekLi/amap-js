@@ -14,7 +14,7 @@ const babelConfig = {
 
 const scriptRegExp = /\.(js|ts|tsx)$/;
 const isDir = dir => fs.lstatSync(dir).isDirectory();
-const isCode = path => !/(demo|test|\.md)$/.test(path);
+const isCode = path => !/(demo|__test__|\.md)$/.test(path);
 const isScript = path => scriptRegExp.test(path);
 
 function compile(dir) {

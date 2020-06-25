@@ -22,8 +22,6 @@ module.exports = function (api) {
           useESModules,
         },
       ],
-      '@babel/plugin-transform-object-assign',
-      '@babel/plugin-proposal-optional-chaining',
     ],
   };
 };
