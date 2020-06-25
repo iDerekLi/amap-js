@@ -1,3 +1,4 @@
+const path = require('path');
 const isProd = process.env.NODE_ENV === 'production';
 
 const version = process.env.v;
@@ -22,7 +23,7 @@ const baseConfig = {
 module.exports = {
   ...(isProd ? baseConfig.prod[version] : baseConfig.dev),
   title: 'AMapJS',
-  description: 'AMapJS 高德地图加载器',
+  description: 'AMapJS, AMap高德地图API加载器。帮助开发者快速加载高德地图相关API，在模块化应用、异步编程中使用API更加灵活便捷。',
   themeConfig: {
     // 导航栏
     navbar: true,
@@ -72,11 +73,14 @@ module.exports = {
     search: true,
     searchMaxSuggestions: 10,
   },
-  configureWebpack: {
-    // entry: {
-    //   'amap-js': ['../../src/index.js']
-    // },
-  },
+  configureWebpack: (config, isServer) => ({
+    resolve: {
+      alias: {
+        'main': path.resolve(__dirname, '../../src'),
+        'amap-js': path.resolve(__dirname, '../../')
+      }
+    }
+  }),
   markdown: {
     lineNumbers: false,
     extendMarkdown: md => {

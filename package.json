@@ -1,6 +1,6 @@
 {
   "name": "amap-js",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "AMap高德地图API加载器。",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -10,6 +10,7 @@
     "lib",
     "types",
     "LICENSE",
+    "CHANGELOG.md",
     "README.md",
     "package.json"
   ],
@@ -21,7 +22,8 @@
     "docs:build": "vuepress build docs",
     "release": "sh build/release.sh",
     "deploy": "sh build/deploy.sh",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
+    "test": "jest"
   },
   "keywords": [
     "amap",
@@ -29,7 +31,8 @@
     "sdk",
     "loader",
     "map",
-    "gis"
+    "gis",
+    "高德地图"
   ],
   "author": "Derek Li",
   "homepage": "https://github.com/iDerekLi/amap-js#readme",
@@ -46,21 +49,22 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
-    "@babel/plugin-transform-object-assign": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.0.1",
     "babel-loader": "^8.1.0",
     "cross-env": "^7.0.2",
     "css-loader": "^3.4.2",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-jest": "^23.16.0",
     "eslint-plugin-prettier": "^3.1.2",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "fs-extra": "^9.0.0",
     "html-webpack-plugin": "^4.0.4",
     "husky": "^4.2.3",
+    "jest": "^26.0.1",
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "lint-staged": "^10.1.1",

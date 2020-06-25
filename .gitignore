@@ -20,3 +20,4 @@ yarn.lock
 es
 lib
 docs/.vuepress/dist
+coverage/

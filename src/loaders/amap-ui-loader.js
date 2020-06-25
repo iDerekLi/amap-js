@@ -1,62 +1,59 @@
 import Loader from './loader';
+import LoaderUtil from './loader-util';
 import ScriptLoader from './script-loader';
+import { noop } from '../util/base';
 
-const STATUS = {
-  created: 'created',
-  loading: 'loading',
-  loaded: 'loaded',
-  failed: 'failed',
-};
-
-const DefaultOptions = {
-  version: '1.0',
-};
-
-const _promise = Symbol('promise');
-
-function noop() {}
+const SymbolLoad = Symbol('Symbol.load');
 
 /**
  * AMapUILoader 加载器
  */
 class AMapUILoader extends Loader {
   constructor(options) {
-    if (!window || !document) {
-      throw Error('AMapUILoader can only be used in Browser.');
-    }
     super(options);
-    const { version } = { ...DefaultOptions, ...options };
-    this.version = version;
+    this.version = '';
     this.initAMapUI = noop;
     this.AMapUI = null;
-    this[_promise] = null;
+    this.readyState = this.CREATED;
+    this[SymbolLoad] = null;
+  }
+
+  getDefaultOpts() {
+    return {
+      version: '1.0',
+    };
   }
 
   load() {
-    if (this[_promise]) return this[_promise];
-    this.status = STATUS.loading;
-    this[_promise] = new Promise((resolve, reject) => {
-      const script = new ScriptLoader(`https://webapi.amap.com/ui/${this.version}/main-async.js`);
+    if (this[SymbolLoad]) return this[SymbolLoad];
+    this.readyState = this.LOADING;
+    this[SymbolLoad] = new Promise((resolve, reject) => {
+      const { version } = this.options;
 
-      script
-        .load()
-        .then(() => {
-          this.initAMapUI = () => {
-            this.initAMapUI = noop;
-            window.initAMapUI();
-            this.AMapUI = window.AMapUI;
-          };
-          this.status = STATUS.loaded;
-          resolve(this);
-        })
-        .catch(e => {
-          this[_promise] = null;
-          this.status = STATUS.failed;
-          reject(e);
-        });
+      const script = new ScriptLoader(`https://webapi.amap.com/ui/${version}/main-async.js`);
+
+      const onScriptLoad = () => {
+        this.readyState = this.LOADED;
+        this.initAMapUI = () => {
+          this.initAMapUI = noop;
+          window.initAMapUI();
+          this.version = version;
+          this.AMapUI = window.AMapUI;
+          this.readyState = this.MOUNTED;
+        };
+        resolve(this);
+      };
+
+      const onScriptError = event => {
+        this[SymbolLoad] = null;
+        this.readyState = this.FAILED;
+        reject(event);
+      };
+
+      script.load().then(onScriptLoad).catch(onScriptError);
     });
 
-    return this[_promise];
+    return this[SymbolLoad];
   }
 
   loadUI(unames = []) {
@@ -91,5 +88,16 @@ class AMapUILoader extends Loader {
     });
   }
 }
+
+/**
+ * 添加ReadyState
+ */
+LoaderUtil.registerReadyState(AMapUILoader, {
+  CREATED: 'created',
+  LOADING: 'loading',
+  LOADED: 'loaded',
+  FAILED: 'failed',
+  MOUNTED: 'mounted',
+});
 
 export default AMapUILoader;

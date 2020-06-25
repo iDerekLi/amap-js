@@ -1,4 +1,4 @@
-import AMapJS from '../../src';
+import AMapJS from 'main/index.js';
 const { pre, source } = require('./rootscope');
 
 function render(template) {

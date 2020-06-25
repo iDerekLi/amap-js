@@ -10,14 +10,15 @@ const SymbolLoad = Symbol('Symbol.load');
 let count = 0;
 
 /**
- * SubwayLoader 地铁图加载器
+ * AMapLoader 加载器
  */
-class SubwayLoader extends Loader {
+class AMapLoader extends Loader {
   constructor(options) {
     super(options);
     this.key = '';
     this.version = '';
-    this.subway = null;
+    this.plugins = [];
+    this.AMap = null;
     this.readyState = this.CREATED;
     this[SymbolLoad] = null;
   }
@@ -25,7 +26,8 @@ class SubwayLoader extends Loader {
   getDefaultOpts() {
     return {
       key: '',
-      version: '1.0',
+      version: '1.4.15',
+      plugins: [],
     };
   }
 
@@ -33,11 +35,21 @@ class SubwayLoader extends Loader {
     if (this[SymbolLoad]) return this[SymbolLoad];
     this.readyState = this.LOADING;
     this[SymbolLoad] = new Promise((resolve, reject) => {
-      const { key, version } = this.options;
-      const callbackName = '__onSubwayLoaded' + count++;
+      const callbackName = '__onAMapLoaded' + count++;
+
+      const { key, version, plugins } = this.options;
+
+      const newPlugins = [];
+      for (var i = 0; i < plugins.length; i += 1) {
+        if (this.plugins.indexOf(plugins[i]) == -1) {
+          newPlugins.push(plugins[i]);
+        }
+      }
 
       const script = new ScriptLoader(
-        `https://webapi.amap.com/subway?key=${key}&v=${version}&callback=${callbackName}`,
+        `https://webapi.amap.com/maps?key=${key}&v=${version}&plugin=${newPlugins.join(
+          ',',
+        )}&callback=${callbackName}`,
       );
 
       const onScriptLoad = () => {
@@ -45,7 +57,8 @@ class SubwayLoader extends Loader {
         this.readyState = this.LOADED;
         this.key = key;
         this.version = version;
-        this.subway = window.subway;
+        this.plugins = this.plugins.concat(newPlugins);
+        this.AMap = window.AMap;
         this.readyState = this.MOUNTED;
         resolve(this);
       };
@@ -63,12 +76,34 @@ class SubwayLoader extends Loader {
 
     return this[SymbolLoad];
   }
+
+  loadPlugin(plugins = []) {
+    return new Promise((resolve, reject) => {
+      if (!this.AMap) return reject('请先加载AMap.');
+
+      const newPlugins = [];
+      for (var i = 0; i < plugins.length; i += 1) {
+        if (this.plugins.indexOf(plugins[i]) == -1) {
+          newPlugins.push(plugins[i]);
+        }
+      }
+
+      if (newPlugins.length) {
+        this.AMap.plugin(newPlugins, () => {
+          this.plugins = this.plugins.concat(newPlugins);
+          resolve(this);
+        });
+      } else {
+        resolve(this);
+      }
+    });
+  }
 }
 
 /**
  * 添加ReadyState
  */
-LoaderUtil.registerReadyState(SubwayLoader, {
+LoaderUtil.registerReadyState(AMapLoader, {
   CREATED: 'created',
   LOADING: 'loading',
   LOADED: 'loaded',
@@ -76,4 +111,4 @@ LoaderUtil.registerReadyState(SubwayLoader, {
   MOUNTED: 'mounted',
 });
 
-export default SubwayLoader;
+export default AMapLoader;
