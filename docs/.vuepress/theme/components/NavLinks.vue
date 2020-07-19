@@ -37,8 +37,9 @@
 import DropdownLink from '@theme/components/DropdownLink.vue'
 import { resolveNavLinkItem } from '../util'
 import NavLink from '@theme/components/NavLink.vue'
-import { version } from '../../../../src';
-console.log(version);
+import { version } from 'main/index.js';
+
+const isProd = process.env.NODE_ENV === 'production';
 
 export default {
   name: 'NavLinks',
@@ -57,7 +58,19 @@ export default {
 
   computed: {
     userNav () {
-      return this.$themeLocaleConfig.nav || this.$site.themeConfig.nav || []
+      const userNav = this.$themeLocaleConfig.nav || this.$site.themeConfig.nav || [];
+
+      const mirrorIndex = userNav.findIndex(nav => nav.text === "国内镜像");
+      if (mirrorIndex > -1) {
+        const nav = userNav[mirrorIndex];
+        const reg = /^http(s)?:\/\/(.*?)\//
+        const host = reg.exec(nav.link)[2];
+        if (typeof location !== "undefined" && location.host === host) {
+          userNav.splice(mirrorIndex, 1);
+        }
+      }
+
+      return [...userNav, ...this.versions];
     },
 
     nav () {
@@ -87,9 +100,10 @@ export default {
             return { text, link }
           })
         }
-        return [...this.userNav, ...this.versions, languageDropdown]
+
+        return [...this.userNav, languageDropdown]
       }
-      return [...this.userNav, ...this.versions]
+      return [...this.userNav]
     },
 
     userLinks () {
@@ -142,7 +156,12 @@ export default {
         }, { text: version, items: [], type: 'links' })];
       }
     };
-    xhr.open('GET', '/amap-js/versions.json');
+
+    if (isProd) {
+      xhr.open('GET', '/amap-js/versions.json');
+    } else {
+      xhr.open('GET', '/versions.json');
+    }
     xhr.send();
   }
 }

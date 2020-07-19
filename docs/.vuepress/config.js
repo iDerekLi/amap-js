@@ -30,6 +30,7 @@ module.exports = {
     nav: [
       { text: '教程', link: '/guide/' },
       { text: '高德地图开发平台', link: 'https://lbs.amap.com/' },
+      { text: '国内镜像', link: 'https://derekli.gitee.io/amap-js/' },
       { text: 'Github', link: 'https://github.com/iDerekLi/amap-js' },
     ],
     // 侧边栏
