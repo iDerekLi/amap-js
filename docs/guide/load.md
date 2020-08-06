@@ -1,10 +1,23 @@
-# load
+---
+title: load
+---
 
-加载Loader
+# AMapJS.load(loaders, queue)
 
-## 基础用法
+- 参数：
+    - `{ Array } loaders`
+    - `{ boolean } queue`
+- 返回值：Promise<[loader.load()]>
+- 用法：
 
-AMapJS.load 同时加载多个 loader，不需要手动逐一调用 `loader.load` 方法，如果传入一个loader那么它会自动加载 `loader.load`, 否则必须是 `Promise`。
+加载多个 loader，不需要手动逐一调用 `loader.load` 方法，如果传入一个loader那么它会自动加载 `loader.load`, 否则必须是 `Promise`。
+第一个参数传递loader列表, 第二个参数传递是否启动队列加载(默认值 `true`) 当设置 `true` 从前到后依次加载并按传递顺序返回接轨，当设置 `false` 同是加载并按传递顺序返回结果
+
+:::warning
+AMapJS.load (v2.1.0之前仅支持同时加载)。
+:::
+
+- 示例
 
 ```javascript
 const amapLoader = $AMapLoader
@@ -12,15 +25,14 @@ const amapuiLoader = $AMapUILoader
 
 AMapJS.load([amapLoader, amapuiLoader])
   .then(([amapLoader, amapuiLoader]) => {
-    amapuiLoader.initAMapUI();
     // 其他逻辑
   })
    .catch(e => {});
 ```
 
-示例
+## 基础用法
 
-:::demo AMapJS.load 同时加载多个 loader。
+:::demo AMapJS.load 加载多个 loader。
 
 ```html
 <div id="map" style="height: 300px;"></div>
@@ -31,10 +43,11 @@ const amapLoader = $AMapLoader
 const amapuiLoader = $AMapUILoader
 
 async function entry() {
+  // load 方法从前到后依次加载
+  // 由于 AMapUI 依赖 AMap，所以 amapLoader 放置在 amapuiLoader 前面
   await AMapJS.load([amapLoader, amapuiLoader]);
 
   // 其他逻辑
-  amapuiLoader.initAMapUI(); // 初始化AMapUI
   const [ SimpleMarker ] = await amapuiLoader.loadUI(['overlay/SimpleMarker']);
   const map = new AMap.Map('map', { zoom: 4 });
   //创建SimpleMarker实例
@@ -50,25 +63,3 @@ entry();
 </script>
 ```
 :::
-
-## API
-
-### Constructor
-
-| 构造函数 | 说明 |
-| :------ | :------ |
-| AMapUILoader(options: <[options](#options)>) | 构造一个高德地图UI组件库加载器 |
-
-### Options
-
-| 参数 | 说明 | 类型 | 默认值 |
-| :------ | :------ | :------ | :------ |
-| version | UI组件库版本号 | String | 1.0 | 
-
-### Methods
-
-| 方法名 | 说明 | 参数 | 返回值 |
-| :------ | :------ | :------ | :------ |
-| load | 加载高德地图UI组件库 | - | Promise |
-| loadUI | (推荐)加载 UI组件库 提供的特定UI模块，使用前确保 UI组件库 加载完成 | Array | Promise |
-| loadModule | 加载 UI组件库 提供的众多的模块，使用前确保 UI组件库 加载完成 | Array | Promise |

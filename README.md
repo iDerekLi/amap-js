@@ -42,8 +42,11 @@ yarn add amap-js
 
 ```javascript
 import AMapJS from 'amap-js';
+// or
+// import { AMapLoader, AMapUILoader, LocaLoader, ... } from 'amap-js';
 
-// 创建AMapJSAPI Loader
+
+// 创建AMapLoader
 const loader = new AMapJS.AMapLoader({
   key: '您申请的高德Key值',
   version: '1.4.15',
@@ -53,11 +56,11 @@ const loader = new AMapJS.AMapLoader({
 // 调用 load 方法完成加载并调用执行回调。
 loader.load()
   .then(({ AMap }) => {
-    // 请求成功
+    // 加载完成
     console.log(AMap);
   })
   .catch(e => {
-    // 请求失败
+    // 加载失败
   });
 ```
 

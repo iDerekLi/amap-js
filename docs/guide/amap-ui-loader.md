@@ -17,7 +17,7 @@ const amapuiLoader = $AMapUILoader
 async function entry() {
   await amapLoader.load();
   await amapuiLoader.load();
-  amapuiLoader.initAMapUI(); // 初始化AMapUI
+
   //引入SimpleMarker，loadUI的路径参数为模块名中 'ui/' 之后的部分
   const [ SimpleMarker ] = await amapuiLoader.loadUI(['overlay/SimpleMarker']);
 
@@ -83,6 +83,7 @@ const loader = AMapUILoader.loadModule(['lib/$', 'ui/overlay/SimpleMarker'])
 | 参数 | 说明 | 类型 | 默认值 |
 | :------ | :------ | :------ | :------ |
 | version | UI组件库版本号 | String | [1.0](https://lbs.amap.com/api/amap-ui/changelog) | 
+| async | 异步安装UI组件库API，(如果使用异步版本需加载成功后调用 `loader.initAMapUI()` 方法) | String | false | 
 
 ### Methods
 
