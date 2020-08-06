@@ -7,12 +7,14 @@ const AMapLoader = `
 new AMapJS.AMapLoader({
   key: '${AMapKey}',
   version: '${AMapVersion}',
-  plugins: [],
+  plugins: []
 });
 `.trim();
 
 const AMapUILoader = `
-new AMapJS.AMapUILoader({ version: '1.0' });
+new AMapJS.AMapUILoader({
+  version: '1.0'
+});
 `.trim();
 
 const LocaLoader = `

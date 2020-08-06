@@ -21,6 +21,7 @@ class AMapUILoader extends Loader {
   getDefaultOpts() {
     return {
       version: '1.0',
+      async: false,
     };
   }
 
@@ -28,19 +29,28 @@ class AMapUILoader extends Loader {
     if (this[SymbolLoad]) return this[SymbolLoad];
     this.readyState = this.LOADING;
     this[SymbolLoad] = new Promise((resolve, reject) => {
-      const { version } = this.options;
+      const { version, async } = this.options;
 
-      const script = new ScriptLoader(`https://webapi.amap.com/ui/${version}/main-async.js`);
+      const script = new ScriptLoader(
+        `https://webapi.amap.com/ui/${version}/main${async ? '-async' : ''}.js`,
+      );
 
       const onScriptLoad = () => {
         this.readyState = this.LOADED;
-        this.initAMapUI = () => {
+        if (async) {
+          this.initAMapUI = () => {
+            this.initAMapUI = noop;
+            window.initAMapUI();
+            this.version = version;
+            this.AMapUI = window.AMapUI;
+            this.readyState = this.MOUNTED;
+          };
+        } else {
           this.initAMapUI = noop;
-          window.initAMapUI();
           this.version = version;
           this.AMapUI = window.AMapUI;
           this.readyState = this.MOUNTED;
-        };
+        }
         resolve(this);
       };
 
