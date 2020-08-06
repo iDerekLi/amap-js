@@ -1,6 +1,6 @@
 {
   "name": "amap-js",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "AMap高德地图API加载器。",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -32,10 +32,11 @@
     "loader",
     "map",
     "gis",
-    "高德地图"
+    "高德",
+    "地图"
   ],
   "author": "Derek Li",
-  "homepage": "https://github.com/iDerekLi/amap-js#readme",
+  "homepage": "https://iderekli.github.io/amap-js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iDerekLi/amap-js.git"
