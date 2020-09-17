@@ -1,12 +1,13 @@
 # build version
 VERSION='2.1'
+REPO='/amap-js/'
 
 mkdir temp_web
 
 # build dev site
 # vuepress build docs
-cross-env v='*' vuepress build docs
-cross-env v=$VERSION vuepress build docs
+cross-env repo=$REPO v='*' vuepress build docs
+cross-env repo=$REPO v=$VERSION vuepress build docs
 
 cd temp_web
 git clone --depth 1 -b gh-pages --single-branch https://github.com/iDerekLi/amap-js.git && cd amap-js

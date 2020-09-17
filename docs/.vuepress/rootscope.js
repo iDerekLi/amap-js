@@ -1,5 +1,6 @@
 const AMapKey = '您申请的Key值';
 const AMapVersion = '1.4.15';
+const AMapUIVersion = '1.1';
 const LocaVersion = '1.3.2';
 const SubwayVersion = '1.0';
 
@@ -13,7 +14,7 @@ new AMapJS.AMapLoader({
 
 const AMapUILoader = `
 new AMapJS.AMapUILoader({
-  version: '1.0'
+  version: '${AMapUIVersion}'
 });
 `.trim();
 

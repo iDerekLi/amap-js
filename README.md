@@ -1,6 +1,6 @@
 <h1 align="center">AMapJS</h1>
 
-<p align="center">基于AMap高德地图构建的API加载器</p>
+<p align="center">基于AMap高德地图构建的API加载器。</p>
 
 [![Build Status](https://travis-ci.org/iDerekLi/amap-js.svg?branch=master)](https://travis-ci.org/iDerekLi/amap-js)
 [![npm version](https://img.shields.io/npm/v/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
@@ -13,14 +13,13 @@
   💡 <a href="https://derekli.gitee.io/amap-js">国内镜像文档</a>
 </p>
 
-## 特征
-- 支持 NPM 和 UMD 两种方式使用
-- 支持指定 API 版本
-- 支持按需引入
-- 支持插件模块加载
-- 支持 Promise
-- 支持 Loader 队列加载
-- 允许多次执行加载操作，网络资源不会重复请求
+## 特性
+- 开箱即用的高质量 Loader。
+- 友好指定 API 版本。
+- 支持按需引入。
+- 支持插件模块加载。
+- 可以 Loader 队列加载。
+- 允许多次执行加载操作，网络资源不会重复请求。
 
 ## 安装
 
@@ -43,7 +42,7 @@ import AMapJS from 'amap-js';
 // 创建AMapLoader
 const loader = new AMapJS.AMapLoader({
   key: '您申请的高德Key值',
-  version: '1.4.15',
+  version: '2.0',
   plugins: [],
 });
 

@@ -16,10 +16,9 @@ export function noop() {}
  * Set object property value to read-only
  */
 export function readonly(target, prop, value = target[prop]) {
-  Object.defineProperty &&
-    Object.defineProperty(target, prop, {
-      configurable: false,
-      writable: false,
-      value: value,
-    });
+  Object.defineProperty(target, prop, {
+    configurable: false,
+    writable: false,
+    value: value,
+  });
 }

@@ -9,7 +9,7 @@ AMap JSAPI 加载器。
 ```html
 <div id="map" style="height: 300px;"></div>
 <script>
-// 创建AMapJSAPI Loader
+// 创建AMap Loader
 const loader = $AMapLoader
   
 loader.load()
