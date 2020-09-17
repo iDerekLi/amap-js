@@ -82,7 +82,7 @@ const loader = AMapUILoader.loadModule(['lib/$', 'ui/overlay/SimpleMarker'])
 
 | 参数 | 说明 | 类型 | 默认值 |
 | :------ | :------ | :------ | :------ |
-| version | UI组件库版本号 | String | [1.0](https://lbs.amap.com/api/amap-ui/changelog) | 
+| version | UI组件库版本号 | String | [1.1](https://lbs.amap.com/api/amap-ui/changelog) | 
 | async | 异步安装UI组件库API，(如果使用异步版本需加载成功后调用 `loader.initAMapUI()` 方法) | String | false | 
 
 ### Methods
