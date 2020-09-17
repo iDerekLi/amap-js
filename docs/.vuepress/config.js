@@ -1,7 +1,8 @@
 const path = require('path');
 const isProd = process.env.NODE_ENV === 'production';
 
-const version = process.env.v;
+const version = process.env.v || '*';
+const repo = process.env.repo || '/';
 
 const baseConfig = {
   dev: {
@@ -10,11 +11,11 @@ const baseConfig = {
   },
   prod: {
     [version]: {
-      base: `/amap-js/${version}/`,
+      base: `${repo}${version}/`,
       dest: `docs/.vuepress/dist/amap-js_version`,
     },
     '*': {
-      base: '/amap-js/',
+      base: `${repo}`,
       dest: 'docs/.vuepress/dist/amap-js',
     },
   },
@@ -23,7 +24,7 @@ const baseConfig = {
 module.exports = {
   ...(isProd ? baseConfig.prod[version] : baseConfig.dev),
   title: 'AMapJS',
-  description: 'AMapJS, AMap高德地图API加载器。帮助开发者快速加载高德地图相关API，在模块化应用、异步编程中使用API更加灵活便捷。',
+  description: 'AMapJS, 基于AMap高德地图构建的API加载器。',
   themeConfig: {
     // 导航栏
     navbar: true,
@@ -43,7 +44,7 @@ module.exports = {
           title: '指南',
           collapsable: false,
           sidebarDepth: 0,
-          children: ['', 'install', 'quickstart'],
+          children: ['', 'install', 'quickstart', 'changelog'],
         },
         {
           title: '文档',
@@ -65,7 +66,7 @@ module.exports = {
               collapsable: false,
               sidebarDepth: 0,
             },
-            'load',
+            'load-queue',
           ],
         },
       ],
