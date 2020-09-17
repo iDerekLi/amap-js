@@ -20,8 +20,9 @@ class AMapUILoader extends Loader {
 
   getDefaultOpts() {
     return {
-      version: '1.0',
+      version: '1.1',
       async: false,
+      plugins: [],
     };
   }
 
@@ -65,6 +66,8 @@ class AMapUILoader extends Loader {
 
     return this[SymbolLoad];
   }
+
+  loadPlugin() {}
 
   loadUI(unames = []) {
     return new Promise((resolve, reject) => {
