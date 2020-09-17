@@ -72,8 +72,10 @@ class LoadQueue {
   }
 
   getItem(id) {
-    const item = this.result && this.result[id];
-    return item ? item : null;
+    if (this.result) {
+      return this.result[id];
+    }
+    return null;
   }
 
   getResult() {
