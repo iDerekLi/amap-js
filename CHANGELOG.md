@@ -6,11 +6,6 @@
 
 - 💄 更新 AMapLoader 默认版本号。
 - 💄 更新 AMapUILoader 默认版本号。
-
-### 兼容性调整
-- 🌟 移除不再使用的 polyfill。
-
-### 调整的 API
 - 移除 load 方法，请使用 `LoadQueue` 替代。
 
 ## 2.1.1
