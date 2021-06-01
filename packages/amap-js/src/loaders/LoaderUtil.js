@@ -10,5 +10,12 @@ export default {
       readonly(target.prototype, prop);
     }
     return true;
+  },
+  parseTemplate(src, params) {
+    return src
+      ? src.replace(/\$([A-Za-z0-9_]+)/g, (match, key) =>
+          undefined === params[key] ? match : params[key]
+        )
+      : "";
   }
 };
