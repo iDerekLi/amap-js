@@ -14,64 +14,62 @@ let count = 0;
  */
 class AMapLoader extends Loader {
   constructor(options) {
-    super(options);
-    this.key = "";
-    this.version = "";
-    this.plugins = [];
+    super();
+    this.key = options.key || "";
+    this.version = options.version || "1.4.15";
+    this.plugins = options.plugins || [];
+    this.callback = options.callback || "__onAMapLoaded" + count++;
     this.AMap = null;
     this.readyState = this.CREATED;
     this[SymbolLoad] = null;
   }
 
-  getDefaultOpts() {
-    return {
-      key: "",
-      version: "1.4.15",
-      plugins: []
-    };
+  getUrl() {
+    // 目前官方设计 `callback` 并不是必须的，如果自定义url无 `callback`，请设置 this.callback = ""; 避免加载时出现引用问题。
+    return LoaderUtil.parseTemplate(
+      "https://webapi.amap.com/maps?key=$key&v=$version&plugin=$plugins&callback=$callback",
+      {
+        key: this.key,
+        version: this.version,
+        plugins: this.plugins.join(","),
+        callback: this.callback
+      }
+    );
   }
 
   load() {
     if (this[SymbolLoad]) return this[SymbolLoad];
     this.readyState = this.LOADING;
     this[SymbolLoad] = new Promise((resolve, reject) => {
-      const callbackName = "__onAMapLoaded" + count++;
+      const url = this.getUrl();
+      const callback = this.callback;
 
-      const { key, version, plugins } = this.options;
-
-      const newPlugins = [];
-      for (let i = 0; i < plugins.length; i += 1) {
-        if (this.plugins.indexOf(plugins[i]) === -1) {
-          newPlugins.push(plugins[i]);
-        }
-      }
-
-      const script = new ScriptLoader(
-        `https://webapi.amap.com/maps?key=${key}&v=${version}&plugin=${newPlugins.join(
-          ","
-        )}&callback=${callbackName}`
-      );
+      const script = new ScriptLoader(url);
 
       const onScriptLoad = () => {
-        delete window[callbackName];
-        this.readyState = this.LOADED;
-        this.key = key;
-        this.version = version;
-        this.plugins = this.plugins.concat(newPlugins);
+        if (callback && callback !== "") {
+          delete window[callback];
+        }
         this.AMap = window.AMap;
-        this.readyState = this.MOUNTED;
+        this.readyState = this.LOADED;
         resolve(this);
       };
 
       const onScriptError = event => {
-        delete window[callbackName];
+        if (callback && callback !== "") {
+          delete window[callback];
+        }
         this[SymbolLoad] = null;
         this.readyState = this.FAILED;
         reject(event);
       };
 
-      window[callbackName] = onScriptLoad;
-      script.load().catch(onScriptError);
+      if (callback && callback !== "") {
+        window[callback] = onScriptLoad;
+        script.load().catch(onScriptError);
+      } else {
+        script.load().then(onScriptLoad).catch(onScriptError);
+      }
     });
 
     return this[SymbolLoad];
@@ -107,8 +105,7 @@ LoaderUtil.registerReadyState(AMapLoader, {
   CREATED: "created",
   LOADING: "loading",
   LOADED: "loaded",
-  FAILED: "failed",
-  MOUNTED: "mounted"
+  FAILED: "failed"
 });
 
 export default AMapLoader;
