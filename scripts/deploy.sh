@@ -8,7 +8,8 @@ cross-env v=$AMapJSVersion npm run docs:build
 mkdir temp_web
 cd temp_web
 
-git clone --depth 1 -b gh-pages --single-branch https://github.com/iDerekLi/amap-js.git && cd amap-js
+git clone --depth 1 -b gh-pages --single-branch https://github.com/iDerekLi/amap-js.git
+cd amap-js
 
 rm -rf *.html *.js *.css *.map assets guide
 rm -rf $AMapJSVersion/**
