@@ -16,49 +16,57 @@ class SubwayLoader extends Loader {
   constructor(options) {
     super(options);
     this.key = "";
-    this.version = "";
+    this.version = options.version || "1.0";
+    this.callback = options.callback || "__onSubwayLoaded" + count++;
     this.subway = null;
     this.readyState = this.CREATED;
     this[SymbolLoad] = null;
   }
 
-  getDefaultOpts() {
-    return {
-      key: "",
-      version: "1.0"
-    };
+  getUrl() {
+    return LoaderUtil.parseTemplate(
+      `https://webapi.amap.com/subway?key=$key&v=$version&callback=$callback`,
+      {
+        key: this.key,
+        version: this.version,
+        callback: this.callback
+      }
+    );
   }
 
   load() {
     if (this[SymbolLoad]) return this[SymbolLoad];
     this.readyState = this.LOADING;
     this[SymbolLoad] = new Promise((resolve, reject) => {
-      const { key, version } = this.options;
-      const callbackName = "__onSubwayLoaded" + count++;
+      const url = this.getUrl();
+      const callback = this.callback;
 
-      const script = new ScriptLoader(
-        `https://webapi.amap.com/subway?key=${key}&v=${version}&callback=${callbackName}`
-      );
+      const script = new ScriptLoader(url);
 
       const onScriptLoad = () => {
-        delete window[callbackName];
-        this.readyState = this.LOADED;
-        this.key = key;
-        this.version = version;
+        if (callback && callback !== "") {
+          delete window[callback];
+        }
         this.subway = window.subway;
-        this.readyState = this.MOUNTED;
+        this.readyState = this.LOADED;
         resolve(this);
       };
 
       const onScriptError = event => {
-        delete window[callbackName];
+        if (callback && callback !== "") {
+          delete window[callback];
+        }
         this[SymbolLoad] = null;
         this.readyState = this.FAILED;
         reject(event);
       };
 
-      window[callbackName] = onScriptLoad;
-      script.load().catch(onScriptError);
+      if (callback && callback !== "") {
+        window[callback] = onScriptLoad;
+        script.load().catch(onScriptError);
+      } else {
+        script.load().then(onScriptLoad).catch(onScriptError);
+      }
     });
 
     return this[SymbolLoad];
@@ -72,8 +80,7 @@ LoaderUtil.registerReadyState(SubwayLoader, {
   CREATED: "created",
   LOADING: "loading",
   LOADED: "loaded",
-  FAILED: "failed",
-  MOUNTED: "mounted"
+  FAILED: "failed"
 });
 
 export default SubwayLoader;

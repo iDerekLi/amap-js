@@ -10,31 +10,30 @@ const SymbolLoad = Symbol("Symbol.load");
  */
 class AMapUILoader extends Loader {
   constructor(options) {
-    super(options);
-    this.version = "";
+    super();
+    this.version = options.version || "1.1";
+    this.async = options.async || false;
     this.initAMapUI = noop;
     this.AMapUI = null;
     this.readyState = this.CREATED;
     this[SymbolLoad] = null;
   }
 
-  getDefaultOpts() {
-    return {
-      version: "1.1",
-      async: false,
-      plugins: []
-    };
+  getUrl() {
+    return LoaderUtil.parseTemplate(`https://webapi.amap.com/ui/$version/$main`, {
+      version: this.version,
+      main: this.async ? "main-async.js" : "main.js"
+    });
   }
 
   load() {
     if (this[SymbolLoad]) return this[SymbolLoad];
     this.readyState = this.LOADING;
     this[SymbolLoad] = new Promise((resolve, reject) => {
-      const { version, async } = this.options;
+      const url = this.getUrl();
+      const async = this.async;
 
-      const script = new ScriptLoader(
-        `https://webapi.amap.com/ui/${version}/main${async ? "-async" : ""}.js`
-      );
+      const script = new ScriptLoader(url);
 
       const onScriptLoad = () => {
         this.readyState = this.LOADED;
@@ -42,13 +41,11 @@ class AMapUILoader extends Loader {
           this.initAMapUI = () => {
             this.initAMapUI = noop;
             window.initAMapUI();
-            this.version = version;
             this.AMapUI = window.AMapUI;
             this.readyState = this.MOUNTED;
           };
         } else {
           this.initAMapUI = noop;
-          this.version = version;
           this.AMapUI = window.AMapUI;
           this.readyState = this.MOUNTED;
         }
@@ -66,8 +63,6 @@ class AMapUILoader extends Loader {
 
     return this[SymbolLoad];
   }
-
-  loadPlugin() {}
 
   loadUI(unames = []) {
     return new Promise((resolve, reject) => {

@@ -8,16 +8,10 @@ const SymbolLoad = Symbol("Symbol.load");
  */
 class ScriptLoader extends Loader {
   constructor(url) {
-    super({ url });
-    this.url = this.options.url;
+    super();
+    this.url = url || "";
     this.readyState = this.CREATED;
     this[SymbolLoad] = null;
-  }
-
-  getDefaultOpts() {
-    return {
-      url: ""
-    };
   }
 
   load() {

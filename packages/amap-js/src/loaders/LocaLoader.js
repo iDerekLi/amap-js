@@ -9,36 +9,33 @@ const SymbolLoad = Symbol("Symbol.load");
  */
 class LocaLoader extends Loader {
   constructor(options) {
-    super(options);
-    this.key = "";
-    this.version = "";
+    super();
+    this.key = options.key || "";
+    this.version = options.version || "1.3.2";
     this.Loca = null;
     this.readyState = this.CREATED;
     this[SymbolLoad] = null;
   }
 
-  getDefaultOpts() {
-    return {
-      key: "",
-      version: "1.3.2"
-    };
+  getUrl() {
+    return LoaderUtil.parseTemplate(`https://webapi.amap.com/loca?key=$key&v=$version`, {
+      key: this.key,
+      version: this.version
+    });
   }
 
   load() {
     if (this[SymbolLoad]) return this[SymbolLoad];
     this.readyState = this.LOADING;
     this[SymbolLoad] = new Promise((resolve, reject) => {
-      const { key, version } = this.options;
+      const url = this.getUrl();
 
-      const script = new ScriptLoader(`https://webapi.amap.com/loca?key=${key}&v=${version}`);
+      const script = new ScriptLoader(url);
 
       const onScriptLoad = () => {
         if (!window.Loca) return reject(new Error("请检查当前Loca API是否可用！"));
-        this.readyState = this.LOADED;
-        this.key = key;
-        this.version = version;
         this.Loca = window.Loca;
-        this.readyState = this.MOUNTED;
+        this.readyState = this.LOADED;
         resolve(this);
       };
 
@@ -62,8 +59,7 @@ LoaderUtil.registerReadyState(LocaLoader, {
   CREATED: "created",
   LOADING: "loading",
   LOADED: "loaded",
-  FAILED: "failed",
-  MOUNTED: "mounted"
+  FAILED: "failed"
 });
 
 export default LocaLoader;
