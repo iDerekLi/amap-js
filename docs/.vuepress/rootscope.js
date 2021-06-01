@@ -35,6 +35,7 @@ new AMapJS.SubwayLoader({
 module.exports = {
   pre: {
     AMapVersion,
+    AMapUIVersion,
     AMapKey,
     AMapLoader,
     AMapUILoader,
@@ -43,6 +44,7 @@ module.exports = {
   },
   source: {
     AMapVersion,
+    AMapUIVersion,
     AMapKey: "494c7b315d60937fb6d3b7102a9cb4c3",
     AMapLoader: "window.$AMapLoader",
     AMapUILoader: "window.$AMapUILoader",

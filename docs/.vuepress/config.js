@@ -69,6 +69,7 @@ module.exports = {
               collapsable: false,
               sidebarDepth: 0
             },
+            "custom-loader",
             "load-queue"
           ]
         }
