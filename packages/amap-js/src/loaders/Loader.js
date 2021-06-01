@@ -1,21 +1,11 @@
-import deepMerge from "../util/deepMerge";
-
 /**
- * Loader 加载器
+ * Loader
  */
 
 class Loader {
-  constructor(options) {
-    this.options = deepMerge(this.getDefaultOpts(), options);
-  }
+  // constructor() {}
 
-  getDefaultOpts() {
-    return {};
-  }
-
-  load() {
-    return Promise.resolve(this);
-  }
+  async load() {}
 }
 
 export default Loader;
