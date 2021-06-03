@@ -4,39 +4,39 @@ on:
     branches:
       - dev
 env:
-  GLOBAL_ENV: globalenv
+#  GLOBAL_ENV: globalenv
 jobs:
-  demo-actions:
-    runs-on: ubuntu-latest
-    env:
-      JOB_ENV: jobenv
-    steps:
-      - name: Outputs
-        run: |
-          echo "===== [Runner] ====="
-          echo "os: ${{ runner.os }}"
-          echo "===== [GitHub] ====="
-          echo "event_name: ${{ github.event_name }}"
-          echo "ref: ${{ github.ref }}"
-          echo "repository: ${{ github.repository }}"
-          echo "workspace: ${{ github.workspace }}"
-          echo "===== [Job] ====="
-          echo "status: ${{ job.status }}"
-          echo "===== [Secrets] ====="
-          echo "var git.user.name: ${{ secrets.GIT_USER_NAME }}"
-          echo "===== [Env] ====="
-          echo "global: ${{ env.GLOBAL_ENV }}"
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - id: foo
-        uses: ./.github/actions/hello-action1
-        with:
-          who-to-greet: 'HEllO'
-      - run: echo random-number ${{ steps.foo.outputs.random-number }}
-        shell: bash
+#  demo-actions:
+#    runs-on: ubuntu-latest
+#    env:
+#      JOB_ENV: jobenv
+#    steps:
+#      - name: Outputs
+#        run: |
+#          echo "===== [Runner] ====="
+#          echo "os: ${{ runner.os }}"
+#          echo "===== [GitHub] ====="
+#          echo "event_name: ${{ github.event_name }}"
+#          echo "ref: ${{ github.ref }}"
+#          echo "repository: ${{ github.repository }}"
+#          echo "workspace: ${{ github.workspace }}"
+#          echo "===== [Job] ====="
+#          echo "status: ${{ job.status }}"
+#          echo "===== [Secrets] ====="
+#          echo "var git.user.name: ${{ secrets.GIT_USER_NAME }}"
+#          echo "===== [Env] ====="
+#          echo "global: ${{ env.GLOBAL_ENV }}"
+#      - name: Check out repository code
+#        uses: actions/checkout@v2
+#      - name: List files in the repository
+#        run: |
+#          ls ${{ github.workspace }}
+#      - id: foo
+#        uses: ./.github/actions/hello-action1
+#        with:
+#          who-to-greet: 'HEllO'
+#      - run: echo random-number ${{ steps.foo.outputs.random-number }}
+#        shell: bash
   release:
     runs-on: ubuntu-latest
     steps:
