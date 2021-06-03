@@ -1,0 +1,49 @@
+name: 'Deploy Docs'
+description: 'Build the docs and deploy to git-pages'
+inputs:
+  version:  # id of input
+    description: 'amap-js docs version'
+    required: true
+    default: 'v2'
+runs:
+  using: "composite"
+  steps:
+    - name: Build Docs
+      run: |
+        cross-env yarn docs:build
+        cross-env v=${{ inputs.version }} docs:build
+      shell: bash
+    - name: Pull remote code
+      run: |
+        mkdir temp_web
+        cd temp_web
+        git clone --depth 1 -b gh-pages --single-branch https://github.com/iDerekLi/amap-js.git
+        cd amap-js
+      shell: bash
+    - name: Merge code
+      run: |
+        rm -rf *.html *.js *.css *.map assets guide
+        rm -rf ${{ inputs.version }}/**
+        cp -rf ../../docs/.vuepress/dist/last/** .
+        mkdir ${{ inputs.version }}
+        cp -rf  ../../docs/.vuepress/dist/${{ inputs.version }}/** ${{ inputs.version }}/
+      shell: bash
+    - name: Push origin
+      run: |
+        if [ -n "$(git status -s)" ];then
+          git add -A .
+          git commit -m "deploy"
+          git push origin gh-pages
+        else
+          echo "nothing to commit, working tree clean"
+        fi
+      shell: bash
+    - name: Clean Temp
+      run: |
+        cd ../../
+        rm -rf temp_web
+      shell: bash
+    - name: Done
+      run: |
+        echo "DONE, Bye~"
+      shell: bash
