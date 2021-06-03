@@ -6,12 +6,12 @@
     "docs"
   ],
   "scripts": {
-    "docs:dev": "cd ./docs && yarn dev",
-    "docs:build": "cd ./docs && yarn build",
+    "docs:dev": "yarn workspace docs dev",
+    "docs:build": "yarn workspace docs build",
     "docs:deploy": "sh ./scripts/deploy.sh",
-    "amap-js:dev": "cd ./packages/amap-js && yarn dev",
-    "amap-js:build": "cd ./packages/amap-js && yarn build",
-    "amap-js:lint": "cd ./packages/amap-js && yarn lint",
+    "amap-js:dev": "yarn workspace amap-js dev",
+    "amap-js:build": "yarn workspace amap-js build",
+    "amap-js:lint": "yarn workspace amap-js lint",
     "lint": "yarn amap-js:lint"
   },
   "repository": "git@github.com:iDerekLi/amap-js.git",
@@ -30,7 +30,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^6.0.0",
-    "lerna": "^4.0.0",
     "lint-staged": "^11.0.0",
     "markdown-eslint-parser": "^1.2.1",
     "prettier": "^2.3.0",
@@ -41,6 +40,5 @@
   },
   "lint-staged": {
     "*.{js,vue}": "eslint --fix"
-  },
-  "version": "0.0.0"
+  }
 }
