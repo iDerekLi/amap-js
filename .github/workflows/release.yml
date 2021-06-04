@@ -48,9 +48,11 @@ jobs:
         run: |
           git config user.name "Derek Li"
           git config user.email "lideyu888@163.com"
-      - name: Build Packages
+      - name: Install
         run: |
           yarn
+      - name: Build Packages
+        run: |
           yarn amap-js:build
       - name: Deploy Docs
         uses: ./.github/actions/deploy-docs

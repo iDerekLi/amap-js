@@ -10,8 +10,8 @@ runs:
   steps:
     - name: Build Docs
       run: |
-        cross-env yarn docs:build
-        cross-env v=${{ inputs.version }} docs:build
+        export v="last" && yarn docs:build
+        export v="${{ inputs.version }}" && yarn docs:build
       shell: bash
     - name: Pull remote code
       run: |
