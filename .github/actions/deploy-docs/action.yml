@@ -19,11 +19,13 @@ runs:
         cd temp_web
         git clone --depth 1 -b gh-pages --single-branch https://github.com/iDerekLi/amap-js.git
         cd amap-js
+        ls
       shell: bash
     - name: Merge code
       run: |
         rm -rf *.html *.js *.css *.map assets guide
         rm -rf ${{ inputs.version }}/**
+        ls
         cp -rf ../../docs/.vuepress/dist/last/** .
         mkdir ${{ inputs.version }}
         cp -rf  ../../docs/.vuepress/dist/${{ inputs.version }}/** ${{ inputs.version }}/
