@@ -2,8 +2,8 @@
 AMapJSVersion="v2"
 
 # build dev site
-cross-env npm run docs:build
-cross-env v=$AMapJSVersion npm run docs:build
+cross-env yarn docs:build
+cross-env v=$AMapJSVersion yarn docs:build
 
 mkdir temp_web
 cd temp_web

@@ -55,9 +55,8 @@ jobs:
         run: |
           yarn amap-js:build
       - name: Deploy Docs
-        uses: ./.github/actions/deploy-docs
-        with:
-          version: "v2"
+        run: |
+          yarn docs:deploy
       - run: ls ${{ github.workspace }}
 #  delpoy:
 #    runs-on: ubuntu-latest
