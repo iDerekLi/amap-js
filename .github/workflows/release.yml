@@ -6,37 +6,6 @@ on:
 #env:
 #  GLOBAL_ENV: globalenv
 jobs:
-#  demo-actions:
-#    runs-on: ubuntu-latest
-#    env:
-#      JOB_ENV: jobenv
-#    steps:
-#      - name: Outputs
-#        run: |
-#          echo "===== [Runner] ====="
-#          echo "os: ${{ runner.os }}"
-#          echo "===== [GitHub] ====="
-#          echo "event_name: ${{ github.event_name }}"
-#          echo "ref: ${{ github.ref }}"
-#          echo "repository: ${{ github.repository }}"
-#          echo "workspace: ${{ github.workspace }}"
-#          echo "===== [Job] ====="
-#          echo "status: ${{ job.status }}"
-#          echo "===== [Secrets] ====="
-#          echo "var git.user.name: ${{ secrets.GIT_USER_NAME }}"
-#          echo "===== [Env] ====="
-#          echo "global: ${{ env.GLOBAL_ENV }}"
-#      - name: Check out repository code
-#        uses: actions/checkout@v2
-#      - name: List files in the repository
-#        run: |
-#          ls ${{ github.workspace }}
-#      - id: foo
-#        uses: ./.github/actions/hello-action1
-#        with:
-#          who-to-greet: 'HEllO'
-#      - run: echo random-number ${{ steps.foo.outputs.random-number }}
-#        shell: bash
   release:
     runs-on: ubuntu-latest
     steps:
@@ -54,34 +23,7 @@ jobs:
       - name: Build Packages
         run: |
           yarn amap-js:build
-      - name: Deploy Docs
+      - name: Build the docs and deploy to git-pages
         run: |
           yarn docs:deploy
       - run: ls ${{ github.workspace }}
-#  delpoy:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout repository code
-#        uses: actions/checkout@v2
-#        with:
-#          ref: "test"
-#      - name: Set committer
-#        run: |
-#          git config user.name "Derek Li"
-#          git config user.email "lideyu888@163.com"
-#      - name: List files start
-#        run: |
-#          ls ${{ github.workspace }}
-#      - run: touch temp_web3.txt
-#      - name: List files end
-#        run: |
-#          ls ${{ github.workspace }}
-#      - name: Push origin
-#        run: |
-#          if [ -n "$(git status -s)" ];then
-#              git add -A .
-#              git commit -m "deploy"
-#              git push origin master
-#          else
-#            echo "nothing to commit, working tree clean"
-#          fi
