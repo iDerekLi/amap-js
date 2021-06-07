@@ -13,15 +13,13 @@ module.exports = {
   coverageDirectory: "./coverage/",
 
   // If the test path matches any of the patterns, it will be skipped.
-  testPathIgnorePatterns: ["<rootDir>/node_modules/"],
+  testPathIgnorePatterns: ["/node_modules/"],
 
   // If the file path matches any of the patterns, coverage information will be skipped.
-  coveragePathIgnorePatterns: ["<rootDir>/node_modules/"],
+  coveragePathIgnorePatterns: ["/node_modules/"],
 
   // The pattern Jest uses to detect test files.
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.jsx?$",
-
-  roots: ["<rootDir>/src/"],
+  testRegex: "(/test/.*|(\\.|/)(test|spec))\\.jsx?$",
 
   // This option sets the URL for the jsdom environment.
   // It is reflected in properties such as location.href.
