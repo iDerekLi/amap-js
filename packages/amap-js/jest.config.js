@@ -7,22 +7,19 @@ module.exports = {
   verbose: false,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: false,
+  collectCoverage: true,
 
   // The directory where Jest should output its coverage files.
   coverageDirectory: "./coverage/",
 
   // If the test path matches any of the patterns, it will be skipped.
-  testPathIgnorePatterns: ["/node_modules/"],
+  testPathIgnorePatterns: ["<rootDir>/node_modules/"],
 
   // If the file path matches any of the patterns, coverage information will be skipped.
-  coveragePathIgnorePatterns: ["/node_modules/"],
+  coveragePathIgnorePatterns: ["<rootDir>/node_modules/"],
 
   // The pattern Jest uses to detect test files.
-  testRegex: "(/test/.*|(\\.|/)(test|spec))\\.jsx?$",
+  testRegex: "((\\.|/)(test|spec))\\.jsx?$",
 
-  // This option sets the URL for the jsdom environment.
-  // It is reflected in properties such as location.href.
-  // @see: https://github.com/facebook/jest/issues/6769
-  testURL: "http://localhost/"
+  roots: ["<rootDir>/src/", "<rootDir>/test/"]
 };
