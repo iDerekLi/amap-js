@@ -2,10 +2,20 @@
 
 <p align="center">基于AMap高德地图构建的API加载器。</p>
 
-[![CI](https://github.com/iDerekLi/amap-js/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iDerekLi/amap-js/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
-[![npm downloads](https://img.shields.io/npm/dm/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
-[![npm license](https://img.shields.io/npm/l/amap-js.svg?style=flat-square)](https://github.com/iderekli/amap-js)
+<p align="center">
+    <a href="https://github.com/iDerekLi/amap-js/actions/workflows/ci.yml">
+      <img alt="GitHub CI" src="https://github.com/iDerekLi/amap-js/actions/workflows/ci.yml/badge.svg?branch=main"/>
+    </a>
+    <a href="https://www.npmjs.com/package/amap-js">
+      <img alt="npm version" src="https://img.shields.io/npm/v/amap-js.svg"/>
+    </a>
+    <a href="https://www.npmjs.com/package/amap-js">
+      <img alt="npm downloads" src="https://img.shields.io/npm/dm/amap-js.svg"/>
+    </a>
+    <a href="https://github.com/iderekli/amap-js">
+      <img alt="npm license" src="https://img.shields.io/npm/l/amap-js.svg"/>
+    </a>
+</p>
 
 <p align="center">
   🔥 <a href="https://iderekli.github.io/amap-js">文档网站</a>
