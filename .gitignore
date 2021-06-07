@@ -3,6 +3,7 @@ node_modules
 dist
 es
 lib
+coverage
 
 # Log files
 npm-debug.log*

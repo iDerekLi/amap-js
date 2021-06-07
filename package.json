@@ -12,6 +12,8 @@
     "amap-js:dev": "yarn workspace amap-js dev",
     "amap-js:build": "yarn workspace amap-js build",
     "amap-js:lint": "yarn workspace amap-js lint",
+    "amap-js:test": "yarn workspace amap-js test",
+    "amap-js:coverage": "yarn workspace amap-js coverage",
     "lint": "yarn amap-js:lint"
   },
   "repository": "git@github.com:iDerekLi/amap-js.git",
