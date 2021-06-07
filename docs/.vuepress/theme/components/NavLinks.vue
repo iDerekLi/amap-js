@@ -1,32 +1,13 @@
 <template>
-  <nav
-    v-if="userLinks.length || repoLink"
-    class="nav-links"
-  >
+  <nav v-if="userLinks.length || repoLink" class="nav-links">
     <!-- user links -->
-    <div
-      v-for="item in userLinks"
-      :key="item.link"
-      class="nav-item"
-    >
-      <DropdownLink
-        v-if="item.type === 'links'"
-        :item="item"
-      />
-      <NavLink
-        v-else
-        :item="item"
-      />
+    <div v-for="item in userLinks" :key="item.link" class="nav-item">
+      <DropdownLink v-if="item.type === 'links'" :item="item" />
+      <NavLink v-else :item="item" />
     </div>
 
     <!-- repo link -->
-    <a
-      v-if="repoLink"
-      :href="repoLink"
-      class="repo-link"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <a v-if="repoLink" :href="repoLink" class="repo-link" target="_blank" rel="noopener noreferrer">
       {{ repoLabel }}
       <OutboundLink />
     </a>
@@ -34,137 +15,113 @@
 </template>
 
 <script>
-import DropdownLink from '@theme/components/DropdownLink.vue'
-import { resolveNavLinkItem } from '../util'
-import NavLink from '@theme/components/NavLink.vue'
-import { version } from 'main/index.js';
-
-const isProd = process.env.NODE_ENV === 'production';
-
+import DropdownLink from "@theme/components/DropdownLink.vue";
+import { resolveNavLinkItem } from "../util";
+import NavLink from "@theme/components/NavLink.vue";
+import { version } from "amap-js";
+const isProd = process.env.NODE_ENV === "production";
 export default {
-  name: 'NavLinks',
-
+  name: "NavLinks",
   components: {
     NavLink,
     DropdownLink
   },
-
   data() {
     return {
       versions: [],
-      version,
+      version
     };
   },
-
   computed: {
-    userNav () {
+    userNav() {
       const userNav = this.$themeLocaleConfig.nav || this.$site.themeConfig.nav || [];
-
-      const mirrorIndex = userNav.findIndex(nav => nav.text === "国内镜像");
-      if (mirrorIndex > -1) {
-        const nav = userNav[mirrorIndex];
-        const reg = /^http(s)?:\/\/(.*?)\//
-        const host = reg.exec(nav.link)[2];
-        if (typeof location !== "undefined" && location.host === host) {
-          userNav.splice(mirrorIndex, 1);
-        }
-      }
-
       return [...userNav, ...this.versions];
     },
-
-    nav () {
-      const { locales } = this.$site
+    nav() {
+      const { locales } = this.$site;
       if (locales && Object.keys(locales).length > 1) {
-        const currentLink = this.$page.path
-        const routes = this.$router.options.routes
-        const themeLocales = this.$site.themeConfig.locales || {}
+        const currentLink = this.$page.path;
+        const routes = this.$router.options.routes;
+        const themeLocales = this.$site.themeConfig.locales || {};
         const languageDropdown = {
-          text: this.$themeLocaleConfig.selectText || 'Languages',
-          ariaLabel: this.$themeLocaleConfig.ariaLabel || 'Select language',
+          text: this.$themeLocaleConfig.selectText || "Languages",
+          ariaLabel: this.$themeLocaleConfig.ariaLabel || "Select language",
           items: Object.keys(locales).map(path => {
-            const locale = locales[path]
-            const text = themeLocales[path] && themeLocales[path].label || locale.lang
-            let link
+            const locale = locales[path];
+            const text = (themeLocales[path] && themeLocales[path].label) || locale.lang;
+            let link;
             // Stay on the current page
             if (locale.lang === this.$lang) {
-              link = currentLink
+              link = currentLink;
             } else {
               // Try to stay on the same page
-              link = currentLink.replace(this.$localeConfig.path, path)
+              link = currentLink.replace(this.$localeConfig.path, path);
               // fallback to homepage
               if (!routes.some(route => route.path === link)) {
-                link = path
+                link = path;
               }
             }
-            return { text, link }
+            return { text, link };
           })
-        }
-
-        return [...this.userNav, languageDropdown]
+        };
+        return [...this.userNav, languageDropdown];
       }
-      return [...this.userNav]
+      return [...this.userNav];
     },
-
-    userLinks () {
+    userLinks() {
       return (this.nav || []).map(link => {
         return Object.assign(resolveNavLinkItem(link), {
           items: (link.items || []).map(resolveNavLinkItem)
-        })
-      })
+        });
+      });
     },
-
-    repoLink () {
-      const { repo } = this.$site.themeConfig
+    repoLink() {
+      const { repo } = this.$site.themeConfig;
       if (repo) {
-        return /^https?:/.test(repo)
-          ? repo
-          : `https://github.com/${repo}`
+        return /^https?:/.test(repo) ? repo : `https://github.com/${repo}`;
       }
-      return null
+      return null;
     },
-
-    repoLabel () {
-      if (!this.repoLink) return
+    repoLabel() {
+      if (!this.repoLink) return;
       if (this.$site.themeConfig.repoLabel) {
-        return this.$site.themeConfig.repoLabel
+        return this.$site.themeConfig.repoLabel;
       }
-
-      const repoHost = this.repoLink.match(/^https?:\/\/[^/]+/)[0]
-      const platforms = ['GitHub', 'GitLab', 'Bitbucket']
+      const repoHost = this.repoLink.match(/^https?:\/\/[^/]+/)[0];
+      const platforms = ["GitHub", "GitLab", "Bitbucket"];
       for (let i = 0; i < platforms.length; i++) {
-        const platform = platforms[i]
-        if (new RegExp(platform, 'i').test(repoHost)) {
-          return platform
+        const platform = platforms[i];
+        if (new RegExp(platform, "i").test(repoHost)) {
+          return platform;
         }
       }
-
-      return 'Source'
+      return "Source";
     }
   },
   mounted() {
+    const repo = isProd ? "/amap-js/" : "/";
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = _ => {
       if (xhr.readyState === 4 && xhr.status === 200) {
         const versions = JSON.parse(xhr.responseText);
-        this.versions = [Object.keys(versions).reduce((prev, next) => {
-          prev.items.push({
-            text: next,
-            link: version === next ? '/' : `/amap-js/${versions[next]}/`
-          });
-          return prev;
-        }, { text: version, items: [], type: 'links' })];
+        this.versions = [
+          Object.keys(versions).reduce(
+            (prev, next) => {
+              prev.items.push({
+                text: next,
+                link: `${location.origin}${repo}${versions[next]}/`
+              });
+              return prev;
+            },
+            { text: version, items: [], type: "links" }
+          )
+        ];
       }
     };
-
-    if (isProd) {
-      xhr.open('GET', '/amap-js/versions.json');
-    } else {
-      xhr.open('GET', '/versions.json');
-    }
+    xhr.open("GET", repo + "versions.json");
     xhr.send();
   }
-}
+};
 </script>
 
 <style lang="stylus">
@@ -184,12 +141,10 @@ export default {
       margin-left 0
   .repo-link
     margin-left 1.5rem
-
 @media (max-width: $MQMobile)
   .nav-links
     .nav-item, .repo-link
       margin-left 0
-
 @media (min-width: $MQMobile)
   .nav-links a
     &:hover, &.router-link-active

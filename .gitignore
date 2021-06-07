@@ -1,5 +1,9 @@
 .DS_Store
 node_modules
+dist
+es
+lib
+coverage
 
 # Log files
 npm-debug.log*
@@ -17,7 +21,3 @@ yarn.lock
 *.sw*
 
 # Build directories
-es
-lib
-docs/.vuepress/dist
-coverage/

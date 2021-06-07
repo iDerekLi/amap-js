@@ -41,7 +41,7 @@ const loader = new AMapJS.AMapLoader({
 loader.load()
   .then(() => {
     // 请求成功
-    console.log(loader.AMap); // => window.AMap === loader.AMap
+    console.log(AMap); // => window.AMap === loader.AMap
   })
   .catch(e => {
     // 请求失败

@@ -1,93 +1,47 @@
 {
   "name": "amap-js",
-  "version": "2.2.0",
-  "description": "AMap高德地图API加载器。",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "typings": "types/index.d.ts",
-  "files": [
-    "es",
-    "lib",
-    "types",
-    "LICENSE",
-    "CHANGELOG.md",
-    "README.md",
-    "package.json"
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "docs"
   ],
   "scripts": {
-    "bootstrap": "yarn || npm i",
-    "dev": "npm run docs:dev",
-    "build": "node build/build-lib.js",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "release": "sh build/release.sh",
-    "deploy": "sh build/deploy.sh",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
-    "test": "jest"
+    "docs:dev": "yarn workspace docs dev",
+    "docs:build": "yarn workspace docs build",
+    "docs:deploy": "sh ./scripts/deploy.sh",
+    "amap-js:dev": "yarn workspace amap-js dev",
+    "amap-js:build": "yarn workspace amap-js build",
+    "amap-js:lint": "yarn workspace amap-js lint",
+    "amap-js:test": "yarn workspace amap-js test",
+    "amap-js:coverage": "yarn workspace amap-js coverage",
+    "lint": "yarn amap-js:lint"
   },
-  "keywords": [
-    "amap",
-    "jsapi",
-    "sdk",
-    "loader",
-    "map",
-    "gis",
-    "高德",
-    "地图"
-  ],
+  "repository": "git@github.com:iDerekLi/amap-js.git",
   "author": "Derek Li",
-  "homepage": "https://iderekli.github.io/amap-js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iDerekLi/amap-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/iDerekLi/amap-js/issues"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "@babel/runtime-corejs2": "^7.9.2"
-  },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-transform-runtime": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.0.1",
-    "babel-loader": "^8.1.0",
-    "cross-env": "^7.0.2",
-    "css-loader": "^3.4.2",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^6.10.1",
-    "eslint-plugin-jest": "^23.16.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "friendly-errors-webpack-plugin": "^1.7.0",
-    "fs-extra": "^9.0.0",
-    "html-webpack-plugin": "^4.0.4",
-    "husky": "^4.2.3",
-    "jest": "^26.0.1",
-    "less": "^3.11.1",
-    "less-loader": "^5.0.0",
-    "lint-staged": "^10.1.1",
-    "prettier": "^2.0.2",
-    "shelljs": "^0.8.3",
-    "signale": "^1.4.0",
-    "style-loader": "^1.1.3",
-    "vuepress": "^1.4.1",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
-    "webpack-merge": "^4.2.2",
-    "webpackbar": "^4.0.0"
+    "@babel/core": "^7.14.2",
+    "@babel/eslint-parser": "^7.14.2",
+    "@babel/preset-env": "^7.14.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-markdown": "^2.1.0",
+    "eslint-plugin-md": "^1.0.19",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "markdown-eslint-parser": "^1.2.1",
+    "prettier": "^2.3.0",
+    "vuepress": "^1.8.2"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  "dependencies": {
+    "eslint-plugin-promise": "^5.1.0"
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint"
-    ]
+    "*.{js,vue}": "eslint --fix"
   }
 }

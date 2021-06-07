@@ -1,11 +1,11 @@
-import AMapJS from 'main/index.js';
-const { pre, source } = require('./rootscope');
+import AMapJS from "amap-js";
+const { pre, source } = require("./rootscope");
 
 function render(template) {
   return eval(template.replace(pre.AMapKey, source.AMapKey));
 }
 
-export default ({Vue, options, router, siteData, isServer}) => {
+export default ({ Vue, options, router, siteData, isServer }) => {
   if (!isServer) {
     window.AMapJS = AMapJS;
     window.$AMapLoader = render(pre.AMapLoader);
@@ -13,4 +13,4 @@ export default ({Vue, options, router, siteData, isServer}) => {
     window.$LocaLoader = render(pre.LocaLoader);
     window.$SubwayLoader = render(pre.SubwayLoader);
   }
-}
+};

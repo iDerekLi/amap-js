@@ -15,9 +15,9 @@ const loader = $AMapLoader
 
 // 调用 load 方法完成加载并调用执行回调。
 loader.load()
-  .then(loader => {
+  .then(() => {
     // 请求成功
-    console.log(loader.AMap); // -> AMap (loader.AMap === window.AMap === true)
+    console.log(AMap);
   })
   .catch(e => {
     // 请求失败
