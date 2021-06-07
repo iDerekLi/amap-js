@@ -23,6 +23,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: yarn
       - run: yarn amap-js:build
-      - run: yarn publish ./packages/amap-js
+      - run: cd ./packages/amap-js && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
