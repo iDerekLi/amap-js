@@ -8,7 +8,7 @@ const SymbolLoad = Symbol("Symbol.load");
  * LocaLoader 数据可视化加载器
  */
 class LocaLoader extends Loader {
-  constructor(options) {
+  constructor(options = {}) {
     super();
     this.key = options.key || "";
     this.version = options.version || "1.3.2";

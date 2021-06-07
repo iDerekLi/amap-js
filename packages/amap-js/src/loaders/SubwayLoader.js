@@ -13,7 +13,7 @@ let count = 0;
  * SubwayLoader 地铁图加载器
  */
 class SubwayLoader extends Loader {
-  constructor(options) {
+  constructor(options = {}) {
     super(options);
     this.key = "";
     this.version = options.version || "1.0";

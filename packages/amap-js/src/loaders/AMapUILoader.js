@@ -9,7 +9,7 @@ const SymbolLoad = Symbol("Symbol.load");
  * AMapUILoader 加载器
  */
 class AMapUILoader extends Loader {
-  constructor(options) {
+  constructor(options = {}) {
     super();
     this.version = options.version || "1.1";
     this.async = options.async || false;

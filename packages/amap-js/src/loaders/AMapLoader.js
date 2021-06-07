@@ -13,7 +13,7 @@ let count = 0;
  * AMapLoader 加载器
  */
 class AMapLoader extends Loader {
-  constructor(options) {
+  constructor(options = {}) {
     super();
     this.key = options.key || "";
     this.version = options.version || "1.4.15";
