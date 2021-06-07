@@ -1,0 +1,28 @@
+name: Release
+on: [push, pull_request]
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use Node.js latest
+        uses: actions/setup-node@v2-beta
+      - name: Install
+        run: yarn install
+      - name: Lint
+        run: yarn lint
+  test-coverage:
+    name: Test on Node.js Latest
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use Node.js latest
+        uses: actions/setup-node@v2-beta
+      - name: Generate coverage report
+        run:  yarn amap-js:coverage
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1
