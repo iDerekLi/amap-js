@@ -2,7 +2,7 @@
 
 <p align="center">基于AMap高德地图构建的API加载器。</p>
 
-[![Build Status](https://travis-ci.org/iDerekLi/amap-js.svg?branch=master)](https://travis-ci.org/iDerekLi/amap-js)
+[![CI](https://github.com/iDerekLi/amap-js/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iDerekLi/amap-js/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
 [![npm downloads](https://img.shields.io/npm/dm/amap-js.svg?style=flat-square)](https://www.npmjs.com/package/amap-js)
 [![npm license](https://img.shields.io/npm/l/amap-js.svg?style=flat-square)](https://github.com/iderekli/amap-js)
