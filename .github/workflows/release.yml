@@ -1,29 +1,28 @@
 name: Release
 on:
-  push:
-    branches:
-      - dev
-#env:
-#  GLOBAL_ENV: globalenv
-jobs:
   release:
+    types: [created]
+jobs:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          fetch-depth: 0
-      - name: Set committer
-        run: |
-          git config user.name "Derek Li"
-          git config user.email "lideyu888@163.com"
-      - name: Install
-        run: |
-          yarn
-      - name: Build Packages
-        run: |
-          yarn amap-js:build
-      - name: Build the docs and deploy to git-pages
-        run: |
-          yarn docs:deploy
-      - run: ls ${{ github.workspace }}
+          node-version: 12
+      - run: yarn
+      - run: yarn lint
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - run: yarn
+      - run: yarn amap-js:build
+      - run: yarn publish ./packages/amap-js
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
