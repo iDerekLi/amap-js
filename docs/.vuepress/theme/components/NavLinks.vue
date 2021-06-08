@@ -99,7 +99,7 @@ export default {
     }
   },
   mounted() {
-    const repo = isProd ? "/amap-js/" : "/";
+    const repo = isProd ? "/" : "/";
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = _ => {
       if (xhr.readyState === 4 && xhr.status === 200) {

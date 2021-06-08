@@ -1,7 +1,7 @@
 const isProd = process.env.NODE_ENV === "production";
 
 const version = process.env.v || "last";
-const repo = "/amap-js/";
+const repo = "/"; // Custom domain repo = "/", github.io repo = "/amap-js/"
 
 const baseConfig = {
   dev: {
