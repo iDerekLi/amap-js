@@ -80,7 +80,8 @@ loader
       AMap: {
         key: "$AMapKey",
         version: "$AMapVersion",
-        plugins: ["AMap.ToolBar"]
+        plugins: ["AMap.ToolBar"],
+        security: $AMapSecurity
       },
       AMapUI: {
         version: "$AMapUIVersion"

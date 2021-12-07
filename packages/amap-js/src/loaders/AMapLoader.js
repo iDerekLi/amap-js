@@ -5,9 +5,9 @@ import ScriptLoader from "./ScriptLoader";
 const SymbolLoad = Symbol("Symbol.load");
 
 /**
- * callback count
+ * API Callback Counter
  */
-let count = 0;
+let callbackCounter = 0;
 
 /**
  * AMapLoader 加载器
@@ -18,7 +18,12 @@ class AMapLoader extends Loader {
     this.key = options.key || "";
     this.version = options.version || "1.4.15";
     this.plugins = options.plugins || [];
-    this.callback = options.callback || "__onAMapLoaded" + count++;
+    this.callback = options.callback || "__onAMapLoaded" + callbackCounter++;
+    this.security = options.security ? options.security : false;
+    // this.security = {
+    //   serviceHost: "您的代理服务器域名或地址/_AMapService"
+    //   securityJsCode: "您申请的安全密钥"
+    // };
     this.AMap = null;
     this.readyState = this.CREATED;
     this[SymbolLoad] = null;
@@ -43,6 +48,17 @@ class AMapLoader extends Loader {
     this[SymbolLoad] = new Promise((resolve, reject) => {
       const url = this.getUrl();
       const callback = this.callback;
+
+      /**
+       * 自2021年12月02日升级，升级之后所申请的 key 必须配备安全密钥 jscode 一起使用
+       * 注意：此次升级不会影响之前已获得 key 的使用；升级之后的新增的key必须要配备安全密钥一起使用，
+       * 具体用法请您参看下文《JSAPI key和安全密钥设置和使用》（本次key升级新增安全密钥，是为了提升广大用户的对自己的key安全有效管理，降低明文传输被窃取的风险 。）
+       */
+      if (this.security) {
+        window._AMapSecurityConfig = this.security;
+      } else {
+        delete window._AMapSecurityConfig;
+      }
 
       const script = new ScriptLoader(url);
 

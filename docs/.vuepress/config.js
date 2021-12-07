@@ -47,7 +47,7 @@ module.exports = {
           title: "指南",
           collapsable: false,
           sidebarDepth: 0,
-          children: ["", "install", "quickstart", "changelog"]
+          children: ["", "install", "quickstart", "security", "changelog"]
         },
         {
           title: "文档",

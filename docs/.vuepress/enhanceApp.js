@@ -2,8 +2,11 @@ import AMapJS from "amap-js";
 const { pre, source } = require("./rootscope");
 
 function render(template) {
-  return eval(template.replace(pre.AMapKey, source.AMapKey));
+  template = template.replace(pre.AMapKey, source.AMapKey);
+  template = template.replace(pre.AMapSecurity, source.AMapSecurity);
+  return eval(template);
 }
+
 
 export default ({ Vue, options, router, siteData, isServer }) => {
   if (!isServer) {

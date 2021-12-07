@@ -13,7 +13,7 @@ cd amap-js
 
 # Merge code
 rm -rf *.html *.js *.css *.map assets guide
-rm -rf $AMapJSVersion/**
+rm -rf $AMapJSVersion
 cp -rf ../../docs/.vuepress/dist/last/** .
 mkdir $AMapJSVersion
 cp -rf  ../../docs/.vuepress/dist/$AMapJSVersion/** $AMapJSVersion/
