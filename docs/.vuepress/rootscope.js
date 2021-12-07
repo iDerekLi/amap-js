@@ -1,4 +1,5 @@
 const AMapKey = "您申请的Key值";
+const AMapSecurity = `{ serviceHost: '您的代理服务器域名或地址/_AMapService' }`;
 const AMapVersion = "1.4.15";
 const AMapUIVersion = "1.1";
 const LocaVersion = "1.3.2";
@@ -8,7 +9,8 @@ const AMapLoader = `
 new AMapJS.AMapLoader({
   key: '${AMapKey}',
   version: '${AMapVersion}',
-  plugins: []
+  plugins: [],
+  security: ${AMapSecurity}
 });
 `.trim();
 
@@ -37,6 +39,7 @@ module.exports = {
     AMapVersion,
     AMapUIVersion,
     AMapKey,
+    AMapSecurity,
     AMapLoader,
     AMapUILoader,
     LocaLoader,
@@ -45,7 +48,8 @@ module.exports = {
   source: {
     AMapVersion,
     AMapUIVersion,
-    AMapKey: "494c7b315d60937fb6d3b7102a9cb4c3",
+    AMapKey: "22df707490e7631397c9fbb02e52544e",
+    AMapSecurity: `{ securityJsCode: "300bfebf024085e4360118bd1712473d" }`,
     AMapLoader: "window.$AMapLoader",
     AMapUILoader: "window.$AMapUILoader",
     LocaLoader: "window.$LocaLoader",

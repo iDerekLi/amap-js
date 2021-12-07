@@ -11,7 +11,7 @@ AMap JSAPI 加载器。
 <script>
 // 创建AMap Loader
 const loader = $AMapLoader
-  
+
 loader.load()
   .then(({ AMap }) => {
     // 其他逻辑
@@ -25,6 +25,10 @@ loader.load()
 :::warning
 由于低版本 AMap JS API与 顶层作用域 `window.AMap` 进行强关联，这里建议相同 Loader 只创建一次实例并且保证唯一版本，可以避免加载异常与使用错误问题。
 :::
+
+## 安全密钥
+
+相关细节请请参见 [安全密钥](./security.md).
 
 ## 使用插件
 
@@ -103,6 +107,7 @@ entry();
 | key | 您申请的高德key值 | String | - |
 | version | 高德地图 JSAPI 版本号 | String | [1.4.15](https://lbs.amap.com/api/javascript-api/changelog) |
 | plugins | 加载 JSAPI 提供的众多的插件 | Array | [] |  
+| security | 高德地图安全配置 | Object | false |  
 
 ### Methods
 
