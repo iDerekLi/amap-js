@@ -35,6 +35,7 @@ const loader = new AMapJS.AMapLoader({
   key: '您申请的高德Key值',
   version: '2.0',
   plugins: [],
+  security: { serviceHost: '您的代理服务器域名或地址/_AMapService' }
 });
 
 // 调用 load 方法完成加载并调用执行回调。
