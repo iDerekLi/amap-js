@@ -1,6 +1,6 @@
 {
   "name": "amap-js",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "AMap高德地图API加载器。",
   "main": "lib/index.js",
   "module": "es/index.js",
