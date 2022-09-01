@@ -1,13 +1,11 @@
 {
   "name": "docs",
-  "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "vuepress dev .",
     "build": "vuepress build ."
   },
-  "dependencies": {
-    "amap-js": "2.3.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "less": "^3.11.1",
     "less-loader": "^5.0.0",

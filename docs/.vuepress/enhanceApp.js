@@ -1,6 +1,8 @@
 import AMapJS from "amap-js";
 const { pre, source } = require("./rootscope");
 
+console.log(AMapJS);
+
 function render(template) {
   template = template.replace(pre.AMapKey, source.AMapKey);
   template = template.replace(pre.AMapSecurity, source.AMapSecurity);

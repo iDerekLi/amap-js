@@ -1,3 +1,4 @@
+const path = require("path");
 const isProd = process.env.NODE_ENV === "production";
 
 const version = process.env.v || "last";
@@ -83,7 +84,8 @@ module.exports = {
     return {
       resolve: {
         alias: {
-          "amap-js": "amap-js/dist/amap-js.js"
+          // "amap-js": "amap-js/build/amap-js.esm.js"
+          "amap-js": path.resolve(__dirname, "../../")
         }
       }
     };

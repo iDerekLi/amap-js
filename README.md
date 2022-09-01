@@ -45,15 +45,15 @@ yarn add amap-js
 ## 快速入手
 
 ```javascript
-import AMapJS from "amap-js";
+import AMapJS from 'amap-js';
 // or
 // import { AMapLoader, AMapUILoader, LocaLoader, ... } from 'amap-js';
 
 // 创建AMapLoader
 const loader = new AMapJS.AMapLoader({
-  key: "您申请的高德Key值",
-  version: "2.0",
-  plugins: []
+  key: '您申请的高德Key值',
+  version: '2.0',
+  plugins: [],
 });
 
 // 调用 load 方法完成加载并调用执行回调。
