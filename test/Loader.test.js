@@ -1,5 +1,7 @@
 import Loader from "../src/loaders/Loader";
 
+console.log(Loader);
+
 describe("Loader", () => {
   it("应该创建MyLoader", () => {
     class MyLoader extends Loader {}

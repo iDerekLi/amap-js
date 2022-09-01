@@ -1,6 +1,6 @@
 {
   "name": "amap-js",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "author": "Derek Li",
   "license": "MIT",
   "source": "src/index.ts",
@@ -19,6 +19,9 @@
     "build": "cross-env NODE_ENV=production rollup -c",
     "clean": "rimraf \"./{build,types}\"",
     "release": "sh ./scripts/release.sh",
+    "lint": "eslint src --fix --ext .js",
+    "test": "jest",
+    "coverage": "jest --coverage",
     "docs:dev": "cd docs && yarn dev",
     "docs:build": "cd docs && yarn build",
     "docs:deploy": "sh ./scripts/deploy.sh"
@@ -44,6 +47,7 @@
     "eslint-config-next": "^12.1.5",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^26.6.3",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.77.2",
