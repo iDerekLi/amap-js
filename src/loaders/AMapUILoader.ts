@@ -5,11 +5,29 @@ import { noop } from "../util/base";
 
 const SymbolLoad = Symbol("Symbol.load");
 
+type AMapUI = { [index: string]: any };
+interface AMapUILoaderProps {
+  version?: string;
+  async?: boolean;
+}
+
 /**
  * AMapUILoader 加载器
  */
 class AMapUILoader extends Loader {
-  constructor(options = {}) {
+  version: string = "1.1";
+  async: boolean = false;
+  initAMapUI: Function = noop;
+  AMapUI: AMapUI | null = null;
+  readyState: string = "";
+  [SymbolLoad]: Promise<any> | null;
+  private CREATED: string = "create";
+  private LOADING: string = "loading";
+  private LOADED: string = "loaded";
+  private FAILED: string = "failed";
+  private MOUNTED: string = "mounted";
+
+  constructor(options: AMapUILoaderProps | undefined = {}) {
     super();
     this.version = options.version || "1.1";
     this.async = options.async || false;
@@ -40,19 +58,22 @@ class AMapUILoader extends Loader {
         if (async) {
           this.initAMapUI = () => {
             this.initAMapUI = noop;
+            // @ts-ignore
             window.initAMapUI();
+            // @ts-ignore
             this.AMapUI = window.AMapUI;
             this.readyState = this.MOUNTED;
           };
         } else {
           this.initAMapUI = noop;
+          // @ts-ignore
           this.AMapUI = window.AMapUI;
           this.readyState = this.MOUNTED;
         }
         resolve(this);
       };
 
-      const onScriptError = event => {
+      const onScriptError = (event: Error) => {
         this[SymbolLoad] = null;
         this.readyState = this.FAILED;
         reject(event);
@@ -69,7 +90,7 @@ class AMapUILoader extends Loader {
       if (!this.AMapUI) return reject("请先加载AMapUI.");
 
       if (unames.length) {
-        this.AMapUI.loadUI(unames, (...umodules) => {
+        this.AMapUI.loadUI(unames, (...umodules: any[]) => {
           resolve(umodules);
         });
       } else {
@@ -78,14 +99,14 @@ class AMapUILoader extends Loader {
     });
   }
 
-  loadModule(unames = [], opts) {
+  loadModule(unames = [], opts: any) {
     return new Promise((resolve, reject) => {
       if (!this.AMapUI) return reject("请先加载AMapUI.");
 
       if (unames.length) {
         this.AMapUI.load(
           unames,
-          (...umodules) => {
+          (...umodules: any[]) => {
             resolve(umodules);
           },
           opts

@@ -1,7 +1,7 @@
 import { readonly } from "../util/base";
 
 export default {
-  registerReadyState(target, props = {}) {
+  registerReadyState(target: any, props: { [index: string]: any } = {}) {
     for (const prop in props) {
       const value = props[prop];
       if (!prop || value === undefined) return false;
@@ -11,11 +11,9 @@ export default {
     }
     return true;
   },
-  parseTemplate(src, params) {
+  parseTemplate(src: string, params: { [index: string]: any }) {
     return src
-      ? src.replace(/\$([A-Za-z0-9_]+)/g, (match, key) =>
-          undefined === params[key] ? match : params[key]
-        )
+      ? src.replace(/\$([A-Za-z0-9_]+)/g, (match, key) => (undefined === params[key] ? match : params[key]))
       : "";
   }
 };

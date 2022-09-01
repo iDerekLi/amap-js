@@ -3,9 +3,7 @@
  */
 
 class Loader {
-  constructor() {
-    this.readyState = "";
-  }
+  readyState = "";
 
   async load() {}
 }

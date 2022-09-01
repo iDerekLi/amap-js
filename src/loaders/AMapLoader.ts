@@ -9,11 +9,33 @@ const SymbolLoad = Symbol("Symbol.load");
  */
 let callbackCounter = 0;
 
+type AMap = { [index: string]: any };
+interface AMapLoaderProps {
+  key?: string;
+  version?: string;
+  plugins?: string[];
+  callback?: string;
+  security?: boolean;
+}
+
 /**
  * AMapLoader 加载器
  */
 class AMapLoader extends Loader {
-  constructor(options = {}) {
+  key = "";
+  version = "1.4.15";
+  plugins: string[] = [];
+  callback: string = "";
+  security: boolean = false;
+  AMap: AMap | null = null;
+  readyState: string = "";
+  [SymbolLoad]: Promise<any> | null;
+  private CREATED: string = "create";
+  private LOADING: string = "loading";
+  private LOADED: string = "loaded";
+  private FAILED: string = "failed";
+
+  constructor(options: AMapLoaderProps | undefined = {}) {
     super();
     this.key = options.key || "";
     this.version = options.version || "1.4.15";
@@ -55,8 +77,10 @@ class AMapLoader extends Loader {
        * 具体用法请您参看下文《JSAPI key和安全密钥设置和使用》（本次key升级新增安全密钥，是为了提升广大用户的对自己的key安全有效管理，降低明文传输被窃取的风险 。）
        */
       if (this.security) {
+        // @ts-ignore
         window._AMapSecurityConfig = this.security;
       } else {
+        // @ts-ignore
         delete window._AMapSecurityConfig;
       }
 
@@ -64,15 +88,18 @@ class AMapLoader extends Loader {
 
       const onScriptLoad = () => {
         if (callback && callback !== "") {
+          // @ts-ignore
           delete window[callback];
         }
+        // @ts-ignore
         this.AMap = window.AMap;
         this.readyState = this.LOADED;
         resolve(this);
       };
 
-      const onScriptError = event => {
+      const onScriptError = (event: Error) => {
         if (callback && callback !== "") {
+          // @ts-ignore
           delete window[callback];
         }
         this[SymbolLoad] = null;
@@ -81,6 +108,7 @@ class AMapLoader extends Loader {
       };
 
       if (callback && callback !== "") {
+        // @ts-ignore
         window[callback] = onScriptLoad;
         script.load().catch(onScriptError);
       } else {
@@ -95,7 +123,7 @@ class AMapLoader extends Loader {
     return new Promise((resolve, reject) => {
       if (!this.AMap) return reject("请先加载AMap.");
 
-      const newPlugins = [];
+      const newPlugins: string[] = [];
       for (let i = 0; i < plugins.length; i += 1) {
         if (this.plugins.indexOf(plugins[i]) === -1) {
           newPlugins.push(plugins[i]);
