@@ -32,7 +32,7 @@ import { AMapLoader } from 'amap-js';
 目前可以通过[unpkg.com/amap-js](https://unpkg.com/amap-js/lib/amap-js.js)获取到最新版本的资源。
 
 ```html
-<script type="text/javascript" src="https://unpkg.com/amap-js/lib/amap-js.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/amap-js@2.4.0/dist/amap-js.js"></script>
 
 <script>
   console.log(AMapJS);
